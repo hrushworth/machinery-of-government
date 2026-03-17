@@ -1,0 +1,405 @@
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { getElement, getConnectedElements, tagDefinitions } from '../data/elements'
+import { getElementColor } from '../utils/colors'
+import { powerProfiles } from '../data/powers'
+import { budgetProfiles } from '../data/budgets'
+import { getStaffProfile } from '../data/staffing'
+import BudgetTab from './BudgetTab'
+import StaffTab from './StaffTab'
+import './ElementDetails.css'
+
+type Tab = 'info' | 'powers' | 'budget' | 'staff'
+
+interface ElementDetailsProps {
+  elementId: string
+  onSelectElement: (id: string) => void
+  onClose: () => void
+  onOpenCategory: (category: string, subtype: string) => void
+  onOpenTag: (tagId: string) => void
+}
+
+export default function ElementDetails({ elementId, onSelectElement, onClose, onOpenCategory, onOpenTag }: ElementDetailsProps) {
+  const [activeTab, setActiveTab] = useState<Tab>('info')
+  const [tabsOverflow, setTabsOverflow] = useState(false)
+  const [tabsAtEnd, setTabsAtEnd] = useState(false)
+  const tabBarRef = useRef<HTMLDivElement>(null)
+
+  const checkTabs = useCallback(() => {
+    const el = tabBarRef.current
+    if (!el) return
+    const overflows = el.scrollWidth > el.clientWidth + 2
+    setTabsOverflow(overflows)
+    setTabsAtEnd(!overflows || el.scrollLeft + el.clientWidth >= el.scrollWidth - 2)
+  }, [])
+
+  useEffect(() => {
+    const el = tabBarRef.current
+    if (!el) return
+    checkTabs()
+    const ro = new ResizeObserver(checkTabs)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [checkTabs])
+
+  const handleTabScroll = useCallback(() => checkTabs(), [checkTabs])
+
+  const element = getElement(elementId)
+  const connected = getConnectedElements(elementId)
+  const powerProfile = powerProfiles[elementId]
+  const budgetProfile = budgetProfiles[elementId]
+  const staffProfile = getStaffProfile(elementId)
+
+  if (!element) {
+    return <div className="element-details">Element not found</div>
+  }
+
+  const getCategoryLabel = (category: string, subtype: string): string => {
+    const labels: Record<string, Record<string, string>> = {
+      official: {
+        'prime-minister': '👑 Prime Minister',
+        'cabinet-minister': '🌟 Cabinet Minister',
+        'junior-minister': '👤 Junior Minister',
+        'civil-servant': '👤 Civil Servant',
+        independent: '👤 Independent Official',
+      },
+      department: {
+        ministerial: '🏛️ Ministerial Department',
+        'non-ministerial': '🏛️ Non-Ministerial Department',
+        agency: '⚙️ Executive Agency',
+        'division-directorate': '⚙️ Division / Directorate',
+      },
+      body: {
+        'executive-ndpb': '📋 Executive NDPB',
+        'advisory-ndpb': '💡 Advisory NDPB',
+        other: '🔗 Other Body',
+      },
+      group: {
+        cabinet: '⭐ Cabinet',
+        'other-group': '⭐ Group',
+      },
+    }
+    return labels[category]?.[subtype] || 'Unknown'
+  }
+
+  const getBodyEmoji = (subtype: string) =>
+    subtype === 'executive-ndpb' ? '📋' : subtype === 'advisory-ndpb' ? '💡' : '🔗'
+
+  // Helper function to determine relationship descriptions
+  const getRelationshipLabel = (parent: any, child: any): { parentLabel: string; childLabel: string } => {
+    if (parent.category === 'official' && parent.subtype === 'cabinet-minister' &&
+        child.category === 'official' && child.subtype === 'junior-minister') {
+      return { parentLabel: 'oversees', childLabel: 'overseen by' }
+    }
+    if (parent.category === 'official' && child.category === 'official') {
+      return { parentLabel: 'appoints', childLabel: 'appointed by' }
+    }
+    if (parent.category === 'official' && child.category === 'department' && child.subtype === 'ministerial') {
+      return { parentLabel: 'leads', childLabel: 'led by' }
+    }
+    if (parent.category === 'official' && parent.subtype === 'civil-servant' &&
+        child.category === 'department' && child.subtype === 'non-ministerial') {
+      return { parentLabel: 'leads', childLabel: 'led by' }
+    }
+    if (parent.category === 'official' && parent.subtype === 'independent' &&
+        child.category === 'department' && child.subtype === 'non-ministerial') {
+      return { parentLabel: 'leads', childLabel: 'led by' }
+    }
+    if (parent.category === 'official' && child.category === 'department' && child.subtype === 'non-ministerial') {
+      return { parentLabel: 'sponsors', childLabel: 'sponsored by' }
+    }
+    if (parent.category === 'department' && child.category === 'department' && child.subtype === 'agency') {
+      return { parentLabel: 'is parent of', childLabel: 'is child of' }
+    }
+    if (parent.category === 'department' && child.category === 'body') {
+      return { parentLabel: 'sponsors', childLabel: 'sponsored by' }
+    }
+    if (parent.category === 'group') {
+      return { parentLabel: 'includes', childLabel: 'member of' }
+    }
+    return { parentLabel: 'works with', childLabel: 'works with' }
+  }
+
+  // ── Tab: Info ──────────────────────────────────────────────────────────────
+  const renderInfo = () => (
+    <>
+      <p className="element-description">{element.description}</p>
+
+      {element.tags && element.tags.length > 0 && (() => {
+        const typeTags = element.tags!.filter(t => tagDefinitions[t]?.tagCategory === 'type').map(t => tagDefinitions[t])
+        const sectorTags = element.tags!.filter(t => tagDefinitions[t]?.tagCategory === 'sector').map(t => tagDefinitions[t])
+        return (
+          <div className="element-tags">
+            {typeTags.length > 0 && (
+              <div className="element-tag-row">
+                {typeTags.map(tag => (
+                  <span key={tag.id} className="element-tag-pill" style={{ '--tag-colour': tag.colour } as React.CSSProperties}
+                    onClick={() => onOpenTag(tag.id)} role="button" tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && onOpenTag(tag.id)}>
+                    {tag.label}
+                  </span>
+                ))}
+              </div>
+            )}
+            {sectorTags.length > 0 && (
+              <div className="element-tag-row">
+                {sectorTags.map(tag => (
+                  <span key={tag.id} className="element-tag-pill element-tag-pill-sector" style={{ '--tag-colour': tag.colour } as React.CSSProperties}
+                    onClick={() => onOpenTag(tag.id)} role="button" tabIndex={0}
+                    onKeyDown={(e) => e.key === 'Enter' && onOpenTag(tag.id)}>
+                    {tag.label}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )
+      })()}
+
+      {element.role && (
+        <div className="detail-section">
+          <h3>Role</h3>
+          <p className="role-text">{element.role}</p>
+        </div>
+      )}
+
+      {element.currentHolder && (
+        <div className="detail-section">
+          <h3>Current Holder</h3>
+          <p className="role-text">{element.currentHolder}</p>
+        </div>
+      )}
+
+      {element.infoUrl && (
+        <div className="detail-section">
+          <h3>Further Information</h3>
+          <a href={element.infoUrl} target="_blank" rel="noopener noreferrer" className="info-link">
+            View more details →
+          </a>
+        </div>
+      )}
+
+      {connected.parents.length > 0 && (
+        <>
+          {Array.from(new Set(
+            connected.parents.map(parent => getRelationshipLabel(parent, element).childLabel)
+          )).map((relationshipType) => (
+            <div key={relationshipType} className="detail-section">
+              <h3>{relationshipType.charAt(0).toUpperCase() + relationshipType.slice(1)}</h3>
+              <ul className="element-list">
+                {connected.parents.filter(parent => {
+                  const { childLabel } = getRelationshipLabel(parent, element)
+                  return childLabel === relationshipType
+                }).map(parent => {
+                  const parentColor = getElementColor(parent.category, parent.subtype)
+                  const parentCategoryLabel = getCategoryLabel(parent.category, parent.subtype).replace(/^[^\s]*\s/, '')
+                  return (
+                    <li
+                      key={parent.id}
+                      className="relationship-item"
+                      onClick={() => onSelectElement(parent.id)}
+                      style={{ borderLeftColor: parentColor }}
+                    >
+                      <div className="item-type" style={{ color: parentColor }}>
+                        {parent.category === 'official' ? '👤' : parent.category === 'department' ? '🏛️' : parent.category === 'group' ? '⭐' : getBodyEmoji(parent.subtype)}
+                      </div>
+                      <div className="item-content">
+                        <div className="item-name">{parent.name}</div>
+                        {parent.currentHolder && (
+                          <div className="item-subtitle" style={{ color: '#333' }}>{parent.currentHolder}</div>
+                        )}
+                        <div className="item-subtitle" style={{ color: parentColor }}>{parentCategoryLabel}</div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
+        </>
+      )}
+
+      {connected.children.length > 0 && (
+        <>
+          {Array.from(new Set(
+            connected.children.map(child => getRelationshipLabel(element, child).parentLabel)
+          )).map((relationshipType) => (
+            <div key={relationshipType} className="detail-section">
+              <h3>{relationshipType.charAt(0).toUpperCase() + relationshipType.slice(1)}</h3>
+              <ul className="element-list">
+                {connected.children.filter(child => {
+                  const { parentLabel } = getRelationshipLabel(element, child)
+                  return parentLabel === relationshipType
+                }).map(child => {
+                  const childColor = getElementColor(child.category, child.subtype)
+                  const childCategoryLabel = getCategoryLabel(child.category, child.subtype).replace(/^[^\s]*\s/, '')
+                  return (
+                    <li
+                      key={child.id}
+                      className="relationship-item"
+                      onClick={() => onSelectElement(child.id)}
+                      style={{ borderLeftColor: childColor }}
+                    >
+                      <div className="item-type" style={{ color: childColor }}>
+                        {child.category === 'official' ? '👤' : child.category === 'department' ? '🏛️' : child.category === 'group' ? '⭐' : getBodyEmoji(child.subtype)}
+                      </div>
+                      <div className="item-content">
+                        <div className="item-name">{child.name}</div>
+                        {child.currentHolder && (
+                          <div className="item-subtitle" style={{ color: '#333' }}>{child.currentHolder}</div>
+                        )}
+                        <div className="item-subtitle" style={{ color: childColor }}>{childCategoryLabel}</div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          ))}
+        </>
+      )}
+    </>
+  )
+
+  // ── Tab: Powers ────────────────────────────────────────────────────────────
+  const renderPowers = () => {
+    if (!powerProfile || powerProfile.powers.length === 0) {
+      return (
+        <div className="tab-empty">
+          <p>No powers, duties, or responsibilities have been recorded for this element yet.</p>
+        </div>
+      )
+    }
+
+    const typeOrder: Record<string, number> = { power: 0, duty: 1, function: 2, responsibility: 3 }
+    const sorted = [...powerProfile.powers].sort((a, b) => (typeOrder[a.powerType] ?? 4) - (typeOrder[b.powerType] ?? 4))
+
+    return (
+      <>
+        {sorted.map(power => (
+          <div key={power.id} className="power-card">
+            <div className="power-card-header">
+              <span className={`power-type-badge power-type-${power.powerType}`}>
+                {power.powerType.charAt(0).toUpperCase() + power.powerType.slice(1)}
+              </span>
+              {power.inForceFrom && (
+                <span className="power-since">Since {power.inForceFrom}</span>
+              )}
+            </div>
+            <div className="power-title">{power.title}</div>
+            <p className="power-description">{power.description}</p>
+
+            {power.sources.length > 0 && (
+              <div className="power-sources">
+                <div className="power-sources-label">Source{power.sources.length > 1 ? 's' : ''}</div>
+                <ul className="power-sources-list">
+                  {power.sources.map((src, i) => (
+                    <li key={i} className="power-source-item">
+                      <span className={`source-type-badge source-type-${src.type}`}>
+                        {src.type === 'statutory-instrument' ? 'SI' :
+                         src.type === 'act' ? 'Act' :
+                         src.type === 'prerogative' ? 'Prerogative' :
+                         src.type === 'case-law' ? 'Case law' : 'Convention'}
+                      </span>
+                      {src.legislationUrl ? (
+                        <a href={src.legislationUrl} target="_blank" rel="noopener noreferrer" className="source-link">
+                          {src.title}{src.section ? `, ${src.section}` : ''}
+                        </a>
+                      ) : (
+                        <span className="source-text">
+                          {src.title}{src.section ? `, ${src.section}` : ''}
+                          {src.caseRef ? ` — ${src.caseRef}` : ''}
+                        </span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {power.notes && (
+              <p className="power-notes">{power.notes}</p>
+            )}
+          </div>
+        ))}
+        {powerProfile.lastReviewed && (
+          <p className="tab-reviewed">Data last reviewed: {powerProfile.lastReviewed}</p>
+        )}
+      </>
+    )
+  }
+
+
+  return (
+    <div className="element-details">
+      <div className="element-header">
+        <div className="header-content">
+          <h2>{element.name}</h2>
+          <span
+            className="element-type category-button"
+            onClick={() => onOpenCategory(element.category, element.subtype)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && onOpenCategory(element.category, element.subtype)}
+          >
+            {getCategoryLabel(element.category, element.subtype)}
+          </span>
+        </div>
+        <button
+          className="close-button-header"
+          onClick={onClose}
+          aria-label="Close details panel"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div className={`tab-bar-wrapper${tabsOverflow ? ' tabs-overflow' : ''}${tabsAtEnd ? ' tabs-at-end' : ''}`}>
+      <span className="tab-bar-more" aria-hidden="true">▶</span>
+      <div className="tab-bar" role="tablist" ref={tabBarRef} onScroll={handleTabScroll}>
+        <button
+          className={`tab-button${activeTab === 'info' ? ' tab-button-active' : ''}`}
+          role="tab"
+          aria-selected={activeTab === 'info'}
+          onClick={() => setActiveTab('info')}
+        >
+          Info
+        </button>
+        <button
+          className={`tab-button${activeTab === 'powers' ? ' tab-button-active' : ''}${!powerProfile ? ' tab-button-empty' : ''}`}
+          role="tab"
+          aria-selected={activeTab === 'powers'}
+          onClick={() => setActiveTab('powers')}
+        >
+          Powers
+          {powerProfile && <span className="tab-count">{powerProfile.powers.length}</span>}
+        </button>
+        <button
+          className={`tab-button${activeTab === 'budget' ? ' tab-button-active' : ''}${!budgetProfile ? ' tab-button-empty' : ''}`}
+          role="tab"
+          aria-selected={activeTab === 'budget'}
+          onClick={() => setActiveTab('budget')}
+        >
+          Budget
+          {budgetProfile && <span className="tab-count">{budgetProfile.budgets[0]?.financialYear}</span>}
+        </button>
+        <button
+          className={`tab-button${activeTab === 'staff' ? ' tab-button-active' : ''}${!staffProfile ? ' tab-button-empty' : ''}`}
+          role="tab"
+          aria-selected={activeTab === 'staff'}
+          onClick={() => setActiveTab('staff')}
+        >
+          Staff
+          {staffProfile && <span className="tab-count">{staffProfile.grades.total.toLocaleString()}</span>}
+        </button>
+      </div>
+      </div>
+
+      <div className="tab-content">
+        {activeTab === 'info' && renderInfo()}
+        {activeTab === 'powers' && renderPowers()}
+        {activeTab === 'budget' && <BudgetTab budgetProfile={budgetProfile} onSelectElement={onSelectElement} />}
+        {activeTab === 'staff' && <StaffTab staffProfile={staffProfile} onSelectElement={onSelectElement} />}
+      </div>
+    </div>
+  )
+}

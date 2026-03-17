@@ -1,0 +1,49 @@
+Machinery of Government — Proprietary Licence
+
+Copyright © MMXXV Harry C. Rushworth. All rights reserved.
+
+OWNERSHIP
+This software, its source code, design, data structures, and all associated
+documentation are the exclusive property of Harry C. Rushworth.
+
+RESTRICTIONS
+No part of this software may be:
+  - copied, reproduced, or duplicated in any form or by any means;
+  - modified, adapted, or translated;
+  - distributed, published, or made available to any third party;
+  - used to create derivative works;
+  - used for commercial purposes;
+without the prior explicit written permission of the copyright holder.
+
+PERMITTED USE
+Access to and use of the published web application at its hosted URL is
+permitted for personal, educational, and research purposes. This permission
+does not extend to the underlying source code, data structures, or any other
+component of the codebase.
+
+THIRD-PARTY DATA
+This application incorporates data from the following public sources, used
+in accordance with their respective licences:
+
+  HM Treasury OSCAR (Online System for Central Accounting and Reporting)
+  Budget figures: 2024-25 Final Outturn
+  (c) Crown Copyright. Contains public sector information licensed under the
+  Open Government Licence v3.0.
+  https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+
+  Cabinet Office Civil Service Statistics 2025
+  Headcount data as at 31 March 2025
+  (c) Crown Copyright. Contains public sector information licensed under the
+  Open Government Licence v3.0.
+  https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+
+The Open Government Licence does not affect the proprietary status of the
+software itself, which is separately owned and protected by this licence.
+
+ENFORCEMENT
+Unauthorised reproduction or use of this software will be pursued to the
+fullest extent of applicable law, including but not limited to the Copyright,
+Designs and Patents Act 1988 (UK).
+
+CONTACT
+For licensing enquiries, please contact the copyright holder directly.

@@ -1,0 +1,179 @@
+.staff-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Summary ────────────────────────────────────────────────────────────── */
+.staff-summary {
+  background: #f0f4fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 3px solid #2980b9;
+}
+
+.staff-summary-year {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #7f8c8d;
+  margin-bottom: 0.4rem;
+}
+
+.staff-total-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #2980b9;
+}
+
+.staff-total-label {
+  font-size: 0.88rem;
+  color: #555;
+}
+
+/* ── Chart section ──────────────────────────────────────────────────────── */
+.staff-chart-section {
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 0.85rem 0.5rem 0.5rem;
+}
+
+.staff-chart-section .budget-section-label {
+  padding-left: 0.35rem;
+  margin-bottom: 0;
+}
+
+/* ── Breakdown table (pie legend) ───────────────────────────────────────── */
+.staff-breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0 0.35rem;
+  font-size: 0.8rem;
+}
+
+.staff-breakdown-table tr {
+  border-top: 1px solid #eaecee;
+}
+
+.staff-breakdown-table tr:first-child {
+  border-top: none;
+}
+
+.bbt-pct {
+  color: #95a5a6;
+  font-size: 0.75rem;
+  text-align: right;
+  padding: 0.3rem 0 0.3rem 0.5rem;
+  white-space: nowrap;
+}
+
+/* ── Org breakdown table ────────────────────────────────────────────────── */
+.staff-org-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.staff-org-table thead tr {
+  border-bottom: 2px solid #d5dbdb;
+}
+
+.staff-org-table tbody tr {
+  border-top: 1px solid #eaecee;
+}
+
+.staff-org-table th {
+  color: #7f8c8d;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-size: 0.68rem;
+  padding: 0.3rem 0.3rem 0.4rem;
+}
+
+.sot-org {
+  text-align: left;
+  min-width: 0;
+  word-break: break-word;
+  padding: 0.3rem 0.4rem 0.3rem 0.1rem;
+  color: #2c3e50;
+}
+
+.sot-num {
+  text-align: right;
+  white-space: nowrap;
+  padding: 0.3rem 0.2rem;
+  color: #555;
+}
+
+.sot-total {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.sot-row-clickable {
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.sot-row-clickable:hover {
+  background: #eaf2fa;
+}
+
+.sot-row-clickable:hover .sot-org {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* ── Tooltip ────────────────────────────────────────────────────────────── */
+.staff-tooltip {
+  background: white;
+  border: 1px solid #dce1e4;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.staff-tooltip-label {
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 0.2rem;
+}
+
+.staff-tooltip-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────── */
+.staff-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.staff-source-link {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #2980b9, #1a5276);
+  color: white;
+  padding: 0.75rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.staff-source-link:hover {
+  background: linear-gradient(135deg, #1a5276, #154360);
+  transform: translateX(2px);
+}
+
+.staff-notes {
+  font-size: 0.75rem;
+  color: #aab7b8;
+}

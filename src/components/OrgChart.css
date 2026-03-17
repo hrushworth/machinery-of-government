@@ -1,0 +1,184 @@
+.org-chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.org-chart {
+  flex: 1;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  cursor: grab;
+  min-height: 0;
+  width: 100%;
+}
+
+.org-chart:active {
+  cursor: grabbing;
+}
+
+.legend {
+  display: flex;
+  gap: 2rem;
+  padding: 0.6rem 1rem;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  overflow-x: auto;
+  flex-shrink: 0;
+}
+
+.legend-section-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.25rem;
+  align-content: start;
+}
+
+.legend-section-two-col h4 {
+  grid-column: 1 / -1;
+}
+
+.legend-section h4 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.75rem;
+  color: #555;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.legend-item:hover {
+  background-color: #f0f0f0;
+  color: #2c3e50;
+}
+
+.legend-item:focus-visible {
+  outline: 2px solid #3498db;
+  outline-offset: -2px;
+}
+
+.legend-shape {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-shape.circle {
+  border-radius: 50%;
+  border: 2px solid;
+}
+
+.legend-shape.square {
+  border: 2px solid;
+}
+
+.legend-shape.rounded-square {
+  border: 2px solid;
+  border-radius: 6px;
+}
+
+.legend-shape.triangle {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 20px solid;
+}
+
+.legend-shape.diamond .diamond-inner {
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg);
+  border: 2px solid;
+  flex-shrink: 0;
+}
+
+.legend-shape.star {
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  background-color: white;
+  border: 2px solid;
+}
+
+.legend-shape.pentagon {
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  background-color: white;
+  border: 2px solid;
+}
+
+.legend-shape.hexagon {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background-color: white;
+  border: 2px solid;
+}
+
+.legend-shape.heptagon {
+  clip-path: polygon(50% 0%, 85% 13%, 95% 50%, 75% 87%, 25% 87%, 5% 50%, 15% 13%);
+  background-color: white;
+  border: 2px solid;
+}
+
+.legend-shape.octagon {
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  background-color: white;
+  border: 2px solid;
+}
+
+.legend-shape.red {
+  background-color: #e74c3c;
+  border-color: #c0392b;
+}
+
+.legend-shape.blue {
+  background-color: #3498db;
+  border-color: #2980b9;
+}
+
+.legend-shape.green {
+  background-color: #27ae60;
+  border-color: #229954;
+}
+
+@media (max-width: 768px) {
+  .legend {
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+
+  .legend-section h4 {
+    font-size: 0.75rem;
+  }
+
+  .legend-item {
+    font-size: 0.75rem;
+  }
+
+  .legend-shape {
+    width: 20px;
+    height: 20px;
+  }
+
+  .legend-shape.triangle {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 16px solid;
+  }
+}

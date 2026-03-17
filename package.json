@@ -1,0 +1,30 @@
+{
+  "name": "uk-gov-org-chart",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1",
+    "chroma-js": "^3.2.0",
+    "cytoscape": "^3.28.1",
+    "oklch": "^0.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^3.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "rollup-plugin-visualizer": "^7.0.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "xlsx": "^0.18.5"
+  }
+}
