@@ -159,26 +159,6 @@
 
 @media (max-width: 768px) {
   .legend {
-    gap: 1rem;
-    padding: 0.75rem;
-  }
-
-  .legend-section h4 {
-    font-size: 0.75rem;
-  }
-
-  .legend-item {
-    font-size: 0.75rem;
-  }
-
-  .legend-shape {
-    width: 20px;
-    height: 20px;
-  }
-
-  .legend-shape.triangle {
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid;
+    display: none;
   }
 }

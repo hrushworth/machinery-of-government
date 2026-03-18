@@ -55,6 +55,7 @@
 }
 
 .category-item-label {
+  flex: 1;
   font-size: 0.9rem;
   font-weight: 500;
   color: #2c3e50;
@@ -70,4 +71,48 @@
   padding: 0.15rem 0.5rem;
   border-radius: 12px;
   flex-shrink: 0;
+}
+
+/* ── Category shape swatches ─────────────────────────────────────────────── */
+.cat-shape-swatch {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+}
+
+.cat-shape-circle {
+  border-radius: 50%;
+}
+
+.cat-shape-square {
+  border-radius: 1px;
+}
+
+.cat-shape-rounded-square {
+  border-radius: 4px;
+}
+
+.cat-shape-heptagon {
+  clip-path: polygon(50% 0%, 85% 13%, 95% 50%, 75% 87%, 25% 87%, 5% 50%, 15% 13%);
+}
+
+.cat-shape-octagon {
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+.cat-shape-diamond {
+  width: 16px;
+  height: 16px;
+}
+
+.cat-shape-diamond-inner {
+  display: block;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  border-radius: 1px;
 }

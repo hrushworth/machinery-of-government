@@ -5,6 +5,7 @@ import './CategoriesPane.css'
 interface CategoriesPaneProps {
   onOpenCategory: (category: string, subtype: string) => void
   onClose: () => void
+  isMobile?: boolean
 }
 
 const categorySubtypes = [
@@ -33,7 +34,40 @@ const sectionHeadings: Record<string, string> = {
   group: 'Groups',
 }
 
-export default function CategoriesPane({ onOpenCategory, onClose }: CategoriesPaneProps) {
+// Maps category/subtype → chart shape name
+const subtypeShape: Record<string, string> = {
+  'official/prime-minister':       'heptagon',
+  'official/cabinet-minister':     'octagon',
+  'official/junior-minister':      'circle',
+  'official/civil-servant':        'circle',
+  'official/independent':          'circle',
+  'official/other':                'circle',
+  'department/ministerial':        'square',
+  'department/non-ministerial':    'square',
+  'department/agency':             'rounded-square',
+  'department/division-directorate': 'rounded-square',
+  'body/executive-ndpb':           'diamond',
+  'body/advisory-ndpb':            'diamond',
+  'body/public-corporation':       'diamond',
+  'body/royal-charter-body':       'diamond',
+  'body/tribunal':                 'diamond',
+  'body/other':                    'diamond',
+  'group/cabinet':                 'square',
+}
+
+function ShapeSwatch({ shape, color }: { shape: string; color: string }) {
+  const style = { backgroundColor: color, borderColor: color }
+  if (shape === 'diamond') {
+    return (
+      <span className="cat-shape-swatch cat-shape-diamond" aria-hidden="true">
+        <span className="cat-shape-diamond-inner" style={style} />
+      </span>
+    )
+  }
+  return <span className={`cat-shape-swatch cat-shape-${shape}`} style={style} aria-hidden="true" />
+}
+
+export default function CategoriesPane({ onOpenCategory, onClose, isMobile }: CategoriesPaneProps) {
   const allElements = Object.values(govElements)
 
   const sections = ['official', 'department', 'body', 'group']
@@ -66,6 +100,7 @@ export default function CategoriesPane({ onOpenCategory, onClose }: CategoriesPa
                   el => el.category === ct.category && el.subtype === ct.subtype
                 ).length
                 const color = getElementColor(ct.category, ct.subtype)
+                const shape = subtypeShape[`${ct.category}/${ct.subtype}`]
                 return (
                   <div
                     key={`${ct.category}-${ct.subtype}`}
@@ -76,6 +111,7 @@ export default function CategoriesPane({ onOpenCategory, onClose }: CategoriesPa
                     onKeyDown={e => e.key === 'Enter' && onOpenCategory(ct.category, ct.subtype)}
                     style={{ borderLeftColor: color }}
                   >
+                    {isMobile && shape && <ShapeSwatch shape={shape} color={color} />}
                     <span className="category-item-label">{ct.label}</span>
                     {count > 0 && <span className="category-item-count">{count}</span>}
                   </div>

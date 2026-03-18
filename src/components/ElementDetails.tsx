@@ -16,10 +16,12 @@ interface ElementDetailsProps {
   onClose: () => void
   onOpenCategory: (category: string, subtype: string) => void
   onOpenTag: (tagId: string) => void
+  isMobile?: boolean
 }
 
-export default function ElementDetails({ elementId, onSelectElement, onClose, onOpenCategory, onOpenTag }: ElementDetailsProps) {
+export default function ElementDetails({ elementId, onSelectElement, onClose, onOpenCategory, onOpenTag, isMobile }: ElementDetailsProps) {
   const [activeTab, setActiveTab] = useState<Tab>('info')
+  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set())
   const [tabsOverflow, setTabsOverflow] = useState(false)
   const [tabsAtEnd, setTabsAtEnd] = useState(false)
   const tabBarRef = useRef<HTMLDivElement>(null)
@@ -182,9 +184,16 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
         <>
           {Array.from(new Set(
             connected.parents.map(parent => getRelationshipLabel(parent, element).childLabel)
-          )).map((relationshipType) => (
-            <div key={relationshipType} className="detail-section">
-              <h3>{relationshipType.charAt(0).toUpperCase() + relationshipType.slice(1)}</h3>
+          )).map((relationshipType) => {
+            const sectionKey = `parent-${relationshipType}`
+            const isCollapsed = collapsedSections.has(sectionKey)
+            return (
+            <div key={relationshipType} className={`detail-section${isMobile ? ' detail-section-collapsible' : ''}${isCollapsed ? ' collapsed' : ''}`}>
+              <h3 onClick={() => isMobile && setCollapsedSections(prev => {
+                const next = new Set(prev)
+                next.has(sectionKey) ? next.delete(sectionKey) : next.add(sectionKey)
+                return next
+              })}>{relationshipType.charAt(0).toUpperCase() + relationshipType.slice(1)}</h3>
               <ul className="element-list">
                 {connected.parents.filter(parent => {
                   const { childLabel } = getRelationshipLabel(parent, element)
@@ -214,7 +223,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
                 })}
               </ul>
             </div>
-          ))}
+          )})}
         </>
       )}
 
@@ -222,9 +231,16 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
         <>
           {Array.from(new Set(
             connected.children.map(child => getRelationshipLabel(element, child).parentLabel)
-          )).map((relationshipType) => (
-            <div key={relationshipType} className="detail-section">
-              <h3>{relationshipType.charAt(0).toUpperCase() + relationshipType.slice(1)}</h3>
+          )).map((relationshipType) => {
+            const sectionKey = `child-${relationshipType}`
+            const isCollapsed = collapsedSections.has(sectionKey)
+            return (
+            <div key={relationshipType} className={`detail-section${isMobile ? ' detail-section-collapsible' : ''}${isCollapsed ? ' collapsed' : ''}`}>
+              <h3 onClick={() => isMobile && setCollapsedSections(prev => {
+                const next = new Set(prev)
+                next.has(sectionKey) ? next.delete(sectionKey) : next.add(sectionKey)
+                return next
+              })}>{relationshipType.charAt(0).toUpperCase() + relationshipType.slice(1)}</h3>
               <ul className="element-list">
                 {connected.children.filter(child => {
                   const { parentLabel } = getRelationshipLabel(element, child)
@@ -254,7 +270,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
                 })}
               </ul>
             </div>
-          ))}
+          )})}
         </>
       )}
     </>
