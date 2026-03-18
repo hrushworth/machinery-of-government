@@ -96,8 +96,11 @@ export default function CategoriesPane({ onOpenCategory, onClose, isMobile }: Ca
             <div key={section} className="categories-section">
               <h3 className="categories-section-heading">{sectionHeadings[section]}</h3>
               {items.map(ct => {
+                const subtypesToMatch = ct.category === 'official' && ct.subtype === 'other'
+                  ? ['other', 'independent']
+                  : [ct.subtype]
                 const count = allElements.filter(
-                  el => el.category === ct.category && el.subtype === ct.subtype
+                  el => el.category === ct.category && subtypesToMatch.includes(el.subtype)
                 ).length
                 const color = getElementColor(ct.category, ct.subtype)
                 const shape = subtypeShape[`${ct.category}/${ct.subtype}`]

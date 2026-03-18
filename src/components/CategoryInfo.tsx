@@ -103,9 +103,13 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
 
   const info = (categoryDescriptions[category] as any)?.[subtype]
 
-  // Get all elements of this category/subtype
+  // 'other' officials also includes elements with subtype 'independent'
+  const effectiveSubtypes = category === 'official' && subtype === 'other'
+    ? ['other', 'independent']
+    : [subtype]
+
   const elementsOfType = Object.values(govElements).filter(
-    el => el.category === category && el.subtype === subtype
+    el => el.category === category && effectiveSubtypes.includes(el.subtype)
   )
 
   if (!info) {

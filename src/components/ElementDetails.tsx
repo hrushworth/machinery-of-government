@@ -352,10 +352,10 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
           <h2>{element.name}</h2>
           <span
             className="element-type category-button"
-            onClick={() => onOpenCategory(element.category, element.subtype)}
+            onClick={() => onOpenCategory(element.category, element.subtype === 'independent' ? 'other' : element.subtype)}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onOpenCategory(element.category, element.subtype)}
+            onKeyDown={(e) => e.key === 'Enter' && onOpenCategory(element.category, element.subtype === 'independent' ? 'other' : element.subtype)}
           >
             {getCategoryLabel(element.category, element.subtype)}
           </span>

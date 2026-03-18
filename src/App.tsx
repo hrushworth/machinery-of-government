@@ -99,7 +99,7 @@ function App() {
       <header className="app-header">
         <div className="app-header-text">
           <h1>Machinery of Government</h1>
-          <p>Explore the organisation and relationships within the UK Government · by @hrushworth</p>
+          <p>Explore the organisation and relationships within the UK Government · by <a href="https://x.com/Hrushworth" target="_blank" rel="noopener noreferrer">@hrushworth</a></p>
         </div>
         <div className="header-buttons">
           <button
