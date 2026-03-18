@@ -149,6 +149,14 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
         </ul>
       </section>
 
+      <section className="info-section">
+        <h3>Disclaimer</h3>
+        <p className="info-disclaimer">
+          The information in this application is provided for general reference purposes only. While every effort has been made to ensure accuracy, the data may be incomplete, incorrect, or out of date. Government structures, ministerial appointments, and organisational relationships change frequently. The author makes no representations or warranties of any kind, express or implied, as to the accuracy, completeness, or fitness for any particular purpose of the information contained herein. The author accepts no liability whatsoever for any loss, damage, or inconvenience arising from reliance on information in this application. Always verify against official sources such as{' '}
+          <a href="https://www.gov.uk/government/organisations" target="_blank" rel="noopener noreferrer">GOV.UK</a>.
+        </p>
+      </section>
+
       <footer className="info-footer">
         <p className="info-copyright">© MMXXV Harry C. Rushworth. All rights reserved.</p>
         <p className="info-ogl">

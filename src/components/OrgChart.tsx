@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import cytoscape from 'cytoscape'
 import { govElements, GovElement } from '../data/elements'
 import { getElementColor } from '../utils/colors'
@@ -15,6 +15,15 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
   const cyRef = useRef<cytoscape.Core | null>(null)
   const focusIdRef = useRef<string>('cabinet')
   const visibleNodesRef = useRef<Set<string>>(new Set())
+  const [refreshKey, setRefreshKey] = useState(0)
+
+  const handleRefresh = () => {
+    if (cyRef.current) {
+      cyRef.current.destroy()
+      cyRef.current = null
+    }
+    setRefreshKey(k => k + 1)
+  }
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -122,33 +131,88 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
     const nodePositions = new Map<string, { x: number; y: number }>()
     nodePositions.set(focusId, { x: 0, y: 0 })
 
-    // D1: direct parents (ancestorLevel 1) + direct children — full 360° ring.
-    // Radius grows so the arc gap between nodes stays ≥ minD1Gap.
-    const d1Set = new Set<string>()
+    // Subtype sort order — nodes on each arc are grouped so similar types cluster together.
+    const subtypeOrder: Record<string, number> = {
+      // Officials
+      'prime-minister': 0, 'cabinet-minister': 1, 'civil-servant': 2, 'independent': 3,
+      // Departments
+      'ministerial': 10, 'non-ministerial': 11, 'agency': 12, 'division-directorate': 13,
+      // Bodies
+      'executive-ndpb': 20, 'advisory-ndpb': 21, 'tribunal': 22,
+      'public-corporation': 23, 'royal-charter-body': 24, 'other': 25,
+      // Groups
+      'cabinet': 30, 'other-group': 31,
+      // Junior ministers placed last among officials so they sit at the edge
+      // of the ancestor arc, furthest from compound-child overlap
+      'junior-minister': 5,
+    }
+    const sortBySubtype = (a: string, b: string) => {
+      const ea = govElements[a], eb = govElements[b]
+      if (!ea || !eb) return 0
+      return (subtypeOrder[ea.subtype] ?? 99) - (subtypeOrder[eb.subtype] ?? 99)
+    }
+
+    // D1: true hierarchy ancestors (non-junior-minister) go to the top half;
+    // children AND junior ministers go to the bottom half.
+    // This keeps junior ministers well clear of compound children inside the dept box.
+    const d1Ancestors: string[] = []
+    const d1Children: string[] = []
+
     ancestorLevels.forEach((level, id) => {
-      if (level === 1 && nodesToShow.has(id)) d1Set.add(id)
+      if (level !== 1 || !nodesToShow.has(id)) return
+      const el = govElements[id]
+      if (el && el.subtype === 'junior-minister') {
+        d1Children.push(id) // junior ministers share the bottom arc with children
+      } else {
+        d1Ancestors.push(id)
+      }
     })
-    childrenSet.forEach(id => { if (nodesToShow.has(id)) d1Set.add(id) })
+    childrenSet.forEach(id => { if (nodesToShow.has(id)) d1Children.push(id) })
 
-    const d1Array = [...d1Set]
-    const minD1Gap = 100
-    const d1Radius = Math.max(200, (d1Array.length * minD1Gap) / (2 * Math.PI))
+    // Sort each group by subtype so similar nodes sit adjacent on the arc
+    d1Ancestors.sort(sortBySubtype)
+    d1Children.sort(sortBySubtype)
 
-    d1Array.forEach((id, i) => {
-      const angle = (2 * Math.PI / Math.max(d1Array.length, 1)) * i
+    const d1Set = new Set<string>([...d1Ancestors, ...d1Children])
+
+    const minD1Gap = 130
+    const d1AncestorRadius = Math.max(240, (d1Ancestors.length * minD1Gap) / Math.PI)
+    const d1ChildRadius = Math.max(240, (d1Children.length * minD1Gap) / Math.PI)
+
+    // Spread ancestors across the top half (-π to 0, i.e. upward arc)
+    d1Ancestors.forEach((id, i) => {
+      const angle = d1Ancestors.length > 1
+        ? -Math.PI + (Math.PI / (d1Ancestors.length - 1)) * i
+        : -Math.PI / 2
       nodePositions.set(id, {
-        x: d1Radius * Math.cos(angle),
-        y: d1Radius * Math.sin(angle),
+        x: d1AncestorRadius * Math.cos(angle),
+        y: d1AncestorRadius * Math.sin(angle),
       })
     })
 
-    // Helper: spread nodes in a 180° arc facing outward from the origin, centred on
-    // the direction focus→parent. Spacing shrinks as node count grows (arc is fixed).
-    const positionInArc = (nodes: string[], parentId: string, radius: number) => {
+    // Spread children (+ junior ministers) across the bottom half (0 to π)
+    d1Children.forEach((id, i) => {
+      const angle = d1Children.length > 1
+        ? (Math.PI / (d1Children.length - 1)) * i
+        : Math.PI / 2
+      nodePositions.set(id, {
+        x: d1ChildRadius * Math.cos(angle),
+        y: d1ChildRadius * Math.sin(angle),
+      })
+    })
+
+    // Helper: spread D2 nodes in an arc outward from their D1 parent.
+    // Arc width and radius both grow with node count to keep min spacing.
+    // nodes array should already be sorted by subtype before calling.
+    const minD2Gap = 110
+    const positionInArc = (nodes: string[], parentId: string) => {
       const parentPos = nodePositions.get(parentId)
       if (!parentPos || nodes.length === 0) return
       const outwardAngle = Math.atan2(parentPos.y, parentPos.x)
-      const arcWidth = Math.PI // 180°
+      // Widen arc as count grows; cap at 240°
+      const arcWidth = Math.min(4 * Math.PI / 3, Math.max(Math.PI / 2, (nodes.length * minD2Gap) / 220))
+      // Push radius out so min arc-chord spacing is maintained
+      const radius = Math.max(220, (nodes.length * minD2Gap) / arcWidth)
       nodes.forEach((id, i) => {
         const relAngle = nodes.length > 1
           ? (arcWidth / (nodes.length - 1)) * i - arcWidth / 2
@@ -160,7 +224,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       })
     }
 
-    // D2: grandparents (ancestorLevel 2) — arc around their level-1 child
+    // D2: grandparents (ancestorLevel 2) — arc outward from their D1 child
     const d2AncestorsByParent = new Map<string, string[]>()
     ancestorLevels.forEach((level, id) => {
       if (level !== 2 || !nodesToShow.has(id)) return
@@ -173,7 +237,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       }
     })
 
-    // D2: grandchildren — arc around their level-1 parent
+    // D2: grandchildren — arc outward from their D1 parent, sorted by subtype
     const gcByParent = new Map<string, string[]>()
     grandchildrenSet.forEach(gcId => {
       if (!nodesToShow.has(gcId)) return
@@ -186,11 +250,16 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       }
     })
 
-    const d2Radius = 220
-    d2AncestorsByParent.forEach((nodes, parentId) => positionInArc(nodes, parentId, d2Radius))
-    gcByParent.forEach((nodes, parentId) => positionInArc(nodes, parentId, d2Radius))
+    d2AncestorsByParent.forEach((nodes, parentId) => {
+      nodes.sort(sortBySubtype)
+      positionInArc(nodes, parentId)
+    })
+    gcByParent.forEach((nodes, parentId) => {
+      nodes.sort(sortBySubtype)
+      positionInArc(nodes, parentId)
+    })
 
-    // D3+: deeper ancestors — each level fans 180° around its immediate child
+    // D3+: deeper ancestors — each level fans outward from its immediate child
     const maxAncestorLevel = ancestorLevels.size > 0 ? Math.max(...ancestorLevels.values()) : 0
     for (let level = 3; level <= maxAncestorLevel; level++) {
       const prevLevelSet = new Set(
@@ -209,7 +278,10 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
           byParent.get(parent)!.push(id)
         }
       })
-      byParent.forEach((nodes, parentId) => positionInArc(nodes, parentId, 200))
+      byParent.forEach((nodes, parentId) => {
+        nodes.sort(sortBySubtype)
+        positionInArc(nodes, parentId)
+      })
     }
 
     // Step 4: Add nodes with POSITION property (not in data)
@@ -318,7 +390,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       let opacity = 1
 
       if (nodeId === focusId) {
-        size = 160
+        size = 110
       } else if (childrenSet.has(nodeId)) {
         size = 110
       } else if (grandchildrenSet.has(nodeId)) {
@@ -338,7 +410,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
         return { r, g, b }
       }
       
-      const lightenColor = (hex: string, factor = 0.6) => {
+      const lightenColor = (hex: string, factor = 0.65) => {
         const { r, g, b } = getRgb(hex)
         const lightR = Math.round(r + (255 - r) * factor)
         const lightG = Math.round(g + (255 - g) * factor)
@@ -347,7 +419,13 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
         return `#${toHex(lightR)}${toHex(lightG)}${toHex(lightB)}`
       }
       
-      const lightColor = lightenColor(color)
+      const isFocus = nodeId === focusId
+      const isFocusCompound = isFocus && (
+        (focusId === 'cabinet' && cabinetInView) ||
+        departmentsWithDivisions.has(focusId) ||
+        departmentsWithAgencies.has(focusId)
+      )
+      const fillColor = (isFocus && !isFocusCompound) ? color : lightenColor(color)
 
       const nodeData: any = {
         id: element.id,
@@ -356,8 +434,9 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
         category: element.category,
         subtype: element.subtype,
         size,
-        color: lightColor,
+        color: fillColor,
         opacity,
+        isFocus: (isFocus && !isFocusCompound) ? 1 : 0,
       }
 
       // If Cabinet is in view and this is a cabinet minister, PM, or cabinet-attending junior minister
@@ -393,7 +472,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       const cabinetElement = govElements['cabinet']
       if (cabinetElement) {
         const cabinetColor = getElementColor(cabinetElement.category, cabinetElement.subtype)
-        const lightenColor = (hex: string, factor = 0.6) => {
+        const lightenColor = (hex: string, factor = 0.65) => {
           const getRgb = (hex: string) => {
             const r = parseInt(hex.slice(1, 3), 16)
             const g = parseInt(hex.slice(3, 5), 16)
@@ -615,12 +694,12 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
               'text-valign': 'center',
               'text-halign': 'center',
               'color': '#333',
-              'font-size': 'mapData(size, 35, 160, 10px, 14px)',
+              'font-size': 'mapData(size, 35, 110, 10px, 14px)',
               'font-weight': 'bold',
-            'width': 'mapData(size, 35, 160, 35px, 160px)',
-            'height': 'mapData(size, 35, 160, 35px, 160px)',
+            'width': 'mapData(size, 35, 110, 35px, 110px)',
+            'height': 'mapData(size, 35, 110, 35px, 110px)',
               'text-wrap': 'wrap',
-              'text-max-width': 'mapData(size, 35, 160, 30px, 150px)',
+              'text-max-width': 'mapData(size, 35, 110, 30px, 100px)',
               'background-color': 'data(color)',
               'opacity': 'data(opacity)' as any,
               'border-width': '2px',
@@ -727,14 +806,14 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
           {
             selector: 'node[category="body"][subtype="public-corporation"]',
             style: {
-              'shape': 'diamond',
+              'shape': 'rhomboid',
               'border-color': '#e67e22',
             },
           },
           {
             selector: 'node[category="body"][subtype="royal-charter-body"]',
             style: {
-              'shape': 'diamond',
+              'shape': 'rhomboid',
               'border-color': '#8e44ad',
             },
           },
@@ -743,6 +822,13 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
             style: {
               'shape': 'diamond',
               'border-color': '#d35400',
+            },
+          },
+          {
+            selector: 'node[category="body"][subtype="other"]',
+            style: {
+              'shape': 'rhomboid',
+              'border-color': '#95a5a6',
             },
           },
           // Group nodes
@@ -765,6 +851,15 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
               'padding': '20px',
               'compound-sizing-wrt-labels': 'include',
               'z-index': '1',
+            } as any,
+          },
+          // Focus node — full colour fill, white text, thick border
+          {
+            selector: 'node[isFocus = 1]',
+            style: {
+              'color': '#ffffff',
+              'border-width': '4px',
+              'z-index': 10,
             } as any,
           },
           {
@@ -1008,34 +1103,61 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
         cy.edges().removeStyle('line-color target-arrow-color width opacity z-index')
       })
     } else {
-      // Update elements
-      cyRef.current.elements().remove()
-      cyRef.current.add(elements)
+      const cy = cyRef.current
 
-      const layout = cyRef.current.layout(layoutOptions)
+      // Diff update: preserve existing nodes/edges so preset layout can animate
+      // them from their current positions to new positions smoothly.
+      const newIds = new Set(elements.map(e => e.data.id as string))
+      const oldIds = new Set(cy.elements().map((e: any) => e.id() as string))
+
+      // Snapshot to-remove IDs first, then remove in batch to avoid mutating
+      // the live collection while iterating it (causes Cytoscape crashes).
+      const toRemove = cy.elements().filter((e: any) => !newIds.has(e.id()))
+      toRemove.remove()
+
+      // Add new elements in correct order (nodes before edges, parents before children)
+      const toAdd = elements.filter(el => !oldIds.has(el.data.id as string))
+      const newNodes = toAdd.filter(el => !el.data.source)
+      const newEdges = toAdd.filter(el => !!el.data.source)
+      // Add parent nodes before child nodes
+      const parentNodes = newNodes.filter(el => !el.data.parent)
+      const childNodes = newNodes.filter(el => !!el.data.parent)
+      if (parentNodes.length) cy.add(parentNodes)
+      if (childNodes.length) cy.add(childNodes)
+      if (newEdges.length) cy.add(newEdges)
+
+      // Update data on existing elements
+      elements.forEach(el => {
+        const id = el.data.id as string
+        if (oldIds.has(id)) {
+          cy.getElementById(id).data(el.data)
+        }
+      })
+
+      const layout = cy.layout(layoutOptions)
       layout.run()
 
-      // Apply zoom and center after animation completes
-      setTimeout(() => {
-        if (cyRef.current) {
-          cyRef.current.fit(undefined, 80)
-        }
+      // Cancel any pending fit and schedule a new one
+      if ((cy as any)._fitTimer) clearTimeout((cy as any)._fitTimer)
+      ;(cy as any)._fitTimer = setTimeout(() => {
+        if (cyRef.current) cyRef.current.fit(undefined, 80)
       }, 850)
     }
-  }, [selectedElementId, onSelectElement])
+  }, [selectedElementId, onSelectElement, refreshKey])
 
   return (
     <div className="org-chart-wrapper">
       <div ref={containerRef} className="org-chart" />
+      <button className="org-chart-refresh" onClick={handleRefresh} title="Reset layout" aria-label="Reset layout">↺</button>
       <div className="legend">
         <div className="legend-section">
           <h4>Officials</h4>
           <div className="legend-item" onClick={() => onOpenCategory('official', 'prime-minister')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'prime-minister')}>
-            <div className="legend-shape heptagon" style={{ backgroundColor: '#c97070', borderColor: '#5c0000' }}></div>
+            <div className="legend-shape heptagon"><div className="shape-inner" style={{ backgroundColor: '#5c0000' }}><div className="shape-inner" style={{ backgroundColor: '#c97070', transform: 'scale(0.78)' }}></div></div></div>
             <span>Prime Minister</span>
           </div>
           <div className="legend-item" onClick={() => onOpenCategory('official', 'cabinet-minister')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'cabinet-minister')}>
-            <div className="legend-shape octagon" style={{ backgroundColor: '#e8a09a', borderColor: '#922b21' }}></div>
+            <div className="legend-shape octagon"><div className="shape-inner" style={{ backgroundColor: '#922b21' }}><div className="shape-inner" style={{ backgroundColor: '#e8a09a', transform: 'scale(0.78)' }}></div></div></div>
             <span>Cabinet Minister</span>
           </div>
           <div className="legend-item" onClick={() => onOpenCategory('official', 'junior-minister')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'junior-minister')}>
@@ -1082,20 +1204,20 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
             <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#fef5d4', borderColor: '#f1c40f' }}></div></div>
             <span>Advisory NDPB</span>
           </div>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'public-corporation')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'public-corporation')}>
-            <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#fad7a0', borderColor: '#e67e22' }}></div></div>
-            <span>Public Corporation</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'royal-charter-body')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'royal-charter-body')}>
-            <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#d7b8e8', borderColor: '#8e44ad' }}></div></div>
-            <span>Royal Charter Body</span>
-          </div>
           <div className="legend-item" onClick={() => onOpenCategory('body', 'tribunal')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'tribunal')}>
             <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#f5cba7', borderColor: '#d35400' }}></div></div>
             <span>Tribunal</span>
           </div>
+          <div className="legend-item" onClick={() => onOpenCategory('body', 'public-corporation')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'public-corporation')}>
+            <div className="legend-shape parallelogram" style={{ backgroundColor: '#fad7a0', borderColor: '#e67e22' }}></div>
+            <span>Public Corporation</span>
+          </div>
+          <div className="legend-item" onClick={() => onOpenCategory('body', 'royal-charter-body')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'royal-charter-body')}>
+            <div className="legend-shape parallelogram" style={{ backgroundColor: '#d7b8e8', borderColor: '#8e44ad' }}></div>
+            <span>Royal Charter Body</span>
+          </div>
           <div className="legend-item" onClick={() => onOpenCategory('body', 'other')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'other')}>
-            <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#dae0e0', borderColor: '#7f8c8d' }}></div></div>
+            <div className="legend-shape parallelogram" style={{ backgroundColor: '#dae0e0', borderColor: '#7f8c8d' }}></div>
             <span>Other Body</span>
           </div>
         </div>

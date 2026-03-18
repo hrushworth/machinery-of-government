@@ -52,9 +52,9 @@ export function getLighterColor(category: string, subtype: string): string {
   const g = parseInt(hex.slice(3, 5), 16)
   const b = parseInt(hex.slice(5, 7), 16)
   
-  const lightR = Math.round(r + (255 - r) * 0.6)
-  const lightG = Math.round(g + (255 - g) * 0.6)
-  const lightB = Math.round(b + (255 - b) * 0.6)
+  const lightR = Math.round(r + (255 - r) * 0.65)
+  const lightG = Math.round(g + (255 - g) * 0.65)
+  const lightB = Math.round(b + (255 - b) * 0.65)
   
   const toHex = (val: number) => val.toString(16).padStart(2, '0')
   return `#${toHex(lightR)}${toHex(lightG)}${toHex(lightB)}`

@@ -5,6 +5,33 @@
   height: 100%;
   background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
   overflow: hidden;
+  position: relative;
+}
+
+.org-chart-refresh {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  z-index: 10;
+  background: rgba(255,255,255,0.9);
+  border: 1.5px solid #d0d5dd;
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  line-height: 1;
+}
+
+.org-chart-refresh:hover {
+  background: #fff;
+  color: #2980b9;
+  border-color: #2980b9;
 }
 
 .org-chart {
@@ -112,6 +139,13 @@
   flex-shrink: 0;
 }
 
+.legend-shape.parallelogram {
+  width: 18px;
+  height: 13px;
+  clip-path: polygon(0% 0%, 75% 0%, 100% 100%, 25% 100%);
+  border: none;
+}
+
 .legend-shape.star {
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
   background-color: white;
@@ -131,15 +165,37 @@
 }
 
 .legend-shape.heptagon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-shape.heptagon .shape-inner {
+  width: 18px;
+  height: 18px;
   clip-path: polygon(50% 0%, 85% 13%, 95% 50%, 75% 87%, 25% 87%, 5% 50%, 15% 13%);
-  background-color: white;
-  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .legend-shape.octagon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.legend-shape.octagon .shape-inner {
+  width: 18px;
+  height: 18px;
   clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-  background-color: white;
-  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .legend-shape.red {

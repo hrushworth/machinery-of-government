@@ -20,9 +20,9 @@ const categorySubtypes = [
   { category: 'department', subtype: 'division-directorate', label: '⚙️ Division / Directorate' },
   { category: 'body',       subtype: 'executive-ndpb',       label: '📋 Executive NDPB' },
   { category: 'body',       subtype: 'advisory-ndpb',        label: '💡 Advisory NDPB' },
+  { category: 'body',       subtype: 'tribunal',             label: '⚖️ Tribunal' },
   { category: 'body',       subtype: 'public-corporation',   label: '🏢 Public Corporation' },
   { category: 'body',       subtype: 'royal-charter-body',   label: '📜 Royal Charter Body' },
-  { category: 'body',       subtype: 'tribunal',             label: '⚖️ Tribunal' },
   { category: 'body',       subtype: 'other',                label: '🔗 Other Body' },
   { category: 'group',      subtype: 'cabinet',              label: '⭐ Cabinet' },
 ]
@@ -48,10 +48,10 @@ const subtypeShape: Record<string, string> = {
   'department/division-directorate': 'rounded-square',
   'body/executive-ndpb':           'diamond',
   'body/advisory-ndpb':            'diamond',
-  'body/public-corporation':       'diamond',
-  'body/royal-charter-body':       'diamond',
   'body/tribunal':                 'diamond',
-  'body/other':                    'diamond',
+  'body/public-corporation':       'parallelogram',
+  'body/royal-charter-body':       'parallelogram',
+  'body/other':                    'parallelogram',
   'group/cabinet':                 'square',
 }
 
@@ -61,6 +61,13 @@ function ShapeSwatch({ shape, color }: { shape: string; color: string }) {
     return (
       <span className="cat-shape-swatch cat-shape-diamond" aria-hidden="true">
         <span className="cat-shape-diamond-inner" style={style} />
+      </span>
+    )
+  }
+  if (shape === 'parallelogram') {
+    return (
+      <span className="cat-shape-swatch cat-shape-diamond" aria-hidden="true">
+        <span className="cat-shape-parallelogram-inner" style={style} />
       </span>
     )
   }

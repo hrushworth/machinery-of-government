@@ -345,6 +345,12 @@ To add powers, duties, or responsibilities for an element, add an entry to the `
 
 ---
 
+## Disclaimer
+
+The information in this application is provided for general reference purposes only. While every effort has been made to ensure accuracy, the data may be incomplete, incorrect, or out of date. Government structures, ministerial appointments, and organisational relationships change frequently. The author makes no representations or warranties of any kind, express or implied, as to the accuracy, completeness, or fitness for any particular purpose of the information contained herein. The author accepts no liability whatsoever for any loss, damage, or inconvenience arising from reliance on information in this application. Always verify against official sources such as [GOV.UK](https://www.gov.uk/government/organisations).
+
+---
+
 ## Future Development
 
 Potential enhancements:
