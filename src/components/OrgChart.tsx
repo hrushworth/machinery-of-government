@@ -1163,9 +1163,9 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
             <div className="legend-shape circle" style={{ backgroundColor: '#a9d8f5', borderColor: '#2980b9' }}></div>
             <span>Civil Servant</span>
           </div>
-          <div className="legend-item" onClick={() => onOpenCategory('official', 'other')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'other')}>
+          <div className="legend-item" onClick={() => onOpenCategory('official', 'independent')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'independent')}>
             <div className="legend-shape circle" style={{ backgroundColor: '#a9d8ab', borderColor: '#229954' }}></div>
-            <span>Other Official</span>
+            <span>Independent Official</span>
           </div>
         </div>
 

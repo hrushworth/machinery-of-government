@@ -32,10 +32,10 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
         title: 'Civil Servant',
         description: 'Professional, non-partisan public sector employees who provide impartial advice to government and implement policies. Led by Permanent Secretaries in departments.',
       },
-      other: {
+      independent: {
         emoji: '👤',
-        title: 'Other Official',
-        description: 'Independent officials including chairs of public bodies, members of tribunals, and other government representatives not falling into the political or civil service categories.',
+        title: 'Independent Official',
+        description: 'Independent officeholders including statutory commissioners, chairs of public bodies, and oversight figures appointed by the Crown or Prime Minister. They exercise public functions independently of ministerial direction.',
       },
     },
     department: {
@@ -103,13 +103,8 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
 
   const info = (categoryDescriptions[category] as any)?.[subtype]
 
-  // 'other' officials also includes elements with subtype 'independent'
-  const effectiveSubtypes = category === 'official' && subtype === 'other'
-    ? ['other', 'independent']
-    : [subtype]
-
   const elementsOfType = Object.values(govElements).filter(
-    el => el.category === category && effectiveSubtypes.includes(el.subtype)
+    el => el.category === category && el.subtype === subtype
   )
 
   if (!info) {

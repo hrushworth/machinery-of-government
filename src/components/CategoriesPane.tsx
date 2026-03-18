@@ -13,7 +13,7 @@ const categorySubtypes = [
   { category: 'official',   subtype: 'cabinet-minister',     label: '🌟 Cabinet Minister' },
   { category: 'official',   subtype: 'junior-minister',      label: '👤 Junior Minister' },
   { category: 'official',   subtype: 'civil-servant',        label: '👤 Civil Servant' },
-  { category: 'official',   subtype: 'other',                label: '👤 Other Official' },
+  { category: 'official',   subtype: 'independent',          label: '👤 Independent Official' },
   { category: 'department', subtype: 'ministerial',          label: '🏛️ Ministerial Department' },
   { category: 'department', subtype: 'non-ministerial',      label: '🏛️ Non-Ministerial Department' },
   { category: 'department', subtype: 'agency',               label: '⚙️ Executive Agency' },
@@ -103,11 +103,8 @@ export default function CategoriesPane({ onOpenCategory, onClose, isMobile }: Ca
             <div key={section} className="categories-section">
               <h3 className="categories-section-heading">{sectionHeadings[section]}</h3>
               {items.map(ct => {
-                const subtypesToMatch = ct.category === 'official' && ct.subtype === 'other'
-                  ? ['other', 'independent']
-                  : [ct.subtype]
                 const count = allElements.filter(
-                  el => el.category === ct.category && subtypesToMatch.includes(el.subtype)
+                  el => el.category === ct.category && el.subtype === ct.subtype
                 ).length
                 const color = getElementColor(ct.category, ct.subtype)
                 const shape = subtypeShape[`${ct.category}/${ct.subtype}`]
