@@ -337,6 +337,12 @@ export default function BudgetTab({ budgetProfile, onSelectElement }: BudgetTabP
         )}
         <p className="budget-source">Source: {budget.sourceLabel}</p>
         {budget.notes && <p className="budget-notes">{budget.notes}</p>}
+        <p className="budget-ogl">
+          Contains public sector information licensed under the{' '}
+          <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener noreferrer">
+            Open Government Licence v3.0
+          </a>
+        </p>
       </div>
 
     </div>

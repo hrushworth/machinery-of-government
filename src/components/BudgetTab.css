@@ -264,3 +264,19 @@
   border-radius: 4px;
   border: 1px dashed #d5dbdb;
 }
+
+.budget-ogl {
+  font-size: 0.72rem;
+  color: #aab7b8;
+  margin-top: 0.4rem;
+}
+
+.budget-ogl a {
+  color: #aab7b8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.budget-ogl a:hover {
+  color: #7f8c8d;
+}

@@ -21,7 +21,7 @@ function App() {
       <header className="app-header">
         <div className="app-header-text">
           <h1>Machinery of Government</h1>
-          <p>Explore the organisation and relationships within the UK Government</p>
+          <p>Explore the organisation and relationships within the UK Government · by @hrushworth</p>
         </div>
         <div className="header-buttons">
           <button

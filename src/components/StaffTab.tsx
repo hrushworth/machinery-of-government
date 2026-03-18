@@ -207,6 +207,12 @@ export default function StaffTab({ staffProfile, onSelectElement }: StaffTabProp
           Cells with fewer than 5 staff are suppressed (shown as 0).
           'Other' grade includes unclassified and unreported grades.
         </p>
+        <p className="staff-ogl">
+          Contains public sector information licensed under the{' '}
+          <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener noreferrer">
+            Open Government Licence v3.0
+          </a>
+        </p>
       </div>
     </div>
   )

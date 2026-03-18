@@ -177,3 +177,19 @@
   font-size: 0.75rem;
   color: #aab7b8;
 }
+
+.staff-ogl {
+  font-size: 0.72rem;
+  color: #aab7b8;
+  margin-top: 0.4rem;
+}
+
+.staff-ogl a {
+  color: #aab7b8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.staff-ogl a:hover {
+  color: #7f8c8d;
+}
