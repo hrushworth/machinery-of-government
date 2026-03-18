@@ -43,7 +43,7 @@ export default function SearchPane({ onSelectElement, onClose }: SearchPaneProps
   // Elements: filter by query AND all active tags (AND logic)
   const matchedElements = allElements
     .filter(el => {
-      const nameMatch = el.name.toLowerCase().includes(q)
+      const nameMatch = el.name.toLowerCase().includes(q) || el.id.toLowerCase().includes(q)
       const tagMatch = activeTagIds.size === 0 || [...activeTagIds].every(tid => el.tags?.includes(tid))
       return nameMatch && tagMatch
     })

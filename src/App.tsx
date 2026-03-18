@@ -218,12 +218,12 @@ function App() {
             role="dialog"
             aria-modal="true"
             aria-label="Element details"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
           >
             <div
               className="bottom-sheet-handle"
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
               onClick={() => {
                 if (sheetState === 'closed') setSheetState('partial')
                 else if (sheetState === 'partial') setSheetState('full')

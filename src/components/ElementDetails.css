@@ -127,6 +127,11 @@
   transform: translateX(2px);
 }
 
+.relationship-item-secondary {
+  border-left-style: dashed;
+  opacity: 0.8;
+}
+
 .item-type {
   font-size: 1.2rem;
   flex-shrink: 0;

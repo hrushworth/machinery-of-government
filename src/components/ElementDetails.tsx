@@ -73,6 +73,9 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
       body: {
         'executive-ndpb': '📋 Executive NDPB',
         'advisory-ndpb': '💡 Advisory NDPB',
+        'tribunal': '⚖️ Tribunal',
+        'public-corporation': '🏢 Public Corporation',
+        'royal-charter-body': '📜 Royal Charter Body',
         other: '🔗 Other Body',
       },
       group: {
@@ -84,7 +87,11 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
   }
 
   const getBodyEmoji = (subtype: string) =>
-    subtype === 'executive-ndpb' ? '📋' : subtype === 'advisory-ndpb' ? '💡' : '🔗'
+    subtype === 'executive-ndpb' ? '📋' :
+    subtype === 'advisory-ndpb' ? '💡' :
+    subtype === 'tribunal' ? '⚖️' :
+    subtype === 'public-corporation' ? '🏢' :
+    subtype === 'royal-charter-body' ? '📜' : '🔗'
 
   // Helper function to determine relationship descriptions
   const getRelationshipLabel = (parent: any, child: any): { parentLabel: string; childLabel: string } => {
@@ -109,10 +116,16 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
     if (parent.category === 'official' && child.category === 'department' && child.subtype === 'non-ministerial') {
       return { parentLabel: 'sponsors', childLabel: 'sponsored by' }
     }
-    if (parent.category === 'department' && child.category === 'department' && child.subtype === 'agency') {
+    if (parent.category === 'department' && child.category === 'department' &&
+        (child.subtype === 'agency' || child.subtype === 'division-directorate')) {
       return { parentLabel: 'is parent of', childLabel: 'is child of' }
     }
-    if (parent.category === 'department' && child.category === 'body') {
+    if (parent.category === 'department' && parent.subtype === 'ministerial' &&
+        child.category === 'department' && child.subtype === 'non-ministerial') {
+      return { parentLabel: 'supports', childLabel: 'supported by' }
+    }
+    if (parent.category === 'department' && child.category === 'body' &&
+        (child.subtype === 'executive-ndpb' || child.subtype === 'advisory-ndpb' || child.subtype === 'tribunal')) {
       return { parentLabel: 'sponsors', childLabel: 'sponsored by' }
     }
     if (parent.category === 'group') {
@@ -180,7 +193,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
         </div>
       )}
 
-      {connected.parents.length > 0 && (
+      {(connected.parents.length > 0 || connected.secondaryParents.length > 0) && (
         <>
           {Array.from(new Set(
             connected.parents.map(parent => getRelationshipLabel(parent, element).childLabel)
@@ -224,6 +237,44 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
               </ul>
             </div>
           )})}
+          {connected.secondaryParents.length > 0 && (() => {
+            const sectionKey = 'secondary-parent'
+            const isCollapsed = collapsedSections.has(sectionKey)
+            return (
+              <div className={`detail-section${isMobile ? ' detail-section-collapsible' : ''}${isCollapsed ? ' collapsed' : ''}`}>
+                <h3 onClick={() => isMobile && setCollapsedSections(prev => {
+                  const next = new Set(prev)
+                  next.has(sectionKey) ? next.delete(sectionKey) : next.add(sectionKey)
+                  return next
+                })}>{element.category === 'department' ? 'Also led by' : 'Also sponsored by'}</h3>
+                <ul className="element-list">
+                  {connected.secondaryParents.map(parent => {
+                    const parentColor = getElementColor(parent.category, parent.subtype)
+                    const parentCategoryLabel = getCategoryLabel(parent.category, parent.subtype).replace(/^[^\s]*\s/, '')
+                    return (
+                      <li
+                        key={parent.id}
+                        className="relationship-item relationship-item-secondary"
+                        onClick={() => onSelectElement(parent.id)}
+                        style={{ borderLeftColor: parentColor }}
+                      >
+                        <div className="item-type" style={{ color: parentColor }}>
+                          {parent.category === 'official' ? '👤' : parent.category === 'department' ? '🏛️' : parent.category === 'group' ? '⭐' : getBodyEmoji(parent.subtype)}
+                        </div>
+                        <div className="item-content">
+                          <div className="item-name">{parent.name}</div>
+                          {parent.currentHolder && (
+                            <div className="item-subtitle" style={{ color: '#333' }}>{parent.currentHolder}</div>
+                          )}
+                          <div className="item-subtitle" style={{ color: parentColor }}>{parentCategoryLabel}</div>
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            )
+          })()}
         </>
       )}
 
@@ -231,7 +282,10 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
         <>
           {Array.from(new Set(
             connected.children.map(child => getRelationshipLabel(element, child).parentLabel)
-          )).map((relationshipType) => {
+          )).sort((a, b) => {
+            const order = ['leads', 'is parent of', 'supports', 'oversees', 'appoints', 'includes', 'sponsors', 'works with']
+            return (order.indexOf(a) ?? 99) - (order.indexOf(b) ?? 99)
+          }).map((relationshipType) => {
             const sectionKey = `child-${relationshipType}`
             const isCollapsed = collapsedSections.has(sectionKey)
             return (

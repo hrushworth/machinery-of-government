@@ -31,7 +31,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
     const ancestorLevels = new Map<string, number>()
     const ancestorQueue: Array<{ id: string; level: number }> = []
 
-    focusElement.parentIds.forEach(pid => {
+    ;[...focusElement.parentIds, ...(focusElement.secondaryParentIds || [])].forEach(pid => {
       if (govElements[pid] && !ancestorLevels.has(pid)) {
         ancestorLevels.set(pid, 1)
         ancestorQueue.push({ id: pid, level: 1 })
@@ -61,10 +61,18 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
     }
 
     // Step 2: Collect direct children and grandchildren
+    // Also include elements that list focusId as a secondary parent
     const childrenSet = new Set<string>()
     const grandchildrenSet = new Set<string>()
 
-    focusElement.childIds.forEach(cid => {
+    const directChildIds = [
+      ...focusElement.childIds,
+      ...Object.values(govElements)
+        .filter(el => el.secondaryParentIds?.includes(focusId))
+        .map(el => el.id),
+    ]
+
+    directChildIds.forEach(cid => {
       if (govElements[cid]) {
         childrenSet.add(cid)
         govElements[cid].childIds.forEach(gcid => {
@@ -487,16 +495,15 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
         return { forward: 'is parent of', reverse: 'is child of' }
       }
       
-      // Ministerial Department > sponsors > Non-ministerial department
-      if (parent.subtype === 'ministerial' && 
+      // Ministerial Department > supports > Non-ministerial department
+      if (parent.subtype === 'ministerial' &&
           child.category === 'department' && child.subtype === 'non-ministerial') {
-        return { forward: 'sponsors', reverse: 'sponsored by' }
+        return { forward: 'supports', reverse: 'supported by' }
       }
       
-      // Department > sponsors > NDPB / public corporation / royal charter body
+      // Department > sponsors > NDPB / tribunal
       if (parent.category === 'department' && child.category === 'body' &&
-          (child.subtype === 'executive-ndpb' || child.subtype === 'advisory-ndpb' ||
-           child.subtype === 'public-corporation' || child.subtype === 'royal-charter-body')) {
+          (child.subtype === 'executive-ndpb' || child.subtype === 'advisory-ndpb' || child.subtype === 'tribunal')) {
         return { forward: 'sponsors', reverse: 'sponsored by' }
       }
       
@@ -560,7 +567,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
           }
           
           const { forward: relationshipType } = getRelationshipLabel(element, targetElement)
-          
+
           elements.push({
             data: {
               id: `${element.id}-${childId}`,
@@ -570,6 +577,20 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
             },
           })
         }
+      })
+
+      // Secondary parent edges (dashed lines)
+      ;(element.secondaryParentIds || []).forEach(pid => {
+        if (!nodesToShow.has(pid)) return
+        elements.push({
+          data: {
+            id: `${pid}-${element.id}-secondary`,
+            source: pid,
+            target: element.id,
+            label: 'also sponsors',
+            secondary: 1,
+          },
+        })
       })
     })
 
@@ -738,7 +759,9 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
             selector: 'node:parent',
             style: {
               'text-valign': 'top',
-              'text-margin-y': '20px',
+              'text-margin-y': '12px',
+              'font-size': '12px',
+              'font-weight': 'bold',
               'padding': '20px',
               'compound-sizing-wrt-labels': 'include',
               'z-index': '1',
@@ -773,6 +796,14 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
               'control-point-distance': '80px',
               'control-point-step': '25px',
             },
+          },
+          {
+            selector: 'edge[secondary = 1]',
+            style: {
+              'line-style': 'dashed',
+              'line-dash-pattern': [6, 4],
+              'opacity': 0.45,
+            } as any,
           },
         ],
         layout: layoutOptions,
