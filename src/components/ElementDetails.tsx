@@ -24,6 +24,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
   const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set())
   const [tabsOverflow, setTabsOverflow] = useState(false)
   const [tabsAtEnd, setTabsAtEnd] = useState(false)
+  const [activePowerTypes, setActivePowerTypes] = useState<Set<string>>(new Set(['power', 'duty', 'function', 'responsibility']))
   const tabBarRef = useRef<HTMLDivElement>(null)
 
   const checkTabs = useCallback(() => {
@@ -278,16 +279,19 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
         </>
       )}
 
-      {connected.children.length > 0 && (
+      {(connected.children.length > 0 || connected.secondaryChildren.length > 0) && (
         <>
-          {Array.from(new Set(
-            connected.children.map(child => getRelationshipLabel(element, child).parentLabel)
-          )).sort((a, b) => {
+          {Array.from(new Set([
+            ...connected.children.map(child => getRelationshipLabel(element, child).parentLabel),
+            ...connected.secondaryChildren.map(child => getRelationshipLabel(element, child).parentLabel),
+          ])).sort((a, b) => {
             const order = ['leads', 'is parent of', 'supports', 'oversees', 'appoints', 'includes', 'sponsors', 'works with']
             return (order.indexOf(a) ?? 99) - (order.indexOf(b) ?? 99)
           }).map((relationshipType) => {
             const sectionKey = `child-${relationshipType}`
             const isCollapsed = collapsedSections.has(sectionKey)
+            const primaryItems = connected.children.filter(child => getRelationshipLabel(element, child).parentLabel === relationshipType)
+            const secondaryItems = connected.secondaryChildren.filter(child => getRelationshipLabel(element, child).parentLabel === relationshipType)
             return (
             <div key={relationshipType} className={`detail-section${isMobile ? ' detail-section-collapsible' : ''}${isCollapsed ? ' collapsed' : ''}`}>
               <h3 onClick={() => isMobile && setCollapsedSections(prev => {
@@ -296,16 +300,13 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
                 return next
               })}>{relationshipType.charAt(0).toUpperCase() + relationshipType.slice(1)}</h3>
               <ul className="element-list">
-                {connected.children.filter(child => {
-                  const { parentLabel } = getRelationshipLabel(element, child)
-                  return parentLabel === relationshipType
-                }).map(child => {
+                {[...primaryItems.map(c => ({ child: c, secondary: false })), ...secondaryItems.map(c => ({ child: c, secondary: true }))].map(({ child, secondary }) => {
                   const childColor = getElementColor(child.category, child.subtype)
                   const childCategoryLabel = getCategoryLabel(child.category, child.subtype).replace(/^[^\s]*\s/, '')
                   return (
                     <li
                       key={child.id}
-                      className="relationship-item"
+                      className={`relationship-item${secondary ? ' relationship-item-secondary' : ''}`}
                       onClick={() => onSelectElement(child.id)}
                       style={{ borderLeftColor: childColor }}
                     >
@@ -342,11 +343,43 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
 
     const typeOrder: Record<string, number> = { power: 0, duty: 1, function: 2, responsibility: 3 }
     const sorted = [...powerProfile.powers].sort((a, b) => (typeOrder[a.powerType] ?? 4) - (typeOrder[b.powerType] ?? 4))
+    const presentTypes = Array.from(new Set(powerProfile.powers.map(p => p.powerType)))
+      .sort((a, b) => (typeOrder[a] ?? 4) - (typeOrder[b] ?? 4))
+    const filtered = sorted.filter(p => activePowerTypes.has(p.powerType))
+
+    const toggleType = (type: string) => {
+      setActivePowerTypes(prev => {
+        const next = new Set(prev)
+        if (next.has(type)) {
+          if (next.size > 1) next.delete(type)
+        } else {
+          next.add(type)
+        }
+        return next
+      })
+    }
+
+    const typeLabels: Record<string, string> = { power: 'Power', duty: 'Duty', function: 'Function', responsibility: 'Responsibility' }
+    const typeColours: Record<string, string> = { power: '#6c3483', duty: '#1a5276', function: '#1e8449', responsibility: '#784212' }
 
     return (
       <>
-        {sorted.map(power => (
-          <div key={power.id} className="power-card">
+        {presentTypes.length > 1 && (
+          <div className="power-filters">
+            {presentTypes.map(type => (
+              <button
+                key={type}
+                className={`power-filter-btn${activePowerTypes.has(type) ? ' active' : ''}`}
+                style={{ '--type-colour': typeColours[type] } as React.CSSProperties}
+                onClick={() => toggleType(type)}
+              >
+                {typeLabels[type]}
+              </button>
+            ))}
+          </div>
+        )}
+        {filtered.map(power => (
+          <div key={power.id} className={`power-card power-card-${power.powerType}`}>
             <div className="power-card-header">
               <span className={`power-type-badge power-type-${power.powerType}`}>
                 {power.powerType.charAt(0).toUpperCase() + power.powerType.slice(1)}
@@ -443,24 +476,28 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
           Powers
           {powerProfile && <span className="tab-count">{powerProfile.powers.length}</span>}
         </button>
-        <button
-          className={`tab-button${activeTab === 'budget' ? ' tab-button-active' : ''}${!budgetProfile ? ' tab-button-empty' : ''}`}
-          role="tab"
-          aria-selected={activeTab === 'budget'}
-          onClick={() => setActiveTab('budget')}
-        >
-          Budget
-          {budgetProfile && <span className="tab-count">{budgetProfile.budgets[0]?.financialYear}</span>}
-        </button>
-        <button
-          className={`tab-button${activeTab === 'staff' ? ' tab-button-active' : ''}${!staffProfile ? ' tab-button-empty' : ''}`}
-          role="tab"
-          aria-selected={activeTab === 'staff'}
-          onClick={() => setActiveTab('staff')}
-        >
-          Staff
-          {staffProfile && <span className="tab-count">{staffProfile.grades.total.toLocaleString()}</span>}
-        </button>
+        {element.category !== 'official' && (
+          <button
+            className={`tab-button${activeTab === 'budget' ? ' tab-button-active' : ''}${!budgetProfile ? ' tab-button-empty' : ''}`}
+            role="tab"
+            aria-selected={activeTab === 'budget'}
+            onClick={() => setActiveTab('budget')}
+          >
+            Budget
+            {budgetProfile && <span className="tab-count">{budgetProfile.budgets[0]?.financialYear}</span>}
+          </button>
+        )}
+        {element.category !== 'official' && (
+          <button
+            className={`tab-button${activeTab === 'staff' ? ' tab-button-active' : ''}${!staffProfile ? ' tab-button-empty' : ''}`}
+            role="tab"
+            aria-selected={activeTab === 'staff'}
+            onClick={() => setActiveTab('staff')}
+          >
+            Staff
+            {staffProfile && <span className="tab-count">{staffProfile.grades.total.toLocaleString()}</span>}
+          </button>
+        )}
       </div>
       </div>
 

@@ -307,6 +307,48 @@
   border-left: 3px solid #8e44ad;
 }
 
+.power-card.power-card-power          { border-left-color: #6c3483; }
+.power-card.power-card-duty           { border-left-color: #1a5276; }
+.power-card.power-card-function       { border-left-color: #1e8449; }
+.power-card.power-card-responsibility { border-left-color: #784212; }
+
+.power-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.power-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.6rem;
+  border-radius: 12px;
+  border: 1.5px solid var(--type-colour);
+  background: var(--type-colour);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+  line-height: 1.2;
+}
+
+.power-filter-btn:hover {
+  opacity: 1;
+  background: color-mix(in srgb, var(--type-colour) 85%, #000);
+}
+
+.power-filter-btn.active {
+  opacity: 1;
+}
+
+.power-filter-btn:not(.active) {
+  opacity: 0.4;
+}
+
 .power-card-header {
   display: flex;
   align-items: center;

@@ -51,7 +51,18 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
           <dd>Description, role, current holder, tags, and all parent / child relationships.</dd>
 
           <dt>Powers</dt>
-          <dd>Powers, duties, functions, and responsibilities — with the underpinning legislation, statutory instrument, prerogative, case law, or constitutional convention, and a link to the source text on legislation.gov.uk where available. Shown where data has been entered.</dd>
+          <dd>Powers, duties, functions, and responsibilities — with the underpinning legislation, statutory instrument, prerogative, case law, or constitutional convention, and a link to the source text on legislation.gov.uk where available. Shown where data has been entered.
+            <dl className="info-controls info-controls-nested">
+              <dt>Power</dt>
+              <dd>A discretionary authority to act — something the body or official <em>may</em> do. Includes prerogative powers, statutory discretions, and executive powers conferred by legislation.</dd>
+              <dt>Duty</dt>
+              <dd>A legal obligation to act in a particular way. The holder <em>must</em> do this; failure may be unlawful and subject to judicial review or statutory sanction.</dd>
+              <dt>Function</dt>
+              <dd>An ongoing role or activity carried out in the exercise of office — broader than a single power or duty, and often a combination of both.</dd>
+              <dt>Responsibility</dt>
+              <dd>A political or constitutional accountability — not necessarily enforceable in court, but a recognised obligation to Parliament, the public, or the Sovereign.</dd>
+            </dl>
+          </dd>
 
           <dt>Budget</dt>
           <dd>2024–25 final outturn spending from HM Treasury OSCAR data — net and gross expenditure, income, DEL/AME split, and a breakdown by economic type, programme, or arm's-length body (where available). Links to the body's annual report collection on GOV.UK.</dd>

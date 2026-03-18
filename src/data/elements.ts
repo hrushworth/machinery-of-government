@@ -32,6 +32,7 @@ export const tagDefinitions: Record<string, TagDefinition> = {
   'prosecution':          { id: 'prosecution',           label: 'Prosecution Service',    tagCategory: 'type',   colour: '#922b21' },
   'lottery':              { id: 'lottery',               label: 'Lottery / Heritage Fund', tagCategory: 'type',  colour: '#f39c12' },
   'development-corp':     { id: 'development-corp',      label: 'Development Corporation', tagCategory: 'type',  colour: '#1abc9c' },
+  'national-park':        { id: 'national-park',         label: 'National Park Authority', tagCategory: 'type',  colour: '#4a7c3f' },
   'armed-forces':         { id: 'armed-forces',          label: 'Armed Forces / Military', tagCategory: 'type',  colour: '#2e4057' },
   // ── Sector tags ───────────────────────────────────────────────────────────
   'sector-housing':       { id: 'sector-housing',        label: 'Housing',                tagCategory: 'sector', colour: '#e74c3c' },
@@ -74,7 +75,6 @@ export interface GovElement {
   infoUrl?: string
   parentIds: string[]
   secondaryParentIds?: string[]
-  childIds: string[]
   tags?: string[]
 }
 
@@ -96,7 +96,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Keir Starmer',
     infoUrl: 'https://www.gov.uk/government/ministers/prime-minister',
     parentIds: ['cabinet'],
-    childIds: ['chancellor', 'fcdo-sec', 'moj-sec', 'defra-sec', 'dluhc-sec', 'wpc-sec', 'dfe-sec', 'dhsc-sec', 'desnz-sec', 'dcms-sec', 'dbt-sec', 'cabinet-office-sec', 'scotland-sec', 'wales-sec', 'ni-sec', 'home-sec', 'defence-sec', 'transport-sec', 'science-sec', 'attorney-gen', 'pm-office', 'treasury-chief-sec', 'treasury-fin-sec', 'treasury-exchequer-sec', 'treasury-econ-sec', 'fcdo-intl-dev', 'fcdo-europe', 'fcdo-middle-east', 'fcdo-indo-pacific', 'fcdo-multilateral', 'home-security', 'home-policing', 'home-border', 'home-safeguarding', 'home-migration', 'mod-readiness', 'mod-armed-forces', 'mod-veterans', 'moj-prisons', 'moj-courts', 'moj-victims', 'moj-sentencing', 'dluhc-housing', 'dluhc-local-gov', 'dluhc-devolution', 'dluhc-building-safety', 'dhsc-secondary-care', 'dhsc-care', 'dhsc-womens-health', 'dhsc-innovation', 'dhsc-pus', 'dfe-schools', 'dfe-skills', 'dfe-disability', 'dfe-early-ed', 'dfe-children', 'desnz-energy', 'desnz-climate', 'desnz-consumers', 'desnz-industry', 'dwp-employment', 'dwp-transformation', 'dwp-pensions', 'dbt-trade', 'dbt-small-biz', 'dbt-employment-rights', 'dbt-industry', 'dsit-digital-gov', 'dsit-ai', 'dft-rail', 'dft-roads', 'dft-local-transport', 'dft-aviation', 'defra-food', 'defra-water', 'defra-nature', 'defra-biosecurity', 'dcms-creative', 'dcms-sport', 'dcms-museums', 'ni-pus', 'scotland-pus', 'wales-pus-1', 'wales-pus-2', 'solicitor-gen', 'co-paymaster', 'co-minister-state', 'co-minister-without-portfolio'],
   },
 
 
@@ -111,7 +110,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Richard Hermer',
     infoUrl: 'https://www.gov.uk/government/ministers/attorney-general',
     parentIds: ['pm'],
-    childIds: ['ago', 'solicitor-gen'],
   },
   'cabinet-office-sec': {
     id: 'cabinet-office-sec',
@@ -123,7 +121,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Darren Jones',
     infoUrl: 'https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['co', 'co-paymaster', 'co-minister-state', 'co-minister-without-portfolio'],
   },
   'chancellor': {
     id: 'chancellor',
@@ -135,7 +132,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Rachel Reeves',
     infoUrl: 'https://www.gov.uk/government/ministers/chancellor-of-the-exchequer',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['treasury', 'treasury-chief-sec', 'treasury-fin-sec', 'treasury-exchequer-sec', 'treasury-econ-sec'],
   },
   'dbt-sec': {
     id: 'dbt-sec',
@@ -147,7 +143,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Peter Kyle',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-business-energy-and-industrial-strategy',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dbt', 'dbt-trade', 'dbt-small-biz', 'dbt-employment-rights', 'dbt-industry'],
   },
   'dcms-sec': {
     id: 'dcms-sec',
@@ -159,7 +154,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Lisa Nandy',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dcms', 'dcms-creative', 'dcms-sport', 'dcms-museums'],
   },
   'defence-sec': {
     id: 'defence-sec',
@@ -171,7 +165,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'John Healey',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-defence',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['mod', 'mod-readiness', 'mod-armed-forces', 'mod-veterans'],
   },
   'defra-sec': {
     id: 'defra-sec',
@@ -183,7 +176,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Emma Reynolds',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['defra', 'defra-food', 'defra-water', 'defra-nature', 'defra-biosecurity'],
   },
   'desnz-sec': {
     id: 'desnz-sec',
@@ -195,7 +187,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Ed Miliband',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-energy-security-and-net-zero',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['desnz', 'desnz-energy', 'desnz-climate', 'desnz-consumers', 'desnz-industry'],
   },
   'dfe-sec': {
     id: 'dfe-sec',
@@ -207,7 +198,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Bridget Phillipson',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-education',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dfe', 'dfe-schools', 'dfe-skills', 'dfe-disability', 'dfe-early-ed', 'dfe-children'],
   },
   'dhsc-sec': {
     id: 'dhsc-sec',
@@ -219,7 +209,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Wes Streeting',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dhsc', 'dhsc-secondary-care', 'dhsc-care', 'dhsc-womens-health', 'dhsc-innovation', 'dhsc-pus'],
   },
   'dluhc-sec': {
     id: 'dluhc-sec',
@@ -231,7 +220,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Steve Reed',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dluhc', 'dluhc-housing', 'dluhc-local-gov', 'dluhc-devolution', 'dluhc-building-safety'],
   },
   'fcdo-sec': {
     id: 'fcdo-sec',
@@ -243,7 +231,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Yvette Cooper',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-affairs',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['fcdo', 'fcdo-intl-dev', 'fcdo-europe', 'fcdo-middle-east', 'fcdo-indo-pacific', 'fcdo-multilateral'],
   },
   'home-sec': {
     id: 'home-sec',
@@ -255,7 +242,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Shabana Mahmood',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-home-affairs',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['home-office', 'home-security', 'home-policing', 'home-border', 'home-safeguarding', 'home-migration'],
   },
   'moj-sec': {
     id: 'moj-sec',
@@ -267,7 +253,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'David Lammy',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-justice',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['moj', 'moj-prisons', 'moj-courts', 'moj-victims', 'moj-sentencing'],
   },
   'ni-sec': {
     id: 'ni-sec',
@@ -279,7 +264,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Hilary Benn',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['ni-office', 'ni-pus'],
   },
   'science-sec': {
     id: 'science-sec',
@@ -291,7 +275,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Liz Kendall',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dsit', 'dsit-digital-gov', 'dsit-ai'],
   },
   'scotland-sec': {
     id: 'scotland-sec',
@@ -303,7 +286,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Douglas Alexander',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-scotland',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['scotland-office', 'scotland-pus'],
   },
   'transport-sec': {
     id: 'transport-sec',
@@ -315,7 +297,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Heidi Alexander',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-transport',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dft', 'dft-rail', 'dft-roads', 'dft-local-transport', 'dft-aviation'],
   },
   'wales-sec': {
     id: 'wales-sec',
@@ -327,7 +308,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Jo Stevens',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-wales',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['wales-office', 'wales-pus-1', 'wales-pus-2'],
   },
   'wpc-sec': {
     id: 'wpc-sec',
@@ -339,7 +319,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Pat McFadden',
     infoUrl: 'https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions',
     parentIds: ['pm', 'cabinet'],
-    childIds: ['dwp', 'dwp-employment', 'dwp-transformation', 'dwp-pensions'],
   },
 
 
@@ -355,7 +334,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'James Murray',
     infoUrl: 'https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury',
     parentIds: ['pm', 'chancellor'],
-    childIds: ['treasury'],
   },
   'treasury-fin-sec': {
     id: 'treasury-fin-sec',
@@ -366,7 +344,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Lord Livermore',
     infoUrl: 'https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury',
     parentIds: ['pm', 'chancellor'],
-    childIds: ['treasury'],
   },
   'treasury-exchequer-sec': {
     id: 'treasury-exchequer-sec',
@@ -377,7 +354,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Daniel Tomlinson',
     infoUrl: 'https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury',
     parentIds: ['pm', 'chancellor'],
-    childIds: ['treasury'],
   },
   'treasury-econ-sec': {
     id: 'treasury-econ-sec',
@@ -388,7 +364,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Lucy Rigby',
     infoUrl: 'https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury',
     parentIds: ['pm', 'chancellor'],
-    childIds: ['treasury'],
   },
   'fcdo-intl-dev': {
     id: 'fcdo-intl-dev',
@@ -399,7 +374,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Baroness Chapman of Darlington',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state-foreign-commonwealth-development-office',
     parentIds: ['pm', 'fcdo-sec'],
-    childIds: ['fcdo'],
   },
   'fcdo-europe': {
     id: 'fcdo-europe',
@@ -410,7 +384,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Stephen Doughty',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state-foreign-commonwealth-development-office--2',
     parentIds: ['pm', 'fcdo-sec'],
-    childIds: ['fcdo'],
   },
   'fcdo-middle-east': {
     id: 'fcdo-middle-east',
@@ -421,7 +394,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Hamish Falconer',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--foreign-commonwealth-development-office',
     parentIds: ['pm', 'fcdo-sec'],
-    childIds: ['fcdo'],
   },
   'fcdo-indo-pacific': {
     id: 'fcdo-indo-pacific',
@@ -432,7 +404,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Seema Malhotra',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--foreign-commonwealth-development-office--2',
     parentIds: ['pm', 'fcdo-sec'],
-    childIds: ['fcdo'],
   },
   'fcdo-multilateral': {
     id: 'fcdo-multilateral',
@@ -443,7 +414,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Chris Elmore',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--foreign-commonwealth-development-office--3',
     parentIds: ['pm', 'fcdo-sec'],
-    childIds: ['fcdo'],
   },
   'home-security': {
     id: 'home-security',
@@ -454,7 +424,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dan Jarvis',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--66',
     parentIds: ['pm', 'home-sec'],
-    childIds: ['home-office'],
   },
   'home-policing': {
     id: 'home-policing',
@@ -465,7 +434,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sarah Jones',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--67',
     parentIds: ['pm', 'home-sec'],
-    childIds: ['home-office'],
   },
   'home-border': {
     id: 'home-border',
@@ -476,7 +444,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Alex Norris',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--68',
     parentIds: ['pm', 'home-sec'],
-    childIds: ['home-office'],
   },
   'home-safeguarding': {
     id: 'home-safeguarding',
@@ -487,7 +454,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Jess Phillips',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--home-office',
     parentIds: ['pm', 'home-sec'],
-    childIds: ['home-office'],
   },
   'home-migration': {
     id: 'home-migration',
@@ -498,7 +464,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Mike Tapp',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--home-office--2',
     parentIds: ['pm', 'home-sec'],
-    childIds: ['home-office'],
   },
   'mod-readiness': {
     id: 'mod-readiness',
@@ -509,7 +474,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Luke Pollard',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--ministry-of-defence',
     parentIds: ['pm', 'defence-sec'],
-    childIds: ['mod'],
   },
   'mod-armed-forces': {
     id: 'mod-armed-forces',
@@ -520,7 +484,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Alistair Carns',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--ministry-of-defence',
     parentIds: ['pm', 'defence-sec'],
-    childIds: ['mod'],
   },
   'mod-veterans': {
     id: 'mod-veterans',
@@ -531,7 +494,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Louise Sandher-Jones',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--ministry-of-defence--2',
     parentIds: ['pm', 'defence-sec'],
-    childIds: ['mod'],
   },
   'moj-prisons': {
     id: 'moj-prisons',
@@ -542,7 +504,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Lord Timpson',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--ministry-of-justice',
     parentIds: ['pm', 'moj-sec'],
-    childIds: ['moj'],
   },
   'moj-courts': {
     id: 'moj-courts',
@@ -553,7 +514,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sarah Sackman',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--ministry-of-justice--2',
     parentIds: ['pm', 'moj-sec'],
-    childIds: ['moj'],
   },
   'moj-victims': {
     id: 'moj-victims',
@@ -564,7 +524,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Alex Davies-Jones',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--ministry-of-justice',
     parentIds: ['pm', 'moj-sec'],
-    childIds: ['moj'],
   },
   'moj-sentencing': {
     id: 'moj-sentencing',
@@ -575,7 +534,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Jake Richards',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--ministry-of-justice--2',
     parentIds: ['pm', 'moj-sec'],
-    childIds: ['moj'],
   },
   'dluhc-housing': {
     id: 'dluhc-housing',
@@ -586,7 +544,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Matthew Pennycook',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--55',
     parentIds: ['pm', 'dluhc-sec'],
-    childIds: ['dluhc'],
   },
   'dluhc-local-gov': {
     id: 'dluhc-local-gov',
@@ -597,7 +554,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Alison McGovern',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--56',
     parentIds: ['pm', 'dluhc-sec'],
-    childIds: ['dluhc'],
   },
   'dluhc-devolution': {
     id: 'dluhc-devolution',
@@ -608,7 +564,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Miatta Fahnbulleh',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--ministry-of-housing-communities-and-local-government',
     parentIds: ['pm', 'dluhc-sec'],
-    childIds: ['dluhc'],
   },
   'dluhc-building-safety': {
     id: 'dluhc-building-safety',
@@ -619,7 +574,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Samantha Dixon',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--ministry-of-housing-communities-and-local-government--2',
     parentIds: ['pm', 'dluhc-sec'],
-    childIds: ['dluhc'],
   },
   'dhsc-secondary-care': {
     id: 'dhsc-secondary-care',
@@ -630,7 +584,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Karin Smyth',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-of-health-and-social-care',
     parentIds: ['pm', 'dhsc-sec'],
-    childIds: ['dhsc'],
   },
   'dhsc-care': {
     id: 'dhsc-care',
@@ -641,7 +594,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Stephen Kinnock',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-of-health-and-social-care--2',
     parentIds: ['pm', 'dhsc-sec'],
-    childIds: ['dhsc'],
   },
   'dhsc-womens-health': {
     id: 'dhsc-womens-health',
@@ -652,7 +604,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Baroness Merron',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-of-health-and-social-care',
     parentIds: ['pm', 'dhsc-sec'],
-    childIds: ['dhsc'],
   },
   'dhsc-innovation': {
     id: 'dhsc-innovation',
@@ -663,7 +614,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dr Zubir Ahmed',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-of-health-and-social-care--2',
     parentIds: ['pm', 'dhsc-sec'],
-    childIds: ['dhsc'],
   },
   'dhsc-pus': {
     id: 'dhsc-pus',
@@ -674,7 +624,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sharon Hodgson',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-of-health-and-social-care--3',
     parentIds: ['pm', 'dhsc-sec'],
-    childIds: ['dhsc'],
   },
   'dfe-schools': {
     id: 'dfe-schools',
@@ -685,7 +634,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Georgia Gould',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-education',
     parentIds: ['pm', 'dfe-sec'],
-    childIds: ['dfe'],
   },
   'dfe-skills': {
     id: 'dfe-skills',
@@ -696,7 +644,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Baroness Smith of Malvern',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-education--2',
     parentIds: ['pm', 'dfe-sec'],
-    childIds: ['dfe'],
   },
   'dfe-disability': {
     id: 'dfe-disability',
@@ -707,7 +654,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sir Stephen Timms',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-education--3',
     parentIds: ['pm', 'dfe-sec'],
-    childIds: ['dfe'],
   },
   'dfe-early-ed': {
     id: 'dfe-early-ed',
@@ -718,7 +664,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Olivia Bailey',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-education',
     parentIds: ['pm', 'dfe-sec'],
-    childIds: ['dfe'],
   },
   'dfe-children': {
     id: 'dfe-children',
@@ -729,7 +674,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Josh MacAlister',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-education--2',
     parentIds: ['pm', 'dfe-sec'],
-    childIds: ['dfe'],
   },
   'desnz-energy': {
     id: 'desnz-energy',
@@ -740,7 +684,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Michael Shanks',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-energy-security-and-net-zero',
     parentIds: ['pm', 'desnz-sec'],
-    childIds: ['desnz'],
   },
   'desnz-climate': {
     id: 'desnz-climate',
@@ -751,7 +694,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Katie White',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-energy-security-and-net-zero',
     parentIds: ['pm', 'desnz-sec'],
-    childIds: ['desnz'],
   },
   'desnz-consumers': {
     id: 'desnz-consumers',
@@ -762,7 +704,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Martin McCluskey',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-energy-security-and-net-zero--2',
     parentIds: ['pm', 'desnz-sec'],
-    childIds: ['desnz'],
   },
   'desnz-industry': {
     id: 'desnz-industry',
@@ -773,7 +714,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Chris McDonald',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-energy-security-and-net-zero--3',
     parentIds: ['pm', 'desnz-sec'],
-    childIds: ['desnz'],
   },
   'dwp-employment': {
     id: 'dwp-employment',
@@ -784,7 +724,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dame Diana Johnson',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-work-and-pensions',
     parentIds: ['pm', 'wpc-sec'],
-    childIds: ['dwp'],
   },
   'dwp-transformation': {
     id: 'dwp-transformation',
@@ -795,7 +734,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Andrew Western',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-work-and-pensions',
     parentIds: ['pm', 'wpc-sec'],
-    childIds: ['dwp'],
   },
   'dwp-pensions': {
     id: 'dwp-pensions',
@@ -806,7 +744,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Torsten Bell',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-work-and-pensions--2',
     parentIds: ['pm', 'wpc-sec'],
-    childIds: ['dwp'],
   },
   'dbt-trade': {
     id: 'dbt-trade',
@@ -817,7 +754,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sir Chris Bryant',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-business-and-trade',
     parentIds: ['pm', 'dbt-sec'],
-    childIds: ['dbt'],
   },
   'dbt-small-biz': {
     id: 'dbt-small-biz',
@@ -828,7 +764,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Blair McDougall',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-business-and-trade',
     parentIds: ['pm', 'dbt-sec'],
-    childIds: ['dbt'],
   },
   'dbt-employment-rights': {
     id: 'dbt-employment-rights',
@@ -839,7 +774,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Kate Dearden',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-business-and-trade--2',
     parentIds: ['pm', 'dbt-sec'],
-    childIds: ['dbt'],
   },
   'dbt-industry': {
     id: 'dbt-industry',
@@ -850,7 +784,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Chris McDonald',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-business-and-trade--3',
     parentIds: ['pm', 'dbt-sec'],
-    childIds: ['dbt'],
   },
   'dsit-digital-gov': {
     id: 'dsit-digital-gov',
@@ -861,7 +794,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Ian Murray',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-science-innovation-and-technology',
     parentIds: ['pm', 'science-sec'],
-    childIds: ['dsit'],
   },
   'dsit-ai': {
     id: 'dsit-ai',
@@ -872,7 +804,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Kanishka Narayan',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-science-innovation-and-technology',
     parentIds: ['pm', 'science-sec'],
-    childIds: ['dsit'],
   },
   'dft-rail': {
     id: 'dft-rail',
@@ -883,7 +814,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Lord Hendy of Richmond Hill',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-transport',
     parentIds: ['pm', 'transport-sec'],
-    childIds: ['dft'],
   },
   'dft-roads': {
     id: 'dft-roads',
@@ -894,7 +824,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Simon Lightwood',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-transport',
     parentIds: ['pm', 'transport-sec'],
-    childIds: ['dft'],
   },
   'dft-local-transport': {
     id: 'dft-local-transport',
@@ -905,7 +834,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Lilian Greenwood',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-transport--2',
     parentIds: ['pm', 'transport-sec'],
-    childIds: ['dft'],
   },
   'dft-aviation': {
     id: 'dft-aviation',
@@ -916,7 +844,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Keir Mather',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-transport--3',
     parentIds: ['pm', 'transport-sec'],
-    childIds: ['dft'],
   },
   'defra-food': {
     id: 'defra-food',
@@ -927,7 +854,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dame Angela Eagle',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-environment-food-and-rural-affairs',
     parentIds: ['pm', 'defra-sec'],
-    childIds: ['defra'],
   },
   'defra-water': {
     id: 'defra-water',
@@ -938,7 +864,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Emma Hardy',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-environment-food-and-rural-affairs',
     parentIds: ['pm', 'defra-sec'],
-    childIds: ['defra'],
   },
   'defra-nature': {
     id: 'defra-nature',
@@ -949,7 +874,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Mary Creagh',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-environment-food-and-rural-affairs--2',
     parentIds: ['pm', 'defra-sec'],
-    childIds: ['defra'],
   },
   'defra-biosecurity': {
     id: 'defra-biosecurity',
@@ -960,7 +884,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Baroness Hayman of Ullock',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-environment-food-and-rural-affairs--3',
     parentIds: ['pm', 'defra-sec'],
-    childIds: ['defra'],
   },
   'dcms-creative': {
     id: 'dcms-creative',
@@ -971,7 +894,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Ian Murray',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--department-for-culture-media-and-sport',
     parentIds: ['pm', 'dcms-sec'],
-    childIds: ['dcms'],
   },
   'dcms-sport': {
     id: 'dcms-sport',
@@ -982,7 +904,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Stephanie Peacock',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-culture-media-and-sport',
     parentIds: ['pm', 'dcms-sec'],
-    childIds: ['dcms'],
   },
   'dcms-museums': {
     id: 'dcms-museums',
@@ -993,7 +914,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Baroness Twycross',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--department-for-culture-media-and-sport--2',
     parentIds: ['pm', 'dcms-sec'],
-    childIds: ['dcms'],
   },
   'ni-pus': {
     id: 'ni-pus',
@@ -1004,7 +924,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Matthew Patrick',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--northern-ireland-office',
     parentIds: ['pm', 'ni-sec'],
-    childIds: ['ni-office'],
   },
   'scotland-pus': {
     id: 'scotland-pus',
@@ -1015,7 +934,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Kirsty McNeill',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--scotland-office',
     parentIds: ['pm', 'scotland-sec'],
-    childIds: ['scotland-office'],
   },
   'wales-pus-1': {
     id: 'wales-pus-1',
@@ -1026,7 +944,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Anna McMorrin',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--wales-office',
     parentIds: ['pm', 'wales-sec'],
-    childIds: ['wales-office'],
   },
   'wales-pus-2': {
     id: 'wales-pus-2',
@@ -1037,7 +954,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Claire Hughes',
     infoUrl: 'https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--wales-office--2',
     parentIds: ['pm', 'wales-sec'],
-    childIds: ['wales-office'],
   },
   'solicitor-gen': {
     id: 'solicitor-gen',
@@ -1048,7 +964,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Ellie Reeves',
     infoUrl: 'https://www.gov.uk/government/ministers/solicitor-general',
     parentIds: ['pm', 'attorney-gen'],
-    childIds: [],
   },
   'co-paymaster': {
     id: 'co-paymaster',
@@ -1059,7 +974,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Nick Thomas-Symonds',
     infoUrl: 'https://www.gov.uk/government/ministers/paymaster-general',
     parentIds: ['pm', 'cabinet-office-sec', 'cabinet'],
-    childIds: ['co'],
   },
   'co-minister-state': {
     id: 'co-minister-state',
@@ -1070,7 +984,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dan Jarvis',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-of-state--cabinet-office',
     parentIds: ['pm', 'cabinet-office-sec', 'cabinet'],
-    childIds: ['co'],
   },
   'co-minister-without-portfolio': {
     id: 'co-minister-without-portfolio',
@@ -1081,7 +994,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Anna Turley',
     infoUrl: 'https://www.gov.uk/government/ministers/minister-without-portfolio',
     parentIds: ['pm', 'cabinet-office-sec', 'cabinet'],
-    childIds: ['co'],
   },
 
 
@@ -1095,7 +1007,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Catherine Little CB',
     infoUrl: 'https://www.gov.uk/government/organisations/cabinet-office/about/our-governance',
     parentIds: [],
-    childIds: ['co'],
   },
   'dbt-perm-sec': {
     id: 'dbt-perm-sec',
@@ -1106,7 +1017,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Gareth Davies CB',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-business-and-trade/about/our-governance',
     parentIds: [],
-    childIds: ['dbt'],
   },
   'defra-perm-sec': {
     id: 'defra-perm-sec',
@@ -1117,7 +1027,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Paul Kissack',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs/about/our-governance',
     parentIds: [],
-    childIds: ['defra'],
   },
   'dcms-perm-sec': {
     id: 'dcms-perm-sec',
@@ -1128,7 +1037,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Susannah Storey',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-culture-media-sport/about/our-governance',
     parentIds: [],
-    childIds: ['dcms'],
   },
   'desnz-perm-sec': {
     id: 'desnz-perm-sec',
@@ -1139,7 +1047,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Jeremy Pocklington CB',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero/about/our-governance',
     parentIds: [],
-    childIds: ['desnz'],
   },
   'dfe-perm-sec': {
     id: 'dfe-perm-sec',
@@ -1150,7 +1057,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Susan Acland-Hood',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-education/about/our-governance',
     parentIds: [],
-    childIds: ['dfe'],
   },
   'dft-perm-sec': {
     id: 'dft-perm-sec',
@@ -1161,7 +1067,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Jo Shanmugalingam',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-transport/about/our-governance',
     parentIds: [],
-    childIds: ['dft'],
   },
   'dhsc-perm-sec': {
     id: 'dhsc-perm-sec',
@@ -1172,7 +1077,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Samantha Jones',
     infoUrl: 'https://www.gov.uk/government/organisations/department-of-health-and-social-care/about/our-governance',
     parentIds: [],
-    childIds: ['dhsc'],
   },
   'dsit-perm-sec': {
     id: 'dsit-perm-sec',
@@ -1183,7 +1087,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Emran Mian',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology/about/our-governance',
     parentIds: [],
-    childIds: ['dsit'],
   },
   'dwp-perm-sec': {
     id: 'dwp-perm-sec',
@@ -1194,7 +1097,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sir Peter Schofield KCB',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-work-pensions/about/our-governance',
     parentIds: [],
-    childIds: ['dwp'],
   },
   'fcdo-perm-sec': {
     id: 'fcdo-perm-sec',
@@ -1205,7 +1107,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sir Oliver Robbins KCMG CB',
     infoUrl: 'https://www.gov.uk/government/organisations/foreign-commonwealth-development-office/about/our-governance',
     parentIds: [],
-    childIds: ['fcdo'],
   },
   'home-perm-sec': {
     id: 'home-perm-sec',
@@ -1216,7 +1117,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dame Antonia Romeo DCB',
     infoUrl: 'https://www.gov.uk/government/organisations/cabinet-office/about/our-governance',
     parentIds: [],
-    childIds: ['civil-service', 'co'],
   },
   // NOTE: home-perm-sec is Cabinet Secretary (Dame Antonia Romeo) – NOT the Home Office perm sec
   'home-office-perm-sec': {
@@ -1228,7 +1128,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Sir Matthew Rycroft KCMG CBE',
     infoUrl: 'https://www.gov.uk/government/organisations/home-office/about/our-governance',
     parentIds: [],
-    childIds: ['home-office'],
   },
   'dluhc-perm-sec': {
     id: 'dluhc-perm-sec',
@@ -1239,7 +1138,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dame Sarah Healey DCB CVO',
     infoUrl: 'https://www.gov.uk/government/organisations/ministry-of-housing-communities-and-local-government/about/our-governance',
     parentIds: [],
-    childIds: ['dluhc'],
   },
   'mod-perm-sec': {
     id: 'mod-perm-sec',
@@ -1250,7 +1148,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'David Williams',
     infoUrl: 'https://www.gov.uk/government/organisations/ministry-of-defence/about/our-governance',
     parentIds: [],
-    childIds: ['mod'],
   },
   'moj-perm-sec': {
     id: 'moj-perm-sec',
@@ -1261,7 +1158,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Dr Jo Farrar CB OBE',
     infoUrl: 'https://www.gov.uk/government/organisations/ministry-of-justice/about/our-governance',
     parentIds: [],
-    childIds: ['moj'],
   },
   'ni-perm-sec': {
     id: 'ni-perm-sec',
@@ -1272,7 +1168,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'Julie Harrison',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-office/about/our-governance',
     parentIds: [],
-    childIds: ['ni-office'],
   },
   'treasury-perm-sec': {
     id: 'treasury-perm-sec',
@@ -1283,7 +1178,6 @@ export const govElements: Record<string, GovElement> = {
     currentHolder: 'James Bowler CB',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-treasury/about/our-governance',
     parentIds: [],
-    childIds: ['treasury'],
   },
   // ── OFFICIALS: Civil Servants ──────────────────────────────────────────────
   'charity-comm-ceo': {
@@ -1295,7 +1189,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive of the Charity Commission for England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/charity-commission/about/our-governance',
     parentIds: [],
-    childIds: ['charity-comm'],
   },
   'cma-ceo': {
     id: 'cma-ceo',
@@ -1306,7 +1199,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive of the Competition and Markets Authority.',
     infoUrl: 'https://www.gov.uk/government/organisations/competition-and-markets-authority/about/our-governance',
     parentIds: [],
-    childIds: ['cma'],
   },
   'cps-dpp': {
     id: 'cps-dpp',
@@ -1317,7 +1209,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Director of Public Prosecutions and head of the Crown Prosecution Service.',
     infoUrl: 'https://www.gov.uk/government/organisations/crown-prosecution-service/about/our-governance',
     parentIds: [],
-    childIds: ['cps'],
   },
   'forestry-ceo': {
     id: 'forestry-ceo',
@@ -1328,7 +1219,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive Officer of the Forestry Commission.',
     infoUrl: 'https://www.gov.uk/government/organisations/forestry-commission/about/our-governance',
     parentIds: [],
-    childIds: ['forestry-commission'],
   },
   'fsa-ceo': {
     id: 'fsa-ceo',
@@ -1339,7 +1229,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive of the Food Standards Agency.',
     infoUrl: 'https://www.gov.uk/government/organisations/food-standards-agency/about/our-governance',
     parentIds: [],
-    childIds: ['fsa'],
   },
   'gad-head': {
     id: 'gad-head',
@@ -1350,7 +1239,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government Actuary and head of the Government Actuary\'s Department.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-actuarys-department/about/our-governance',
     parentIds: [],
-    childIds: ['gad'],
   },
   'gld-head': {
     id: 'gld-head',
@@ -1361,7 +1249,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'HM Procurator General, Treasury Solicitor and Head of the Government Legal Profession and Crown\'s Nominee.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-legal-department/about/our-governance',
     parentIds: [],
-    childIds: ['gld'],
   },
   'hmcpsi-head': {
     id: 'hmcpsi-head',
@@ -1372,7 +1259,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'HM Chief Inspector of the Crown Prosecution Service Inspectorate.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-crown-prosecution-service-inspectorate/about/our-governance',
     parentIds: [],
-    childIds: ['hmcpsi'],
   },
   'hmland-ceo': {
     id: 'hmland-ceo',
@@ -1383,7 +1269,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Interim Chief Executive and Chief Land Registrar of HM Land Registry.',
     infoUrl: 'https://www.gov.uk/government/organisations/land-registry/about/our-governance',
     parentIds: [],
-    childIds: ['hmland'],
   },
   'hmrc-ceo': {
     id: 'hmrc-ceo',
@@ -1394,7 +1279,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'First Permanent Secretary and Chief Executive of HM Revenue and Customs.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-revenue-customs/about/our-governance',
     parentIds: [],
-    childIds: ['hmrc'],
   },
   'nats-ceo': {
     id: 'nats-ceo',
@@ -1405,7 +1289,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive and Keeper of Public Records at The National Archives.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-national-archives/about/our-governance',
     parentIds: [],
-    childIds: ['nats'],
   },
   'nca-dg': {
     id: 'nca-dg',
@@ -1416,7 +1299,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Director General of the National Crime Agency.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-crime-agency/about/our-governance',
     parentIds: [],
-    childIds: ['nca-non-min'],
   },
   'nsi-ceo': {
     id: 'nsi-ceo',
@@ -1427,7 +1309,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive of National Savings and Investments.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-savings-and-investments/about/our-governance',
     parentIds: [],
-    childIds: ['nsi'],
   },
   'ofgem-ceo': {
     id: 'ofgem-ceo',
@@ -1438,7 +1319,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Acting Chief Executive of Ofgem.',
     infoUrl: 'https://www.gov.uk/government/organisations/ofgem/about/our-governance',
     parentIds: [],
-    childIds: ['ofgem'],
   },
   'ofqual-head': {
     id: 'ofqual-head',
@@ -1449,7 +1329,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Regulator of the Office of Qualifications and Examinations Regulation.',
     infoUrl: 'https://www.gov.uk/government/organisations/ofqual/about/our-governance',
     parentIds: [],
-    childIds: ['ofqual'],
   },
   'ofsted-hmci': {
     id: 'ofsted-hmci',
@@ -1460,7 +1339,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'His Majesty\'s Chief Inspector of Education, Children\'s Services and Skills in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/ofsted/about/our-governance',
     parentIds: [],
-    childIds: ['ofsted'],
   },
   'ofwat-ceo': {
     id: 'ofwat-ceo',
@@ -1471,7 +1349,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive of Ofwat (Water Services Regulation Authority).',
     infoUrl: 'https://www.gov.uk/government/organisations/the-water-services-regulation-authority/about/our-governance',
     parentIds: [],
-    childIds: ['ofwat'],
   },
   'orr-ceo': {
     id: 'orr-ceo',
@@ -1482,7 +1359,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chief Executive of the Office of Rail and Road.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-rail-and-road/about/our-governance',
     parentIds: [],
-    childIds: ['orr'],
   },
   'sfo-director': {
     id: 'sfo-director',
@@ -1493,7 +1369,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Director of the Serious Fraud Office.',
     infoUrl: 'https://www.gov.uk/government/organisations/serious-fraud-office/about/our-governance',
     parentIds: [],
-    childIds: ['sfo'],
   },
   'uksa-head': {
     id: 'uksa-head',
@@ -1504,7 +1379,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Acting National Statistician and head of the UK Statistics Authority.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-statistics-authority/about/our-governance',
     parentIds: [],
-    childIds: ['uksa'],
   },
 
 
@@ -1518,7 +1392,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Charity Commission for England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/charity-commission/about/our-governance',
     parentIds: [],
-    childIds: ['charity-comm'],
   },
   'cma-chair': {
     id: 'cma-chair',
@@ -1529,7 +1402,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Competition and Markets Authority.',
     infoUrl: 'https://www.gov.uk/government/organisations/competition-and-markets-authority/about/our-governance',
     parentIds: [],
-    childIds: ['cma'],
   },
   'cps-chair': {
     id: 'cps-chair',
@@ -1540,7 +1412,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair and Lead Non-Executive Board Member of the Crown Prosecution Service.',
     infoUrl: 'https://www.gov.uk/government/organisations/crown-prosecution-service/about/our-governance',
     parentIds: [],
-    childIds: ['cps'],
   },
   'forestry-chair': {
     id: 'forestry-chair',
@@ -1551,7 +1422,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Forestry Commission.',
     infoUrl: 'https://www.gov.uk/government/organisations/forestry-commission/about/our-governance',
     parentIds: [],
-    childIds: ['forestry-commission'],
   },
   'fsa-chair': {
     id: 'fsa-chair',
@@ -1562,7 +1432,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Food Standards Agency.',
     infoUrl: 'https://www.gov.uk/government/organisations/food-standards-agency/about/our-governance',
     parentIds: [],
-    childIds: ['fsa'],
   },
   'hmland-chair': {
     id: 'hmland-chair',
@@ -1573,7 +1442,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of HM Land Registry.',
     infoUrl: 'https://www.gov.uk/government/organisations/land-registry/about/our-governance',
     parentIds: [],
-    childIds: ['hmland'],
   },
   'nsi-chair': {
     id: 'nsi-chair',
@@ -1584,7 +1452,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Interim Chair of National Savings and Investments.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-savings-and-investments/about/our-governance',
     parentIds: [],
-    childIds: ['nsi'],
   },
   'ofgem-chair': {
     id: 'ofgem-chair',
@@ -1595,7 +1462,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of Ofgem.',
     infoUrl: 'https://www.gov.uk/government/organisations/ofgem/about/our-governance',
     parentIds: [],
-    childIds: ['ofgem'],
   },
   'ofqual-chair': {
     id: 'ofqual-chair',
@@ -1606,7 +1472,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Office of Qualifications and Examinations Regulation.',
     infoUrl: 'https://www.gov.uk/government/organisations/ofqual/about/our-governance',
     parentIds: [],
-    childIds: ['ofqual'],
   },
   'ofsted-chair': {
     id: 'ofsted-chair',
@@ -1617,7 +1482,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Ofsted Board.',
     infoUrl: 'https://www.gov.uk/government/organisations/ofsted/about/our-governance',
     parentIds: [],
-    childIds: ['ofsted'],
   },
   'ofwat-chair': {
     id: 'ofwat-chair',
@@ -1628,7 +1492,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of Ofwat (Water Services Regulation Authority).',
     infoUrl: 'https://www.gov.uk/government/organisations/the-water-services-regulation-authority/about/our-governance',
     parentIds: [],
-    childIds: ['ofwat'],
   },
   'orr-chair': {
     id: 'orr-chair',
@@ -1639,7 +1502,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Office of Rail and Road.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-rail-and-road/about/our-governance',
     parentIds: [],
-    childIds: ['orr'],
   },
   'sfo-chair': {
     id: 'sfo-chair',
@@ -1650,7 +1512,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Chair of the Serious Fraud Office Board.',
     infoUrl: 'https://www.gov.uk/government/organisations/serious-fraud-office/about/our-governance',
     parentIds: [],
-    childIds: ['sfo'],
   },
   'supreme-court-president': {
     id: 'supreme-court-president',
@@ -1661,7 +1522,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'President of the Supreme Court of the United Kingdom.',
     infoUrl: 'https://www.supremecourt.uk/about/the-justices.html',
     parentIds: [],
-    childIds: ['supreme-court'],
   },
   'uksa-chair': {
     id: 'uksa-chair',
@@ -1672,7 +1532,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Interim Chair of the UK Statistics Authority.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-statistics-authority/about/our-governance',
     parentIds: [],
-    childIds: ['uksa'],
   },
 
 
@@ -1685,7 +1544,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides legal advice and prosecution services',
     infoUrl: 'https://www.gov.uk/government/organisations/attorney-generals-office',
     parentIds: ['attorney-gen'],
-    childIds: ['cps', 'gld', 'hmcpsi', 'sfo', 'supreme-court'],
     tags: ['sector-legal'],
   },
   'co': {
@@ -1696,7 +1554,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the Prime Minister and cabinet, coordinates government',
     infoUrl: 'https://www.gov.uk/government/organisations/cabinet-office',
     parentIds: ['cabinet-office-sec', 'co-perm-sec', 'home-perm-sec'],
-    childIds: ['civil-service', 'gpa', 'ccs', 'nista', 'civil-service-commission', 'corporate-officers-commons', 'corporate-officers-lords', 'ibca', 'ima', 'uksa', 'acoba', 'bce', 'bcni', 'bcs', 'ethics-commission', 'holac', 'svap', 'ssrb', 'smc', 'ssrc', 'cabinet-office-board', 'civil-service-fast-stream', 'civil-service-group', 'disability-unit', 'govt-analysis-function', 'govt-commercial-function', 'govt-communication-service', 'govt-data-quality-hub', 'govt-finance-function', 'govt-legal-profession', 'govt-occupational-psych', 'govt-operational-research', 'govt-people-group', 'govt-project-delivery', 'govt-recruitment-service', 'govt-security-profession', 'govt-skills', 'intelligence-analysis', 'leadership-college-govt', 'modernisation-reform', 'national-security-intelligence', 'office-parliamentary-counsel', 'open-public-services', 'public-sector-fraud-authority', 'race-equality-unit', 'uk-integrated-security-fund', 'uk-resilience-academy', 'uk-security-vetting', 'women-equalities-unit', 'govt-property-function', 'govt-partnerships-intl', 'national-cyber-security', 'govt-geography-profession', 'govt-knowledge-mgmt', 'operational-delivery-profession', 'policy-profession', 'govt-social-research', 'leader-commons-office', 'leader-lords-office', 'qe-memorial-committee', 'commissioner-public-appts', 'evaluation-task-force', 'govt-estates-mgmt', 'independent-adviser-ministers', 'infected-blood-memorial', 'office-equality-opportunity', 'registrar-lobbyists', 'privy-council-office', 'covid-commemoration', 'sage', 'ipsa', 'electoral-commission', 'parliamentary-pension-fund', 'open-innovation-team'],
+    secondaryParentIds: ['co-minister-state', 'co-minister-without-portfolio', 'co-paymaster'],
   },
   'dbt': {
     id: 'dbt',
@@ -1706,7 +1564,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for business policy, trade, and investment',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-business-and-trade',
     parentIds: ['dbt-sec', 'dbt-perm-sec'],
-    childIds: ['cma', 'companies-house', 'insolvency-service', 'acas', 'british-hallmarking', 'citb', 'competition-service', 'ecitb', 'frc', 'british-business-bank', 'sbc', 'tra-body', 'irc', 'lpc', 'rpc', 'cac', 'cat', 'copyright-tribunal', 'ukef', 'centre-connected-vehicles', 'employment-agency-standards', 'export-control-joint-unit', 'office-investment', 'office-product-safety', 'office-responsible-business', 'office-pay-review-bodies', 'office-trade-sanctions', 'uk-defence-security-exports', 'uk-national-contact-point', 'fair-work-agency', 'post-office', 'certification-officer', 'groceries-adjudicator', 'cic-regulator', 'pubs-adjudicator', 'trade-agriculture-commission', 'industrial-development-advisory', 'isac'],
+    secondaryParentIds: ['dbt-employment-rights', 'dbt-industry', 'dbt-small-biz', 'dbt-trade'],
     tags: ['sector-business', 'sector-finance'],
   },
   'dcms': {
@@ -1717,7 +1575,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages cultural policy, media, sport, and tourism',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-culture-media-and-sport',
     parentIds: ['dcms-sec', 'dcms-perm-sec'],
-    childIds: ['bbc', 's4c', 'ncs', 'charity-comm', 'arts-council-england', 'bfi', 'british-library', 'british-museum', 'gambling-commission', 'historic-england', 'horniman-museum', 'hblb', 'ifr', 'iwm', 'national-gallery', 'nhmf', 'national-museums-liverpool', 'nlcf', 'npg', 'nhm', 'museum-home', 'rmg', 'science-museum-group', 'soane-museum', 'sport-england', 'sgsa', 'tate', 'ukad', 'uk-sport', 'vam', 'visitbritain', 'visitengland', 'wallace-collection', 'acnra', 'rcewa', 'theatres-trust', 'tvc', 'channel-4', 'historic-royal-palaces', 'royal-parks', 'churches-conservation', 'english-institute-sport', 'independent-dormant-assets-commission'],
+    secondaryParentIds: ['dcms-creative', 'dcms-museums', 'dcms-sport'],
     tags: ['sector-culture', 'sector-media', 'sector-digital'],
   },
   'defra': {
@@ -1728,7 +1586,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages environmental policy, farming, and rural development',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs',
     parentIds: ['defra-sec', 'defra-perm-sec'],
-    childIds: ['environment-agency', 'cefas', 'forestry-commission', 'ofwat', 'vmd', 'apha', 'rpa', 'ahdb', 'kew-gardens', 'consumer-council-water', 'jncc', 'mmo', 'natural-england', 'oep', 'seafish', 'acre', 'defra-sac', 'iaap', 'vpc', 'pvst', 'flood-coastal-erosion-rnd', 'govt-veterinary-services', 'british-wool', 'broads-authority', 'covent-garden-market', 'dartmoor-npa', 'exmoor-npa', 'flood-re', 'lake-district-npa', 'national-forest', 'new-forest-npa', 'north-york-moors-npa', 'northumberland-npa', 'peak-district-npa', 'south-downs-npa', 'yorkshire-dales-npa', 'independent-water-commission', 'packuk'],
+    secondaryParentIds: ['defra-biosecurity', 'defra-food', 'defra-nature', 'defra-water'],
     tags: ['sector-environment', 'sector-food-farming'],
   },
   'desnz': {
@@ -1739,7 +1597,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for energy security, decarbonisation, and net zero policy',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero',
     parentIds: ['desnz-sec', 'desnz-perm-sec'],
-    childIds: ['ofgem', 'civil-nuclear-police', 'ccc', 'gbe-nuclear', 'nda', 'nsta', 'salix', 'ukaea', 'offshore-petroleum-regulator', 'mining-rem-auth', 'low-carbon-contracts', 'neso', 'uk-nnl', 'electricity-settlements', 'gbe', 'committee-fuel-poverty', 'corwm', 'nlfab'],
+    secondaryParentIds: ['desnz-climate', 'desnz-consumers', 'desnz-energy', 'desnz-industry'],
     tags: ['sector-energy', 'sector-environment'],
   },
   'dfe': {
@@ -1750,7 +1608,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for education policy, schools, and skills development',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-education',
     parentIds: ['dfe-sec', 'dfe-perm-sec'],
-    childIds: ['ofsted', 'ofqual', 'esfa', 'sta', 'tra', 'skills-england', 'ifate', 'located', 'oak-national-academy', 'ofstu', 'occ', 'social-work-england', 'slc', 'strb', 'further-education-commissioner', 'regional-dfe-directors', 'uk-council-internet-safety', 'child-safeguarding-panel', 'osa', 'hesa'],
+    secondaryParentIds: ['dfe-children', 'dfe-disability', 'dfe-early-ed', 'dfe-schools', 'dfe-skills'],
     tags: ['sector-education'],
   },
   'dft': {
@@ -1761,7 +1619,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for transport policy and infrastructure',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-transport',
     parentIds: ['transport-sec', 'dft-perm-sec'],
-    childIds: ['active-travel-england', 'vca', 'dvla', 'dvsa', 'maritime-coastguard', 'btpa', 'east-west-railway', 'hs2', 'national-highways', 'network-rail', 'nlb', 'transport-focus', 'trinity-house', 'traffic-commissioners', 'office-zero-emission-vehicles', 'caa', 'crossrail-intl', 'dft-operator', 'lcr', 'aaib', 'dptac', 'maib', 'raib', 'rssb'],
+    secondaryParentIds: ['dft-aviation', 'dft-local-transport', 'dft-rail', 'dft-roads'],
     tags: ['sector-transport'],
   },
   'dhsc': {
@@ -1772,7 +1630,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages health policy, NHS, and social care',
     infoUrl: 'https://www.gov.uk/government/organisations/department-of-health-and-social-care',
     parentIds: ['dhsc-sec', 'dhsc-perm-sec'],
-    childIds: ['fsa', 'nhs-improve', 'nhs-property-services', 'genomics-england', 'cqc', 'nmc', 'hra', 'hssib', 'hfea', 'hta', 'nice', 'nhsbt', 'nhsbsa', 'nhscfa', 'nhsr', 'arsac', 'acia', 'com', 'nhsprb', 'ddrb', 'office-health-improvement', 'office-life-sciences', 'uk-national-screening', 'medical-profession', 'national-data-guardian', 'porton-biopharma', 'independent-reconfiguration-panel', 'phso', 'professional-standards-authority'],
+    secondaryParentIds: ['dhsc-care', 'dhsc-innovation', 'dhsc-pus', 'dhsc-secondary-care', 'dhsc-womens-health'],
     tags: ['sector-health'],
   },
   'dluhc': {
@@ -1783,7 +1641,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for housing, planning, local government, and community development',
     infoUrl: 'https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government',
     parentIds: ['dluhc-sec', 'dluhc-perm-sec'],
-    childIds: ['hmland', 'qeiicc', 'planning-inspectorate', 'building-safety-reg', 'ebbsfleet-dev', 'homes-england', 'housing-ombudsman', 'lgo', 'office-for-place', 'lease', 'rsh', 'vts', 'vte', 'windrush-commemoration', 'govt-planning-profession', 'building-control-panel', 'arb', 'cambridge-growth-company', 'land-reg-rule-committee', 'holocaust-memorial', 'boundary-commission-wales', 'fire-service-college'],
+    secondaryParentIds: ['dluhc-building-safety', 'dluhc-devolution', 'dluhc-housing', 'dluhc-local-gov'],
     tags: ['sector-housing', 'sector-planning', 'sector-construction'],
   },
   'dsit': {
@@ -1794,7 +1652,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for science, innovation, and technology policy',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology',
     parentIds: ['science-sec', 'dsit-perm-sec'],
-    childIds: ['building-digital-uk', 'met-office', 'uk-space-agency', 'ipo', 'aria', 'ukri', 'ico', 'diamond-light-source', 'ktn', 'steac', 'ai-security-institute', 'govt-chemist', 'govt-digital-service', 'govt-office-tech-transfer', 'office-digital-identities', 'regulatory-innovation-office', 'research-collab-advice', 'govt-science-engineering', 'npl', 'ordnance-survey', 'british-tech-investments', 'govt-office-science', 'uk-shared-business', 'acss', 'council-science-technology'],
+    secondaryParentIds: ['dsit-ai', 'dsit-digital-gov'],
     tags: ['sector-digital', 'sector-science'],
   },
   'dwp': {
@@ -1805,7 +1663,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages welfare, employment, and pension policy',
     infoUrl: 'https://www.gov.uk/government/organisations/department-for-work-pensions',
     parentIds: ['wpc-sec', 'dwp-perm-sec'],
-    childIds: ['maps', 'iiac', 'ssac', 'ppfo', 'pensions-ombudsman', 'hse', 'nest-corp', 'onr', 'pension-protection-fund', 'ice-dwp', 'remploy-trustees'],
+    secondaryParentIds: ['dwp-employment', 'dwp-pensions', 'dwp-transformation'],
     tags: ['sector-welfare'],
   },
   'fcdo': {
@@ -1816,7 +1674,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages UK foreign policy and international relations',
     infoUrl: 'https://www.gov.uk/government/organisations/foreign-commonwealth-development-office',
     parentIds: ['fcdo-sec', 'fcdo-perm-sec'],
-    childIds: ['wilton-park', 'british-council', 'csc-uk', 'gb-china-centre', 'macc', 'wfd', 'icai', 'preventing-sexual-violence', 'uk-national-auth-counter-eaves', 'gchq', 'hmgcc', 'sis', 'chevening', 'bbc-world-service', 'independent-review-mechanism'],
+    secondaryParentIds: ['fcdo-europe', 'fcdo-indo-pacific', 'fcdo-intl-dev', 'fcdo-middle-east', 'fcdo-multilateral'],
     tags: ['sector-international'],
   },
   'home-office': {
@@ -1827,7 +1685,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for policing, crime, migration, and borders',
     infoUrl: 'https://www.gov.uk/government/organisations/home-office',
     parentIds: ['home-sec', 'home-office-perm-sec'],
-    childIds: ['ukvi', 'bfs', 'dbs', 'glaa', 'immigration-advice-auth', 'iopc', 'nca-non-min', 'sia', 'college-of-policing', 'acmd', 'asc-animals', 'mac', 'pabew', 'prrb', 'tab', 'bscc', 'iasc', 'icibi', 'ipt', 'pdat', 'accel-capability-env', 'border-force', 'border-security-command', 'hm-passport-office', 'immigration-enforcement', 'national-protective-security', 'office-independent-examiner', 'irtl', 'ipco', 'nctso', 'nca-rrb', 'prevent-commissioner', 'security-service', 'adjudicators-office', 'cce', 'forensic-science-regulator', 'hmicfrs', 'ifrp', 'labour-market-evidence'],
+    secondaryParentIds: ['home-border', 'home-migration', 'home-policing', 'home-safeguarding', 'home-security'],
     tags: ['sector-immigration', 'sector-security'],
   },
   'mod': {
@@ -1838,7 +1696,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for defence policy and armed forces',
     infoUrl: 'https://www.gov.uk/government/organisations/ministry-of-defence',
     parentIds: ['defence-sec', 'mod-perm-sec'],
-    childIds: ['sda', 'uk-hydrographic', 'des', 'dstl', 'awe', 'afcft', 'cwgc', 'royal-hospital-chelsea', 'national-army-museum', 'nmrn', 'raf-museum', 'royal-armouries', 'ssro', 'acco', 'afprb', 'imeg', 'vapc', 'nrac', 'cyber-specialist-ops', 'defence-academy', 'defence-infrastructure-org', 'defence-nuclear-org', 'defence-safety-authority', 'defence-sixth-form', 'kings-harbour-master', 'military-aviation-authority', 'national-cyber-force', 'national-space-ops-centre', 'office-veterans-affairs', 'uk-defence-innovation', 'uk-reserve-forces-assoc', 'veterans-uk', 'jhub-defence-innovation', 'oil-pipelines-agency', 'sheffield-forgemasters', 'mod-advisory-merm', 'cacc', 'dnse-committee', 'dsma', 'rfca', 'service-complaints-ombudsman', 'service-prosecuting-authority', 'military-engineering-establishment', 'lgbt-veterans-review'],
+    secondaryParentIds: ['mod-armed-forces', 'mod-readiness', 'mod-veterans'],
     tags: ['sector-defence'],
   },
   'moj': {
@@ -1849,7 +1707,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees justice system, prisons, courts, and sentencing policy',
     infoUrl: 'https://www.gov.uk/government/organisations/ministry-of-justice',
     parentIds: ['moj-sec', 'moj-perm-sec'],
-    childIds: ['hmcts', 'hmpps', 'cica', 'opg', 'legal-aid', 'cafcass', 'ccrc', 'jac', 'lsb', 'parole-board', 'yjb', 'cjc', 'cprc', 'crim-prc', 'fjc', 'fprc', 'iapdc', 'law-commission', 'oprc', 'psprb', 'sentencing-council', 'tpc', 'acjp', 'gov-facility-services', 'academy-social-justice', 'hmip', 'hmiprobation', 'imb', 'jaco', 'judicial-office', 'legal-ombudsman', 'ospt', 'ppo', 'victims-commissioner', 'independent-complaints-reviewer'],
+    secondaryParentIds: ['moj-courts', 'moj-prisons', 'moj-sentencing', 'moj-victims'],
     tags: ['sector-justice', 'sector-legal'],
   },
   'ni-office': {
@@ -1860,7 +1718,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Represents UK Government interests in Northern Ireland',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-office',
     parentIds: ['ni-sec', 'ni-perm-sec'],
-    childIds: ['ni-courts-tribunals', 'ni-prison-service', 'ni-statistics', 'legal-services-ni', 'youth-justice-ni', 'hsc-bso-ni', 'icrir', 'lmc-ni', 'niccea', 'nihe', 'nihrc', 'ni-parades-commission', 'nipb', 'psni', 'bcni-body', 'arts-council-ni', 'ni-cancer-registry', 'chief-electoral-ni', 'police-ombudsman-ni', 'public-health-agency-ni', 'public-prosecution-ni', 'probation-board-ni', 'invest-ni', 'afbi', 'labour-relations-ni', 'sport-ni'],
+    secondaryParentIds: ['ni-pus'],
   },
   'pm-office': {
     id: 'pm-office',
@@ -1870,7 +1728,6 @@ export const govElements: Record<string, GovElement> = {
     description: "Supports the Prime Minister in leading the government and setting overall strategy.",
     infoUrl: 'https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street',
     parentIds: ['pm'],
-    childIds: [],
   },
   'scotland-office': {
     id: 'scotland-office',
@@ -1880,7 +1737,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Represents UK Government interests in Scotland',
     infoUrl: 'https://www.gov.uk/government/organisations/scotland-office',
     parentIds: ['scotland-sec'],
-    childIds: ['bcs-body'],
+    secondaryParentIds: ['scotland-pus'],
   },
   'treasury': {
     id: 'treasury',
@@ -1890,7 +1747,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the UK economy, public spending, and financial policy',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-treasury',
     parentIds: ['chancellor', 'treasury-perm-sec'],
-    childIds: ['hmrc', 'ons', 'gad', 'giaa', 'nsi', 'ukdmo', 'nwf', 'obr', 'ukar', 'ukgi', 'ukib', 'rmac', 'office-financial-sanctions', 'govt-corporate-finance', 'govt-economic-service', 'crown-estate', 'govt-debt-mgmt', 'fca', 'psr', 'royal-mint', 'reclaim-fund'],
+    secondaryParentIds: ['treasury-chief-sec', 'treasury-econ-sec', 'treasury-exchequer-sec', 'treasury-fin-sec'],
     tags: ['sector-finance'],
   },
   'ukef': {
@@ -1901,7 +1758,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports UK exporters by providing finance and insurance to help win overseas contracts.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-export-finance',
     parentIds: ['dbt'],
-    childIds: ['egac'],
     tags: ['sector-business', 'sector-finance', 'sector-international'],
   },
   'wales-office': {
@@ -1912,7 +1768,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Represents UK Government interests in Wales',
     infoUrl: 'https://www.gov.uk/government/organisations/wales-office',
     parentIds: ['wales-sec'],
-    childIds: ['arts-council-wales', 'careers-wales', 'natural-resources-wales', 'public-health-wales', 'pso-wales', 'wales-audit-office', 'welsh-language-commissioner', 'sports-council-wales', 'nhs-wales-informatics', 'estyn'],
+    secondaryParentIds: ['wales-pus-1', 'wales-pus-2'],
   },
 
 
@@ -1925,7 +1781,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates charities in England and Wales',
     infoUrl: 'https://www.gov.uk/government/organisations/charity-commission',
     parentIds: ['dcms', 'charity-comm-ceo', 'charity-comm-chair'],
-    childIds: [],
     tags: ['regulator', 'sector-charities'],
   },
   'cma': {
@@ -1936,7 +1791,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes competition and tackles anti-competitive behavior benefiting consumers',
     infoUrl: 'https://www.gov.uk/government/organisations/competition-and-markets-authority',
     parentIds: ['dbt', 'cma-ceo', 'cma-chair'],
-    childIds: ['office-internal-market', 'subsidy-advice-unit'],
     tags: ['regulator', 'sector-business', 'sector-finance'],
   },
   'cps': {
@@ -1947,7 +1801,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Prosecutes criminal cases on behalf of the state',
     infoUrl: 'https://www.gov.uk/government/organisations/crown-prosecution-service',
     parentIds: ['ago', 'cps-dpp', 'cps-chair'],
-    childIds: [],
     tags: ['prosecution', 'sector-legal', 'sector-justice'],
   },
   'forestry-commission': {
@@ -1958,7 +1811,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages and protects forests in England',
     infoUrl: 'https://www.gov.uk/government/organisations/forestry-commission',
     parentIds: ['defra', 'forestry-ceo', 'forestry-chair'],
-    childIds: ['forest-research', 'forestry-england'],
     tags: ['regulator', 'sector-environment'],
   },
   'fsa': {
@@ -1969,7 +1821,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects public health from food-borne risks',
     infoUrl: 'https://www.gov.uk/government/organisations/food-standards-agency',
     parentIds: ['dhsc', 'fsa-ceo', 'fsa-chair'],
-    childIds: ['acaf', 'acnfp'],
     tags: ['regulator', 'sector-food-farming', 'sector-health'],
   },
   'gad': {
@@ -1980,7 +1831,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides actuarial advice and analysis to government departments',
     infoUrl: 'https://www.gov.uk/government/organisations/government-actuarys-department',
     parentIds: ['treasury', 'gad-head'],
-    childIds: [],
     tags: ['sector-finance'],
   },
   'gld': {
@@ -1991,7 +1841,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides legal advice and services to government departments',
     infoUrl: 'https://www.gov.uk/government/organisations/government-legal-department',
     parentIds: ['ago', 'gld-head'],
-    childIds: ['bona-vacantia'],
     tags: ['sector-legal'],
   },
   'hmcpsi': {
@@ -2002,7 +1851,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Inspects the Crown Prosecution Service and maintains standards',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-crown-prosecution-service-inspectorate',
     parentIds: ['ago', 'hmcpsi-head'],
-    childIds: [],
     tags: ['inspector', 'sector-legal', 'sector-justice'],
   },
   'hmland': {
@@ -2013,7 +1861,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Maintains the register of land and property in England and Wales',
     infoUrl: 'https://www.gov.uk/government/organisations/land-registry',
     parentIds: ['dluhc', 'hmland-ceo', 'hmland-chair'],
-    childIds: [],
     tags: ['sector-housing', 'sector-legal'],
   },
   'hmrc': {
@@ -2024,7 +1871,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers the tax and revenue system',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-revenue-customs',
     parentIds: ['treasury', 'hmrc-ceo'],
-    childIds: ['voa', 'govt-tax-profession'],
     tags: ['regulator', 'sector-finance'],
   },
   'nats': {
@@ -2035,7 +1881,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Preserves government records and historical documents',
     infoUrl: 'https://www.gov.uk/government/organisations/the-national-archives',
     parentIds: ['dcms', 'nats-ceo'],
-    childIds: [],
     tags: ['trading-fund', 'sector-transport'],
   },
   'nca-non-min': {
@@ -2046,7 +1891,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads the UK\'s response to serious and organized crime',
     infoUrl: 'https://www.gov.uk/government/organisations/national-crime-agency',
     parentIds: ['home-office', 'nca-dg'],
-    childIds: [],
     tags: ['police', 'sector-security', 'sector-justice'],
   },
   'nsi': {
@@ -2057,7 +1901,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages savings and investment products for the public',
     infoUrl: 'https://www.gov.uk/government/organisations/national-savings-and-investments',
     parentIds: ['treasury', 'nsi-ceo', 'nsi-chair'],
-    childIds: [],
     tags: ['trading-fund', 'sector-finance'],
   },
   'ofgem': {
@@ -2068,7 +1911,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates electricity and gas markets',
     infoUrl: 'https://www.gov.uk/government/organisations/ofgem',
     parentIds: ['desnz', 'ofgem-ceo', 'ofgem-chair'],
-    childIds: [],
     tags: ['regulator', 'sector-energy'],
   },
   'ofqual': {
@@ -2079,7 +1921,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates qualifications, exams and assessment services',
     infoUrl: 'https://www.gov.uk/government/organisations/ofqual',
     parentIds: ['dfe', 'ofqual-head', 'ofqual-chair'],
-    childIds: [],
     tags: ['regulator', 'sector-education'],
   },
   'ofsted': {
@@ -2090,7 +1931,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Inspects education and skills providers',
     infoUrl: 'https://www.gov.uk/government/organisations/ofsted',
     parentIds: ['dfe', 'ofsted-hmci', 'ofsted-chair'],
-    childIds: [],
     tags: ['inspector', 'sector-education'],
   },
   'ofwat': {
@@ -2101,7 +1941,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates water and sewerage services in England and Wales',
     infoUrl: 'https://www.gov.uk/government/organisations/the-water-services-regulation-authority',
     parentIds: ['defra', 'ofwat-ceo', 'ofwat-chair'],
-    childIds: [],
     tags: ['regulator', 'sector-environment'],
   },
   'orr': {
@@ -2112,7 +1951,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates rail and roads in Great Britain',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-rail-and-road',
     parentIds: ['dft', 'orr-ceo', 'orr-chair'],
-    childIds: [],
     tags: ['regulator', 'sector-transport'],
   },
   'sfo': {
@@ -2123,7 +1961,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates and prosecutes serious or complex fraud',
     infoUrl: 'https://www.gov.uk/government/organisations/serious-fraud-office',
     parentIds: ['ago', 'sfo-director', 'sfo-chair'],
-    childIds: [],
     tags: ['prosecution', 'sector-legal', 'sector-justice', 'sector-finance'],
   },
   'supreme-court': {
@@ -2134,7 +1971,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The final court of appeal for civil and criminal cases across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/supreme-court-of-the-united-kingdom',
     parentIds: ['ago', 'supreme-court-president'],
-    childIds: [],
     tags: ['sector-legal', 'sector-justice'],
   },
   'uksa': {
@@ -2145,7 +1981,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees production of official statistics',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-statistics-authority',
     parentIds: ['co', 'uksa-head', 'uksa-chair'],
-    childIds: [],
     tags: ['regulator', 'sector-science'],
   },
 
@@ -2159,7 +1994,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes walking and cycling through infrastructure investment',
     infoUrl: 'https://www.gov.uk/government/organisations/active-travel-england',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport', 'sector-environment'],
   },
   'apha': {
@@ -2170,7 +2004,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects animal and plant health, manages disease control',
     infoUrl: 'https://www.gov.uk/government/organisations/animal-and-plant-health-agency',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['regulator', 'sector-food-farming', 'sector-environment'],
   },
   'building-digital-uk': {
@@ -2181,7 +2014,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers digital infrastructure programmes across the UK',
     infoUrl: 'https://www.gov.uk/government/organisations/building-digital-uk',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-digital'],
   },
   'ccs': {
@@ -2192,7 +2024,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages government procurement and commercial strategy',
     infoUrl: 'https://www.gov.uk/government/organisations/crown-commercial-service',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-business', 'sector-finance'],
   },
   'cefas': {
@@ -2203,7 +2034,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides research and scientific advice on fisheries and marine environment',
     infoUrl: 'https://www.gov.uk/government/organisations/centre-for-environment-fisheries-and-aquaculture-science',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['sector-environment', 'sector-food-farming', 'sector-science'],
   },
   'cica': {
@@ -2214,7 +2044,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Awards compensation to victims of violent crime',
     infoUrl: 'https://www.gov.uk/government/organisations/criminal-injuries-compensation-authority',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'companies-house': {
@@ -2225,7 +2054,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Registers and manages company information',
     infoUrl: 'https://www.gov.uk/government/organisations/companies-house',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['regulator', 'sector-business'],
   },
   'des': {
@@ -2236,7 +2064,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages defence procurement and logistical support',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-equipment-and-support',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['armed-forces', 'sector-defence'],
   },
   'dstl': {
@@ -2247,7 +2074,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conducts scientific research to support UK defence and security',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['armed-forces', 'sector-defence', 'sector-science'],
   },
   'dvla': {
@@ -2258,7 +2084,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages vehicle registration, licensing, and driving licenses for Great Britain',
     infoUrl: 'https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'dvsa': {
@@ -2269,7 +2094,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates heavy vehicles and operates MOT testing and vehicle operator licensing',
     infoUrl: 'https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['regulator', 'sector-transport'],
   },
   'esfa': {
@@ -2280,7 +2104,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages funding for education institutions and training providers',
     infoUrl: 'https://www.gov.uk/government/organisations/education-and-skills-funding-agency',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education', 'sector-finance'],
   },
   'forest-research': {
@@ -2291,7 +2114,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conducts scientific research to support the sustainable management and protection of forests.',
     infoUrl: 'https://www.gov.uk/government/organisations/forest-research',
     parentIds: ['forestry-commission'],
-    childIds: [],
     tags: ['sector-environment', 'sector-science'],
   },
   'forestry-england': {
@@ -2302,7 +2124,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the national forests and woodlands of England for public benefit.',
     infoUrl: 'https://www.gov.uk/government/organisations/forestry-england',
     parentIds: ['forestry-commission'],
-    childIds: [],
     tags: ['sector-environment'],
   },
   'giaa': {
@@ -2313,7 +2134,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides internal audit services to government departments',
     infoUrl: 'https://www.gov.uk/government/organisations/government-internal-audit-agency',
     parentIds: ['treasury'],
-    childIds: ['internal-audit-profession'],
     tags: ['sector-finance'],
   },
   'gpa': {
@@ -2324,7 +2144,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages government property and estate strategy',
     infoUrl: 'https://www.gov.uk/government/organisations/government-property-agency',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-housing'],
   },
   'hmcts': {
@@ -2335,7 +2154,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Runs civil and criminal courts across England and Wales',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice', 'sector-legal'],
   },
   'hmpps': {
@@ -2346,7 +2164,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages prisons and probation services',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-prison-and-probation-service',
     parentIds: ['moj'],
-    childIds: ['hm-prison-service', 'probation-service', 'youth-custody-service'],
     tags: ['sector-justice'],
   },
   'insolvency-service': {
@@ -2357,7 +2174,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers insolvency law and personal debt solutions',
     infoUrl: 'https://www.gov.uk/government/organisations/the-insolvency-service',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['regulator', 'sector-business', 'sector-finance'],
   },
   'ipo': {
@@ -2368,7 +2184,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages intellectual property rights including patents and trademarks',
     infoUrl: 'https://www.gov.uk/government/organisations/intellectual-property-office',
     parentIds: ['dsit'],
-    childIds: ['company-names-tribunal'],
     tags: ['regulator', 'sector-business', 'sector-digital'],
   },
   'legal-aid': {
@@ -2379,7 +2194,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides legal aid services to eligible individuals',
     infoUrl: 'https://www.gov.uk/government/organisations/legal-aid-agency',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-legal', 'sector-justice'],
   },
   'legal-services-ni': {
@@ -2390,7 +2204,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides legal aid and related services in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/legal-services-agency-northern-ireland',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-legal'],
   },
   'maritime-coastguard': {
@@ -2401,7 +2214,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates search and rescue services and enforces maritime safety regulations',
     infoUrl: 'https://www.gov.uk/government/organisations/maritime-and-coastguard-agency',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['regulator', 'sector-transport'],
   },
   'met-office': {
@@ -2412,7 +2224,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides weather forecasting and meteorological services',
     infoUrl: 'https://www.gov.uk/government/organisations/met-office',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-environment', 'sector-science'],
   },
   'mhra': {
@@ -2423,7 +2234,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates medicines, medical devices and blood products for safety and efficacy',
     infoUrl: 'https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency',
     parentIds: ['dhsc'],
-    childIds: ['bpc', 'chm'],
     tags: ['regulator', 'sector-health'],
   },
   'ni-courts-tribunals': {
@@ -2434,7 +2244,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers the courts and tribunals system in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-courts-and-tribunals-service',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['tribunal', 'sector-legal'],
   },
   'ni-prison-service': {
@@ -2445,7 +2254,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages prisons and offender management in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-prison-service',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'ni-statistics': {
@@ -2456,7 +2264,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Produces official statistics and research for Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-statistics-and-research-agency',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-science'],
   },
   'opg': {
@@ -2467,7 +2274,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects the property and affairs of vulnerable people',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-public-guardian',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-legal', 'sector-health'],
   },
   'planning-inspectorate': {
@@ -2478,7 +2284,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conducts planning appeals and infrastructure planning inquiries',
     infoUrl: 'https://www.gov.uk/government/organisations/planning-inspectorate',
     parentIds: ['dluhc'],
-    childIds: ['govt-planning-inspectors'],
     tags: ['inspector', 'sector-planning'],
   },
   'qeiicc': {
@@ -2489,7 +2294,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides conference and event facilities in Westminster',
     infoUrl: 'https://www.gov.uk/government/organisations/queen-elizabeth-ii-conference-centre',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'rpa': {
@@ -2500,7 +2304,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers grants and subsidies for farmers and rural land managers',
     infoUrl: 'https://www.gov.uk/government/organisations/rural-payments-agency',
     parentIds: ['defra'],
-    childIds: ['british-cattle-movement'],
     tags: ['sector-food-farming', 'sector-finance'],
   },
   'sda': {
@@ -2511,7 +2314,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers the UK\'s future nuclear-powered submarines',
     infoUrl: 'https://www.gov.uk/government/organisations/submarine-delivery-agency',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['armed-forces', 'sector-defence', 'sector-nuclear'],
   },
   'skills-england': {
@@ -2522,7 +2324,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Drives skills development and training provision across England to meet labour market needs.',
     infoUrl: 'https://www.gov.uk/government/organisations/skills-england',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education', 'sector-business'],
   },
   'sta': {
@@ -2533,7 +2334,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops and manages national curriculum assessments and qualifications',
     infoUrl: 'https://www.gov.uk/government/organisations/standards-and-testing-agency',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education'],
   },
   'tra': {
@@ -2544,7 +2344,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Maintains standards of conduct for the teaching profession',
     infoUrl: 'https://www.gov.uk/government/organisations/teaching-regulation-authority',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['regulator', 'sector-education'],
   },
   'uk-health-security': {
@@ -2555,7 +2354,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects UK residents from infectious disease threats and public health emergencies',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-health-security-agency',
     parentIds: ['dhsc'],
-    childIds: ['centre-climate-health-security', 'health-equity-initiative'],
     tags: ['sector-health', 'sector-security'],
   },
   'uk-hydrographic': {
@@ -2566,7 +2364,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Produces and supplies hydrographic data for maritime navigation',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-hydrographic-office',
     parentIds: ['mod'],
-    childIds: ['hm-nautical-almanac'],
     tags: ['trading-fund', 'sector-transport', 'sector-defence'],
   },
   'uk-space-agency': {
@@ -2577,7 +2374,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads the UK\'s space sector development and investment',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-space-agency',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science', 'sector-transport'],
   },
   'nista': {
@@ -2589,7 +2385,6 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/national-infrastructure-and-service-transformation-authority',
     parentIds: ['co'],
     secondaryParentIds: ['treasury'],
-    childIds: [],
     tags: ['adviser', 'sector-finance'],
   },
   'ukdmo': {
@@ -2600,7 +2395,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages government borrowing and the national debt',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-debt-management-office',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['trading-fund', 'sector-finance'],
   },
   'vca': {
@@ -2611,7 +2405,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Certifies vehicles for environmental and safety standards',
     infoUrl: 'https://www.gov.uk/government/organisations/vehicle-certification-agency',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['regulator', 'sector-transport'],
   },
   'vmd': {
@@ -2622,7 +2415,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Authorises and regulates veterinary medicines',
     infoUrl: 'https://www.gov.uk/government/organisations/veterinary-medicines-directorate',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['regulator', 'sector-food-farming'],
   },
   'voa': {
@@ -2633,7 +2425,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Values property for tax purposes and manages the rating system',
     infoUrl: 'https://www.gov.uk/government/organisations/valuation-office-agency',
     parentIds: ['hmrc'],
-    childIds: ['district-valuer-services'],
     tags: ['sector-housing', 'sector-finance'],
   },
   'wilton-park': {
@@ -2644,7 +2435,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers policy-relevant conferences and educational programmes',
     infoUrl: 'https://www.gov.uk/government/organisations/wilton-park',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international'],
   },
   'youth-justice-ni': {
@@ -2655,7 +2445,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages youth justice services and young offenders in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/youth-justice-agency-of-northern-ireland',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-justice', 'sector-education'],
   },
 
@@ -2669,7 +2458,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides border security and immigration enforcement',
     infoUrl: 'https://www.gov.uk/government/organisations/border-force',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-immigration', 'sector-finance'],
   },
   'ukvi': {
@@ -2680,7 +2468,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates visa and immigration system',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-visas-and-immigration',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-immigration'],
   },
 
@@ -2694,7 +2481,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides advice and guidance on employment rights and responsibilities',
     infoUrl: 'https://www.gov.uk/government/organisations/acas',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['adviser', 'sector-business'],
   },
   'afcft': {
@@ -2705,7 +2491,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Distributes funding to support the armed forces community and uphold the Armed Forces Covenant.',
     infoUrl: 'https://www.gov.uk/government/organisations/armed-forces-covenant-fund-trust',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['adviser', 'sector-veterans'],
   },
   'ahdb': {
@@ -2716,7 +2501,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the agriculture and horticulture industry through levy-funded research and promotion.',
     infoUrl: 'https://www.gov.uk/government/organisations/agriculture-and-horticulture-development-board',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming'],
   },
   'aria': {
@@ -2727,7 +2511,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Funds high-risk, high-reward scientific research to deliver transformative breakthroughs.',
     infoUrl: 'https://www.gov.uk/government/organisations/advanced-research-and-invention-agency',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science', 'sector-digital'],
   },
   'arts-council-england': {
@@ -2738,7 +2521,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Funds and supports arts, museums, and libraries across England.',
     infoUrl: 'https://www.gov.uk/government/organisations/arts-council-england',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'awe': {
@@ -2750,7 +2532,6 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/awe',
     parentIds: ['mod'],
     secondaryParentIds: ['defence-nuclear-org'],
-    childIds: [],
     tags: ['armed-forces', 'sector-defence', 'sector-nuclear'],
   },
   'bank-of-england': {
@@ -2761,7 +2542,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Central bank of the United Kingdom',
     infoUrl: 'https://www.gov.uk/government/organisations/bank-of-england',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['regulator', 'sector-finance'],
   },
   'bfi': {
@@ -2772,7 +2552,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports and promotes the UK film industry and preserves the national film heritage.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-film-institute',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture', 'sector-media'],
   },
   'british-council': {
@@ -2783,7 +2562,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes the UK internationally through arts, education, and English language programmes.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-council',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international', 'sector-culture', 'sector-education'],
   },
   'british-hallmarking': {
@@ -2794,7 +2572,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the hallmarking system for precious metals in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-hallmarking-council',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['regulator', 'sector-business'],
   },
   'british-library': {
@@ -2805,7 +2582,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The national library of the United Kingdom, preserving and providing access to the national collection.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-library',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-education'],
   },
   'british-museum': {
@@ -2816,7 +2592,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Houses and displays a vast collection of world art and artefacts for public education.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-museum',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'btpa': {
@@ -2827,7 +2602,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the British Transport Police, which polices the rail network across Great Britain.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-transport-police-authority',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['police', 'sector-transport'],
   },
   'building-safety-reg': {
@@ -2838,7 +2612,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates the safety of higher-risk buildings and oversees the building control profession.',
     infoUrl: 'https://www.gov.uk/government/organisations/building-safety-regulator',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['regulator', 'sector-housing', 'sector-construction'],
   },
   'cafcass': {
@@ -2849,7 +2622,6 @@ export const govElements: Record<string, GovElement> = {
     description: "Represents children's interests in family court proceedings in England.",
     infoUrl: 'https://www.gov.uk/government/organisations/cafcass',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice', 'sector-education'],
   },
   'ccc': {
@@ -2860,7 +2632,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to government on reducing greenhouse gas emissions and adapting to climate change.',
     infoUrl: 'https://www.gov.uk/government/organisations/committee-on-climate-change',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['adviser', 'sector-environment', 'sector-energy'],
   },
   'ccrc': {
@@ -2871,7 +2642,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews potential miscarriages of justice in England, Wales, and Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/criminal-cases-review-commission',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice', 'sector-legal'],
   },
   'citb': {
@@ -2882,7 +2652,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports training and skills development across the construction industry.',
     infoUrl: 'https://www.gov.uk/government/organisations/construction-industry-training-board',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-construction', 'sector-education'],
   },
   'civil-nuclear-police': {
@@ -2893,7 +2662,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the Civil Nuclear Constabulary, which protects civil nuclear sites.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-nuclear-police-authority',
     parentIds: ['desnz'],
-    childIds: ['civil-nuclear-constabulary'],
     tags: ['police', 'sector-nuclear', 'sector-security'],
   },
   'civil-service-commission': {
@@ -2904,7 +2672,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Ensures civil service recruitment is on merit and upholds the Civil Service Code.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-service-commission',
     parentIds: ['co'],
-    childIds: [],
     tags: ['regulator'],
   },
   'competition-service': {
@@ -2915,7 +2682,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides administrative support to the Competition Appeal Tribunal.',
     infoUrl: 'https://www.gov.uk/government/organisations/competition-service',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['tribunal', 'sector-business'],
   },
   'consumer-council-water': {
@@ -2926,7 +2692,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Represents household and business water consumers in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/consumer-council-for-water',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-environment'],
   },
   'corporate-officers-commons': {
@@ -2937,7 +2702,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the corporate functions and services of the House of Commons.',
     infoUrl: 'https://www.gov.uk/government/organisations/corporate-officers-of-the-house-of-commons',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-legal'],
   },
   'corporate-officers-lords': {
@@ -2948,7 +2712,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the corporate functions and services of the House of Lords.',
     infoUrl: 'https://www.gov.uk/government/organisations/corporate-officers-of-the-house-of-lords',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-legal'],
   },
   'cqc': {
@@ -2959,7 +2722,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates and inspects health and social care services',
     infoUrl: 'https://www.gov.uk/government/organisations/care-quality-commission',
     parentIds: ['dhsc'],
-    childIds: ['national-guardians-office'],
     tags: ['regulator', 'inspector', 'sector-health'],
   },
   'csc-uk': {
@@ -2970,7 +2732,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages Commonwealth Scholarships and Fellowships for study in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/commonwealth-scholarship-commission-in-the-uk',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international'],
   },
   'dbs': {
@@ -2981,7 +2742,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Processes DBS checks and maintains lists of individuals barred from working with vulnerable people.',
     infoUrl: 'https://www.gov.uk/government/organisations/disclosure-and-barring-service',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['regulator', 'sector-justice', 'sector-education'],
   },
   'east-west-railway': {
@@ -2992,7 +2752,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops and delivers the East West Rail project linking Oxford and Cambridge.',
     infoUrl: 'https://www.gov.uk/government/organisations/east-west-railway-company',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'ebbsfleet-dev': {
@@ -3003,7 +2762,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the regeneration and development of the Ebbsfleet Garden City.',
     infoUrl: 'https://www.gov.uk/government/organisations/ebbsfleet-development-corporation',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['development-corp', 'sector-housing', 'sector-planning'],
   },
   'ecitb': {
@@ -3014,7 +2772,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports training and skills for the engineering construction industry.',
     infoUrl: 'https://www.gov.uk/government/organisations/engineering-construction-industry-training-board',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-construction', 'sector-education'],
   },
   'ehrc': {
@@ -3025,7 +2782,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes equality and human rights',
     infoUrl: 'https://www.gov.uk/government/organisations/equality-and-human-rights-commission',
     parentIds: ['co'],
-    childIds: [],
     tags: ['regulator', 'adviser'],
   },
   'environment-agency': {
@@ -3036,7 +2792,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects and improves the environment in England',
     infoUrl: 'https://www.gov.uk/government/organisations/environment-agency',
     parentIds: ['defra'],
-    childIds: ['flood-forecasting-centre'],
     tags: ['regulator', 'sector-environment'],
   },
   'frc': {
@@ -3047,7 +2802,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes transparency and integrity in business through regulation of accounting and auditing.',
     infoUrl: 'https://www.gov.uk/government/organisations/financial-reporting-council',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['regulator', 'sector-finance', 'sector-business'],
   },
   'gambling-commission': {
@@ -3058,7 +2812,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates commercial gambling in Great Britain to protect consumers and the public.',
     infoUrl: 'https://www.gov.uk/government/organisations/gambling-commission',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['regulator', 'sector-gambling'],
   },
   'gb-china-centre': {
@@ -3069,7 +2822,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes relations between Great Britain and China through exchanges and dialogue.',
     infoUrl: 'https://www.gov.uk/government/organisations/great-britain-china-centre',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international'],
   },
   'gbe-nuclear': {
@@ -3080,7 +2832,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops new nuclear energy projects to support the UK\'s clean energy transition.',
     infoUrl: 'https://www.gov.uk/government/organisations/great-british-energy',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-nuclear', 'sector-energy'],
   },
   'glaa': {
@@ -3091,7 +2842,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects workers from exploitation and labour abuse across all sectors.',
     infoUrl: 'https://www.gov.uk/government/organisations/gangmasters-and-labour-abuse-authority',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['regulator', 'sector-business', 'sector-immigration'],
   },
   'hblb': {
@@ -3102,7 +2852,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Collects a levy from bookmakers to support the British horseracing industry.',
     infoUrl: 'https://www.gov.uk/government/organisations/horserace-betting-levy-board',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'hfea': {
@@ -3113,7 +2862,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates fertility treatment and human embryo research in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/human-fertilisation-and-embryology-authority',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'sector-health', 'sector-science'],
   },
   'historic-england': {
@@ -3124,7 +2872,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Champions and protects the historic environment of England.',
     infoUrl: 'https://www.gov.uk/government/organisations/historic-england',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['regulator', 'adviser', 'sector-culture', 'sector-planning'],
   },
   'homes-england': {
@@ -3135,7 +2882,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Accelerates the supply of homes across England through investment and regeneration.',
     infoUrl: 'https://www.gov.uk/government/organisations/homes-england',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['development-corp', 'sector-housing'],
   },
   'horniman-museum': {
@@ -3146,7 +2892,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the Horniman Museum and Gardens in South London.',
     infoUrl: 'https://www.gov.uk/government/organisations/horniman-museum',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'housing-ombudsman': {
@@ -3157,7 +2902,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Resolves disputes between social housing residents and their landlords.',
     infoUrl: 'https://www.gov.uk/government/organisations/housing-ombudsman-service',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['ombudsman', 'sector-housing'],
   },
   'hra': {
@@ -3168,7 +2912,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects and promotes the interests of patients and the public in health and social care research.',
     infoUrl: 'https://www.gov.uk/government/organisations/health-research-authority',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'sector-health', 'sector-science'],
   },
   'hs2': {
@@ -3179,7 +2922,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Designs and delivers the High Speed 2 rail infrastructure programme.',
     infoUrl: 'https://www.gov.uk/government/organisations/high-speed-two-limited',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['development-corp', 'sector-transport'],
   },
   'hse': {
@@ -3190,7 +2932,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates workplace health and safety in Great Britain, protecting people against risks to health or safety arising out of work activities.',
     infoUrl: 'https://www.gov.uk/government/organisations/health-and-safety-executive',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['regulator', 'sector-environment', 'sector-nuclear'],
   },
   'hsc-bso-ni': {
@@ -3201,7 +2942,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides business support services to the Health and Social Care sector in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/hsc-business-services-organisation',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-health'],
   },
   'hssib': {
@@ -3212,7 +2952,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conducts independent investigations into serious patient safety incidents in NHS-funded care.',
     infoUrl: 'https://www.gov.uk/government/organisations/health-services-safety-investigations-body',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['inspector', 'sector-health'],
   },
   'hta': {
@@ -3223,7 +2962,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates the storage and use of human tissue for medical purposes.',
     infoUrl: 'https://www.gov.uk/government/organisations/human-tissue-authority',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'sector-health', 'sector-science'],
   },
   'ico': {
@@ -3234,7 +2972,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Enforces data protection and freedom of information laws',
     infoUrl: 'https://www.gov.uk/government/organisations/information-commissioner-s-office',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['regulator', 'sector-digital'],
   },
   'icrir': {
@@ -3245,7 +2982,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides information to families of those killed during the Troubles in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-commission-for-reconciliation-and-information-recovery',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'ifca': {
@@ -3256,7 +2992,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates financial services and markets',
     infoUrl: 'https://www.gov.uk/government/organisations/financial-conduct-authority',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['regulator', 'sector-environment', 'sector-food-farming'],
   },
   'ifr': {
@@ -3267,7 +3002,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates English football clubs to ensure financial sustainability and good governance.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-football-regulator',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'ima': {
@@ -3278,7 +3012,6 @@ export const govElements: Record<string, GovElement> = {
     description: "Monitors and enforces the citizens' rights provisions of the Brexit withdrawal agreements.",
     infoUrl: 'https://www.gov.uk/government/organisations/independent-monitoring-authority-for-the-citizens-rights-agreements',
     parentIds: ['co'],
-    childIds: [],
     tags: ['regulator', 'sector-immigration'],
   },
   'immigration-advice-auth': {
@@ -3289,7 +3022,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates immigration advisers operating outside of the legal professions.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-immigration-services-commissioner',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['regulator', 'sector-immigration', 'sector-legal'],
   },
   'iopc': {
@@ -3300,7 +3032,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the police complaints system and investigates serious matters involving the police.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-office-for-police-conduct',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['inspector', 'police', 'sector-justice'],
   },
   'iwm': {
@@ -3311,7 +3042,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Preserves and shares the history of modern conflict involving Britain and the Commonwealth.',
     infoUrl: 'https://www.gov.uk/government/organisations/imperial-war-museum',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-defence'],
   },
   'jac': {
@@ -3322,7 +3052,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Selects candidates for judicial office in courts and tribunals on merit.',
     infoUrl: 'https://www.gov.uk/government/organisations/judicial-appointments-commission',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-legal', 'sector-justice'],
   },
   'jncc': {
@@ -3333,7 +3062,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises government on UK-wide and international nature conservation.',
     infoUrl: 'https://www.gov.uk/government/organisations/joint-nature-conservation-committee',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-environment'],
   },
   'kew-gardens': {
@@ -3344,7 +3072,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the Royal Botanic Gardens at Kew and Wakehurst for science and conservation.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-botanic-gardens-kew',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['sector-environment', 'sector-science'],
   },
   'lease': {
@@ -3355,7 +3082,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides free legal advice to residential leaseholders and park home owners.',
     infoUrl: 'https://www.gov.uk/government/organisations/leasehold-advisory-service',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['adviser', 'sector-housing', 'sector-legal'],
   },
   'lmc-ni': {
@@ -3366,7 +3092,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes and develops the livestock and meat industry in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/livestock-and-meat-commission-for-northern-ireland',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-legal'],
   },
   'located': {
@@ -3377,7 +3102,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Acquires and manages land and buildings for free schools and other academy trusts.',
     infoUrl: 'https://www.gov.uk/government/organisations/located',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education'],
   },
   'lsb': {
@@ -3388,7 +3112,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the regulation of legal services in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/legal-services-board',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['regulator', 'sector-legal'],
   },
   'macc': {
@@ -3399,7 +3122,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Awards Marshall Scholarships to outstanding American graduates to study in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/marshall-aid-commemoration-commission',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international'],
   },
   'maps': {
@@ -3410,7 +3132,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides free guidance on money and pensions to help people make informed financial decisions.',
     infoUrl: 'https://www.gov.uk/government/organisations/money-and-pensions-service',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['adviser', 'sector-finance', 'sector-welfare'],
   },
   'mining-rem-auth': {
@@ -3421,7 +3142,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages liabilities from historic coal mining and undertakes subsidence remediation work.',
     infoUrl: 'https://www.gov.uk/government/organisations/coal-authority',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-environment', 'sector-energy'],
   },
   'mmo': {
@@ -3432,7 +3152,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the UK\'s seas and marine resources for sustainable development.',
     infoUrl: 'https://www.gov.uk/government/organisations/marine-management-organisation',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['regulator', 'sector-environment', 'sector-food-farming'],
   },
   'museum-home': {
@@ -3443,7 +3162,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Explores the history of home life through its collections and exhibitions.',
     infoUrl: 'https://www.gov.uk/government/organisations/museum-of-the-home',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-justice'],
   },
   'national-army-museum': {
@@ -3454,7 +3172,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Preserves and tells the story of the British Army and its impact on history.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-army-museum',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-defence'],
   },
   'national-gallery': {
@@ -3465,7 +3182,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Houses one of the greatest collections of paintings in the world in London.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-gallery',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'national-highways': {
@@ -3476,7 +3192,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates, maintains and improves England\'s motorways and major A roads.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-highways',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'national-museums-liverpool': {
@@ -3487,7 +3202,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates eight museums across Merseyside with diverse collections of national importance.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-museums-liverpool',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'natural-england': {
@@ -3498,7 +3212,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects and manages natural environment',
     infoUrl: 'https://www.gov.uk/government/organisations/natural-england',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['regulator', 'adviser', 'sector-environment'],
   },
   'nda': {
@@ -3509,7 +3222,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the safe decommissioning and clean-up of civil nuclear legacy sites.',
     infoUrl: 'https://www.gov.uk/government/organisations/nuclear-decommissioning-authority',
     parentIds: ['desnz'],
-    childIds: ['nuclear-transport-solutions', 'nuclear-restoration-services', 'nuclear-waste-services', 'sellafield'],
     tags: ['sector-nuclear', 'sector-energy', 'sector-environment'],
   },
   'network-rail': {
@@ -3520,7 +3232,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Owns, operates and develops the rail infrastructure in Great Britain.',
     infoUrl: 'https://www.gov.uk/government/organisations/network-rail',
     parentIds: ['dft'],
-    childIds: ['platform4'],
     tags: ['sector-transport'],
   },
   'nhm': {
@@ -3531,7 +3242,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advances scientific knowledge through its collections and research into the natural world.',
     infoUrl: 'https://www.gov.uk/government/organisations/natural-history-museum',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-science'],
   },
   'nhmf': {
@@ -3542,7 +3252,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Funds the preservation of the UK\'s cultural heritage as a memorial to those who gave their lives.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-heritage-memorial-fund',
     parentIds: ['dcms'],
-    childIds: ['nlhf'],
     tags: ['lottery', 'sector-culture', 'sector-environment'],
   },
   'nhs-improve': {
@@ -3553,7 +3262,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Commissions healthcare services for England',
     infoUrl: 'https://www.gov.uk/government/organisations/nhs-england',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'nhs-body', 'sector-health'],
   },
   'nhsbsa': {
@@ -3564,7 +3272,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides a range of business support and processing services to the NHS and its contractors.',
     infoUrl: 'https://www.gov.uk/government/organisations/nhs-business-services-authority',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['nhs-body', 'sector-health', 'sector-finance'],
   },
   'nhsbt': {
@@ -3575,7 +3282,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the supply of blood and coordinates organ and tissue donation and transplantation.',
     infoUrl: 'https://www.gov.uk/government/organisations/nhs-blood-and-transplant',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['nhs-body', 'sector-health'],
   },
   'nhscfa': {
@@ -3586,7 +3292,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects NHS resources by identifying and preventing fraud and corruption.',
     infoUrl: 'https://www.gov.uk/government/organisations/nhs-counter-fraud-authority',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['sector-health', 'sector-finance', 'sector-justice'],
   },
   'nhsr': {
@@ -3597,7 +3302,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Resolves disputes and manages claims on behalf of the NHS in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/nhs-resolution',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['sector-health'],
   },
   'niccea': {
@@ -3608,7 +3312,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops the curriculum, manages examinations and assessments in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-council-for-curriculum-examinations-and-assessment',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['regulator', 'sector-education'],
   },
   'nice': {
@@ -3619,7 +3322,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides national guidance and advice to improve health and social care outcomes.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-institute-for-health-and-care-excellence',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['adviser', 'nhs-body', 'sector-health'],
   },
   'nihe': {
@@ -3630,7 +3332,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides social housing and housing services across Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-housing-executive',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['development-corp', 'sector-housing'],
   },
   'nihrc': {
@@ -3641,7 +3342,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes and protects human rights in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-human-rights-commission',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['adviser', 'sector-legal'],
   },
   'nipb': {
@@ -3652,7 +3352,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the Police Service of Northern Ireland and holds it accountable.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-ireland-policing-board',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'nlb': {
@@ -3663,7 +3362,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides aids to navigation around Scotland and the Isle of Man.',
     infoUrl: 'https://www.gov.uk/government/organisations/northern-lighthouse-board',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'nlcf': {
@@ -3674,7 +3372,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Distributes National Lottery funding to support communities across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-lottery-community-fund',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['lottery', 'sector-culture', 'sector-charities'],
   },
   'nmrn': {
@@ -3685,7 +3382,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Preserves and interprets the history of the Royal Navy.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-museum-of-the-royal-navy',
     parentIds: ['mod'],
-    childIds: ['fleet-air-arm-museum', 'royal-marines-museum', 'royal-navy-submarine-museum'],
     tags: ['museum-gallery', 'sector-culture', 'sector-defence'],
   },
   'npg': {
@@ -3696,7 +3392,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Houses the world\'s largest collection of portraits in London.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-portrait-gallery',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'nsta': {
@@ -3707,7 +3402,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates oil and gas exploration and production on the UK Continental Shelf.',
     infoUrl: 'https://www.gov.uk/government/organisations/north-sea-transition-authority',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['regulator', 'sector-energy'],
   },
   'nwf': {
@@ -3718,7 +3412,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Catalyses private investment in clean energy and growth sectors across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-wealth-fund',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['sector-finance'],
   },
   'oak-national-academy': {
@@ -3729,7 +3422,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides free, curriculum-aligned teaching resources for schools in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/oak-national-academy',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education', 'sector-digital'],
   },
   'obr': {
@@ -3740,7 +3432,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent economic and fiscal forecasts and analysis for the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-budget-responsibility',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['adviser', 'sector-finance'],
   },
   'occ': {
@@ -3751,7 +3442,6 @@ export const govElements: Record<string, GovElement> = {
     description: "Promotes and protects the rights and interests of children in England.",
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-children-s-commissioner',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education'],
   },
   'oep': {
@@ -3762,7 +3452,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Holds public bodies accountable for following environmental law and improving the environment.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-environmental-protection',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['regulator', 'inspector', 'sector-environment'],
   },
   'ofcom': {
@@ -3773,7 +3462,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates communications services including broadcasting',
     infoUrl: 'https://www.gov.uk/government/organisations/ofcom',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['regulator', 'sector-media', 'sector-digital', 'sector-communications'],
   },
   'ofstu': {
@@ -3784,7 +3472,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates the higher education sector in England to promote student interests.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-students',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['inspector', 'sector-education'],
   },
   'ons': {
@@ -3795,7 +3482,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Produces independent statistics on economy, population, and society',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-national-statistics',
     parentIds: ['treasury'],
-    childIds: ['govt-statistical-service'],
     tags: ['sector-science', 'sector-finance'],
   },
   'parole-board': {
@@ -3806,7 +3492,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes risk assessments to decide whether prisoners can be safely released into the community.',
     infoUrl: 'https://www.gov.uk/government/organisations/parole-board',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['tribunal', 'sector-justice'],
   },
   'pra': {
@@ -3817,7 +3502,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates workplace pensions',
     infoUrl: 'https://www.gov.uk/government/organisations/the-pensions-regulator',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['regulator', 'sector-finance'],
   },
   'psni': {
@@ -3828,7 +3512,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides policing services across Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/police-service-of-northern-ireland',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['police', 'sector-security', 'sector-justice'],
   },
   'raf-museum': {
@@ -3839,7 +3522,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Preserves and promotes the history and heritage of the Royal Air Force.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-air-force-museum',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-defence'],
   },
   'reclaim-fund': {
@@ -3850,7 +3532,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages dormant assets released by financial institutions for good causes.',
     infoUrl: 'https://www.gov.uk/government/organisations/reclaim-fund-ltd',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['sector-finance', 'sector-charities'],
   },
   'rmg': {
@@ -3861,7 +3542,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages four museums dedicated to maritime history, astronomy and time.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-museums-greenwich',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'royal-armouries': {
@@ -3872,7 +3552,6 @@ export const govElements: Record<string, GovElement> = {
     description: "Cares for the UK's national collection of arms and armour.",
     infoUrl: 'https://www.gov.uk/government/organisations/royal-armouries',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-defence'],
   },
   'rsh': {
@@ -3883,7 +3562,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes a viable, efficient and well-governed social housing sector.',
     infoUrl: 'https://www.gov.uk/government/organisations/regulator-of-social-housing',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['regulator', 'sector-housing'],
   },
   'salix': {
@@ -3894,7 +3572,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides interest-free government funding for public sector energy efficiency projects.',
     infoUrl: 'https://www.gov.uk/government/organisations/salix-finance',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-energy', 'sector-environment'],
   },
   'sbc': {
@@ -3905,7 +3582,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Helps small businesses resolve disputes with larger businesses over payment issues.',
     infoUrl: 'https://www.gov.uk/government/organisations/small-business-commissioner',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business'],
   },
   'science-museum-group': {
@@ -3916,7 +3592,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates a group of science and industry museums across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/science-museum-group',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture', 'sector-science'],
   },
   'seafish': {
@@ -3927,7 +3602,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the UK seafood industry through research, training and promotion.',
     infoUrl: 'https://www.gov.uk/government/organisations/seafish',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming', 'sector-environment'],
   },
   'sgsa': {
@@ -3938,7 +3612,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates safety at football grounds and advises on sports ground safety worldwide.',
     infoUrl: 'https://www.gov.uk/government/organisations/sports-grounds-safety-authority',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['regulator', 'sector-culture'],
   },
   'sia': {
@@ -3949,7 +3622,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates the private security industry through licensing and standards.',
     infoUrl: 'https://www.gov.uk/government/organisations/security-industry-authority',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['regulator', 'sector-security'],
   },
   'slc': {
@@ -3960,7 +3632,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides student loans and grants to students in higher and further education.',
     infoUrl: 'https://www.gov.uk/government/organisations/student-loans-company',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education', 'sector-finance'],
   },
   'soane-museum': {
@@ -3971,7 +3642,6 @@ export const govElements: Record<string, GovElement> = {
     description: "Preserves Sir John Soane's home and collection as a museum for the public.",
     infoUrl: 'https://www.gov.uk/government/organisations/sir-john-soanes-museum',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'social-work-england': {
@@ -3982,7 +3652,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates social workers in England to protect the public and uphold professional standards.',
     infoUrl: 'https://www.gov.uk/government/organisations/social-work-england',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['regulator', 'sector-health'],
   },
   'sport-england': {
@@ -3993,7 +3662,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Invests in sport and physical activity to help people get active and stay active.',
     infoUrl: 'https://www.gov.uk/government/organisations/sport-england',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'ssro': {
@@ -4004,7 +3672,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Ensures fair and transparent pricing for single source defence contracts.',
     infoUrl: 'https://www.gov.uk/government/organisations/single-source-regulations-office',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['regulator', 'sector-defence', 'sector-finance'],
   },
   'tate': {
@@ -4015,7 +3682,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates a family of four art galleries housing the national collection of British and modern art.',
     infoUrl: 'https://www.gov.uk/government/organisations/tate',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'tra-body': {
@@ -4026,7 +3692,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates whether trade remedies are needed to defend UK businesses from unfair trade practices.',
     infoUrl: 'https://www.gov.uk/government/organisations/trade-remedies-authority',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['tribunal', 'sector-business', 'sector-international'],
   },
   'transport-focus': {
@@ -4037,7 +3702,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Represents the interests of transport users across roads, rail, and bus networks.',
     infoUrl: 'https://www.gov.uk/government/organisations/transport-focus',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['adviser', 'sector-transport'],
   },
   'trinity-house': {
@@ -4048,7 +3712,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides aids to navigation and looks after the welfare of merchant mariners.',
     infoUrl: 'https://www.gov.uk/government/organisations/trinity-house',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['trading-fund', 'sector-transport'],
   },
   'uk-sport': {
@@ -4059,7 +3722,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Invests in elite sport to help British athletes win medals at Olympic and Paralympic Games.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-sport',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'ukad': {
@@ -4070,7 +3732,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects clean sport by managing the UK\'s national anti-doping programme.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-anti-doping',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['regulator', 'sector-culture'],
   },
   'ukaea': {
@@ -4081,7 +3742,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads the UK\'s fusion energy research programme at Culham and internationally.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-atomic-energy-authority',
     parentIds: ['desnz'],
-    childIds: ['uk-industrial-fusion'],
     tags: ['sector-nuclear', 'sector-energy', 'sector-science'],
   },
   'ukib': {
@@ -4092,7 +3752,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Finances major infrastructure projects to support regional and local economic growth.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-infrastructure-bank',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['sector-finance', 'sector-business'],
   },
   'ukri': {
@@ -4103,7 +3762,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Invests in science and research to drive innovation and economic growth across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-research-and-innovation',
     parentIds: ['dsit'],
-    childIds: ['ahrc', 'bbsrc', 'esrc', 'epsrc', 'mrc', 'nerc', 'stfc', 'innovate-uk', 'research-england'],
     tags: ['research-council', 'sector-science'],
   },
   'vam': {
@@ -4114,7 +3772,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Houses the world\'s largest collection of decorative arts and design.',
     infoUrl: 'https://www.gov.uk/government/organisations/victoria-and-albert-museum',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'visitbritain': {
@@ -4125,7 +3782,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Markets Britain to international visitors to grow inbound tourism.',
     infoUrl: 'https://www.gov.uk/government/organisations/visitbritain',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture', 'sector-business'],
   },
   'visitengland': {
@@ -4136,7 +3792,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes England as a tourist destination to domestic and international visitors.',
     infoUrl: 'https://www.gov.uk/government/organisations/visitengland',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture', 'sector-business'],
   },
   'vts': {
@@ -4147,7 +3802,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers the Valuation Tribunal for England which handles council tax and business rates appeals.',
     infoUrl: 'https://www.gov.uk/government/organisations/valuation-tribunal-service',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-housing'],
   },
   'wallace-collection': {
@@ -4158,7 +3812,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Maintains and displays the Wallace Collection of fine and decorative arts in London.',
     infoUrl: 'https://www.gov.uk/government/organisations/wallace-collection',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['museum-gallery', 'sector-culture'],
   },
   'wfd': {
@@ -4169,7 +3822,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the development of democracy and political parties in emerging democracies.',
     infoUrl: 'https://www.gov.uk/government/organisations/westminster-foundation-for-democracy',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international', 'sector-culture'],
   },
   'yjb': {
@@ -4180,7 +3832,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the youth justice system and works to prevent offending by children.',
     infoUrl: 'https://www.gov.uk/government/organisations/youth-justice-board-for-england-and-wales',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice', 'sector-education'],
   },
 
@@ -4194,7 +3845,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to government on the safety of animal feeds.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-committee-on-animal-feedingstuffs',
     parentIds: ['fsa'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming'],
   },
   'acco': {
@@ -4205,7 +3855,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews applications from those seeking registration as conscientious objectors.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-committee-on-conscientious-objectors',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['adviser', 'sector-defence'],
   },
   'acia': {
@@ -4216,7 +3865,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on awards recognising NHS consultants for work beyond their contractual duties.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-committee-on-clinical-impact-awards',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['adviser', 'sector-health', 'sector-science'],
   },
   'acjp': {
@@ -4227,7 +3875,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises the Lord Chancellor on the recruitment and selection of magistrates.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-committees-on-justices-of-the-peace',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'acmd': {
@@ -4238,7 +3885,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent scientific advice on drug misuse and policy.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-council-on-the-misuse-of-drugs',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['adviser', 'sector-health', 'sector-justice'],
   },
   'acnfp': {
@@ -4249,7 +3895,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises government on the safety of novel foods and food production processes.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-committee-on-novel-foods-and-processes',
     parentIds: ['fsa'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming', 'sector-health'],
   },
   'acnra': {
@@ -4260,7 +3905,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on issues relating to public records, archives, and historical manuscripts.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-council-on-national-records-and-archives',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['adviser', 'sector-culture'],
   },
   'acoba': {
@@ -4271,7 +3915,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on business appointments taken by former ministers and senior civil servants.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-committee-on-business-appointments',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'acre': {
@@ -4282,7 +3925,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on the risks to human health and the environment from releasing GMOs.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-committee-on-releases-to-the-environment',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming', 'sector-environment'],
   },
   'afprb': {
@@ -4293,7 +3935,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to government on the pay of armed forces personnel.',
     infoUrl: 'https://www.gov.uk/government/organisations/armed-forces-pay-review-body',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['review-body', 'sector-defence'],
   },
   'arsac': {
@@ -4304,7 +3945,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on the administration of radioactive substances to patients for medical purposes.',
     infoUrl: 'https://www.gov.uk/government/organisations/administration-of-radioactive-substances-advisory-committee',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'sector-health', 'sector-science'],
   },
   'asc': {
@@ -4315,7 +3955,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Funds and supports arts and humanities research',
     infoUrl: 'https://www.gov.uk/government/organisations/arts-and-humanities-research-council',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['adviser', 'sector-education'],
   },
   'asc-animals': {
@@ -4326,7 +3965,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises government on matters relating to the use of animals in scientific research.',
     infoUrl: 'https://www.gov.uk/government/organisations/animals-in-science-committee',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['adviser', 'sector-science', 'sector-food-farming'],
   },
   'bce': {
@@ -4337,7 +3975,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Keeps parliamentary constituency boundaries in England under review.',
     infoUrl: 'https://www.gov.uk/government/organisations/boundary-commission-for-england',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'bcni': {
@@ -4348,7 +3985,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews and recommends changes to parliamentary constituency boundaries in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/boundary-commission-for-northern-ireland',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'bcs': {
@@ -4359,7 +3995,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews parliamentary constituency boundaries in Scotland.',
     infoUrl: 'https://www.gov.uk/government/organisations/boundary-commission-for-scotland',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'bpc': {
@@ -4370,7 +4005,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Prepares and publishes the British Pharmacopoeia, the official standard for medicines quality.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-pharmacopoeia-commission',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming'],
   },
   'chm': {
@@ -4381,7 +4015,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises ministers on the safety, quality and efficacy of medicinal products.',
     infoUrl: 'https://www.gov.uk/government/organisations/commission-on-human-medicines',
     parentIds: ['mhra'],
-    childIds: [],
     tags: ['adviser', 'sector-health'],
   },
   'cjc': {
@@ -4392,7 +4025,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on the development and reform of the civil justice system in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-justice-council',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'com': {
@@ -4403,7 +4035,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on mutagenic risks to health from chemicals and radiation.',
     infoUrl: 'https://www.gov.uk/government/organisations/committee-on-mutagenicity-of-chemicals-in-food-consumer-products-and-the-environment',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'sector-health'],
   },
   'cprc': {
@@ -4414,7 +4045,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes rules governing civil court procedure in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-procedure-rule-committee',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice', 'sector-legal'],
   },
   'crim-prc': {
@@ -4425,7 +4055,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes rules governing criminal court procedure in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/criminal-procedure-rule-committee',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice', 'sector-legal'],
   },
   'ddrb': {
@@ -4436,7 +4065,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on the remuneration of doctors and dentists.',
     infoUrl: 'https://www.gov.uk/government/organisations/review-body-on-doctors-and-dentists-remuneration',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['review-body', 'sector-health'],
   },
   'defra-sac': {
@@ -4447,7 +4075,6 @@ export const govElements: Record<string, GovElement> = {
     description: "Provides independent strategic advice to Defra on its use of science.",
     infoUrl: 'https://www.gov.uk/government/organisations/science-advisory-council',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-environment', 'sector-food-farming'],
   },
   'ethics-commission': {
@@ -4458,7 +4085,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on ethics, integrity and propriety across the civil service.',
     infoUrl: 'https://www.gov.uk/government/organisations/ethics-and-integrity-commission',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'fjc': {
@@ -4469,7 +4095,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes an interdisciplinary approach to the improvement of the family justice system.',
     infoUrl: 'https://www.gov.uk/government/organisations/family-justice-council',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice', 'sector-legal'],
   },
   'fprc': {
@@ -4480,7 +4105,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes rules governing family court procedure in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/family-procedure-rule-committee',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['review-body', 'sector-justice', 'sector-legal'],
   },
   'holac': {
@@ -4491,7 +4115,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Recommends individuals for appointment as non-party-political life peers.',
     infoUrl: 'https://www.gov.uk/government/organisations/house-of-lords-appointments-commission',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'iaap': {
@@ -4503,7 +4126,6 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/independent-agricultural-appeals-panel',
     parentIds: ['defra'],
     secondaryParentIds: ['rpa'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming'],
   },
   'iapdc': {
@@ -4514,7 +4136,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises ministers on deaths of those in state custody.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-advisory-panel-on-deaths-in-custody',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'icai': {
@@ -4525,7 +4146,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently assesses the effectiveness of UK aid.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-commission-for-aid-impact',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['inspector', 'sector-international'],
   },
   'ico-press': {
@@ -4536,7 +4156,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates newspapers and magazines in the UK',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-press-standards-organisation',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['adviser', 'sector-media'],
   },
   'iiac': {
@@ -4547,7 +4166,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on the industrial injuries benefit scheme for work-related conditions.',
     infoUrl: 'https://www.gov.uk/government/organisations/industrial-injuries-advisory-council',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['adviser', 'sector-welfare'],
   },
   'imeg': {
@@ -4558,7 +4176,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent medical advice to the armed forces compensation scheme.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-medical-expert-group',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['adviser', 'sector-defence', 'sector-welfare'],
   },
   'irc': {
@@ -4569,7 +4186,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on rules governing insolvency proceedings in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/insolvency-rules-committee',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['adviser', 'sector-business'],
   },
   'law-commission': {
@@ -4580,7 +4196,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently reviews and recommends reforms to the law of England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/law-commission',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-legal'],
   },
   'lpc': {
@@ -4591,7 +4206,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to government on the National Minimum Wage and National Living Wage.',
     infoUrl: 'https://www.gov.uk/government/organisations/low-pay-commission',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['adviser', 'sector-business'],
   },
   'mac': {
@@ -4602,7 +4216,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent and evidence-based advice on migration policy.',
     infoUrl: 'https://www.gov.uk/government/organisations/migration-advisory-committee',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['adviser', 'sector-immigration'],
   },
   'nhsprb': {
@@ -4613,7 +4226,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises government on the pay of NHS staff covered by the Agenda for Change contract.',
     infoUrl: 'https://www.gov.uk/government/organisations/nhs-pay-review-body',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['review-body', 'sector-health'],
   },
   'nrac': {
@@ -4623,8 +4235,7 @@ export const govElements: Record<string, GovElement> = {
     subtype: 'advisory-ndpb',
     description: 'Advises on civil nuclear research strategy and priorities.',
     infoUrl: 'https://www.gov.uk/government/organisations/nuclear-research-advisory-council',
-    parentIds: ['desnz'],
-    childIds: [],
+    parentIds: ['mod'],
     tags: ['adviser', 'sector-nuclear'],
   },
   'oprc': {
@@ -4635,7 +4246,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes rules for digital court processes in civil, family and tribunal proceedings.',
     infoUrl: 'https://www.gov.uk/government/organisations/online-procedure-rule-committee',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'pabew': {
@@ -4646,7 +4256,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises the Home Secretary on general police matters including regulations and conditions.',
     infoUrl: 'https://www.gov.uk/government/organisations/police-advisory-board-for-england-and-wales',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['review-body', 'sector-justice'],
   },
   'prrb': {
@@ -4657,7 +4266,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on pay and allowances for police officers in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/police-remuneration-review-body',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['review-body', 'sector-justice'],
   },
   'psprb': {
@@ -4668,7 +4276,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on pay for prison governors and operational staff.',
     infoUrl: 'https://www.gov.uk/government/organisations/prison-service-pay-review-body',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['review-body', 'sector-justice'],
   },
   'rcewa': {
@@ -4679,7 +4286,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews applications to export cultural objects of national importance from the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/reviewing-committee-on-the-export-of-works-of-art-and-objects-of-cultural-interest',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['adviser', 'sector-culture'],
   },
   'rmac': {
@@ -4690,7 +4296,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises the Chancellor on the design of UK coins, medals and other items.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-mint-advisory-committee',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['adviser', 'sector-finance'],
   },
   'rpc': {
@@ -4701,7 +4306,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Scrutinises government estimates of the impact of new regulations on businesses.',
     infoUrl: 'https://www.gov.uk/government/organisations/regulatory-policy-committee',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['adviser', 'sector-business'],
   },
   'sentencing-council': {
@@ -4712,7 +4316,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Issues guidelines on sentencing to courts in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/sentencing-council-for-england-and-wales',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'smc': {
@@ -4723,7 +4326,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Monitors progress on improving social mobility in the UK and advises on policy.',
     infoUrl: 'https://www.gov.uk/government/organisations/social-mobility-commission',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'ssac': {
@@ -4734,7 +4336,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on social security issues and proposed regulations.',
     infoUrl: 'https://www.gov.uk/government/organisations/social-security-advisory-committee',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['adviser', 'sector-welfare'],
   },
   'ssrb': {
@@ -4745,7 +4346,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on pay for senior civil servants, judges, senior military officers, and MPs.',
     infoUrl: 'https://www.gov.uk/government/organisations/senior-salaries-review-body',
     parentIds: ['co'],
-    childIds: [],
     tags: ['review-body'],
   },
   'ssrc': {
@@ -4756,7 +4356,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on social science research relevant to government policy-making.',
     infoUrl: 'https://www.gov.uk/government/organisations/social-science-research-committee',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'steac': {
@@ -4767,7 +4366,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises DSIT on ethical issues arising from emerging science and technology.',
     infoUrl: 'https://www.gov.uk/government/organisations/science-and-technology-ethics-advisory-committee',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['adviser', 'sector-science'],
   },
   'strb': {
@@ -4778,7 +4376,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on the pay and conditions of school teachers in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/school-teachers-review-body',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['review-body', 'sector-education'],
   },
   'svap': {
@@ -4789,7 +4386,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides an independent appeal mechanism for those whose security clearance has been refused.',
     infoUrl: 'https://www.gov.uk/government/organisations/security-vetting-appeals-panel',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser'],
   },
   'tab': {
@@ -4800,7 +4396,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on technical matters relating to lawful interception and communications data.',
     infoUrl: 'https://www.gov.uk/government/organisations/technical-advisory-board',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'theatres-trust': {
@@ -4811,7 +4406,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects theatres for the benefit of the public throughout the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-theatres-trust',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['adviser', 'sector-culture'],
   },
   'tpc': {
@@ -4822,7 +4416,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes procedural rules for the First-tier and Upper Tribunals.',
     infoUrl: 'https://www.gov.uk/government/organisations/tribunal-procedure-committee',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'tvc': {
@@ -4833,7 +4426,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Recommends fair market values for treasure found in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/treasure-valuation-committee',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['adviser', 'sector-culture'],
   },
   'vapc': {
@@ -4844,7 +4436,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on welfare matters affecting veterans and administers war pensions casework.',
     infoUrl: 'https://www.gov.uk/government/organisations/veterans-advisory-and-pensions-committees',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['adviser', 'sector-veterans', 'sector-welfare'],
   },
   'vpc': {
@@ -4855,7 +4446,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on the safety, quality and efficacy of veterinary medicines and residues.',
     infoUrl: 'https://www.gov.uk/government/organisations/veterinary-products-committee',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming', 'sector-environment'],
   },
 
@@ -4869,7 +4459,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees police use of biometric data and the deployment of surveillance cameras.',
     infoUrl: 'https://www.gov.uk/government/organisations/biometrics-and-surveillance-camera-commissioner',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['tribunal', 'sector-business'],
   },
   'cac': {
@@ -4880,7 +4469,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Resolves collective disputes between employers and trade unions on recognition and bargaining.',
     infoUrl: 'https://www.gov.uk/government/organisations/central-arbitration-committee',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['tribunal', 'sector-business'],
   },
   'cat': {
@@ -4891,7 +4479,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Hears appeals and cases relating to competition law and regulation.',
     infoUrl: 'https://www.gov.uk/government/organisations/competition-appeal-tribunal',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['tribunal', 'sector-business'],
   },
   'civil-service': {
@@ -4902,7 +4489,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Permanent professional staff supporting government operations',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-service',
     parentIds: ['co', 'home-perm-sec'],
-    childIds: [],
   },
   'copyright-tribunal': {
     id: 'copyright-tribunal',
@@ -4912,7 +4498,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Resolves disputes over licences for copyright works.',
     infoUrl: 'https://www.gov.uk/government/organisations/copyright-tribunal',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['tribunal', 'sector-culture', 'sector-business', 'sector-digital'],
   },
   'direct-rail-services': {
@@ -4923,7 +4508,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A wholly owned subsidiary of Nuclear Transport Solutions that provides rail freight services, including the transport of nuclear materials.',
     infoUrl: 'https://www.directrailservices.com',
     parentIds: ['nuclear-transport-solutions'],
-    childIds: [],
     tags: ['sector-transport', 'sector-nuclear'],
   },
   'iasc': {
@@ -4934,7 +4518,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes good practice in tackling modern slavery and human trafficking.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-anti-slavery-commissioner',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-immigration', 'sector-legal'],
   },
   'icibi': {
@@ -4945,7 +4528,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently inspects the work of the Home Office relating to borders and immigration.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-chief-inspector-of-borders-and-immigration',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['inspector', 'sector-immigration'],
   },
   'ipt': {
@@ -4956,7 +4538,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Handles complaints about surveillance and investigatory powers used by public bodies.',
     infoUrl: 'https://www.gov.uk/government/organisations/investigatory-powers-tribunal',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['tribunal', 'sector-security', 'sector-legal'],
   },
   'nuclear-transport-solutions': {
@@ -4967,7 +4548,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A wholly owned subsidiary of the Nuclear Decommissioning Authority that manages the transport of nuclear materials and provides related logistics services.',
     infoUrl: 'https://www.nucleartransport.com',
     parentIds: ['nda'],
-    childIds: ['direct-rail-services'],
     tags: ['sector-nuclear', 'sector-transport'],
   },
   'pdat': {
@@ -4978,7 +4558,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Hears appeals by police officers against dismissal or reduction in rank.',
     infoUrl: 'https://www.gov.uk/government/organisations/police-discipline-appeals-tribunal',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['adviser', 'sector-justice'],
   },
   'pensions-ombudsman': {
@@ -4989,7 +4568,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates and resolves complaints and disputes about workplace and personal pensions.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-pensions-ombudsman',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['ombudsman', 'sector-welfare', 'sector-finance'],
   },
   'ppfo': {
@@ -5000,7 +4578,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Adjudicates complaints about the Pension Protection Fund and the Financial Assistance Scheme.',
     infoUrl: 'https://www.gov.uk/government/organisations/pension-protection-fund-ombudsman',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['sector-welfare', 'sector-finance'],
   },
   'pvst': {
@@ -5011,7 +4588,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Hears appeals relating to plant variety rights and seed decisions.',
     infoUrl: 'https://www.gov.uk/government/organisations/plant-varieties-and-seeds-tribunal',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming', 'sector-environment'],
   },
   'traffic-commissioners': {
@@ -5022,7 +4598,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulate the licensing of lorries, buses and coaches and the people who drive them.',
     infoUrl: 'https://www.gov.uk/government/organisations/traffic-commissioners',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['tribunal', 'regulator', 'sector-transport'],
   },
   'vte': {
@@ -5033,7 +4608,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides an independent appeals service for council tax and business rates disputes.',
     infoUrl: 'https://www.gov.uk/government/organisations/valuation-tribunal-for-england',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['tribunal', 'sector-housing', 'sector-finance'],
   },
 
@@ -5047,7 +4621,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Equips governments with scientific understanding of AI risks through research and developing mitigations.',
     infoUrl: 'https://www.gov.uk/government/organisations/ai-security-institute',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security', 'sector-digital', 'sector-science'],
   },
 
@@ -5059,7 +4632,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Resolves scientific disputes mainly in the food and feed sectors and advises regulators and industry.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-chemist',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-food-farming', 'sector-science'],
   },
 
@@ -5071,7 +4643,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The digital centre of government, transforming public services through digital platforms and technology.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-digital-service',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-digital'],
   },
 
@@ -5083,7 +4654,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Helps public sector bodies commercialise their innovations by accelerating them towards the market.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-office-for-technology-transfer',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-science', 'sector-business'],
   },
 
@@ -5095,7 +4665,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Enables the use of trusted digital identity services across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-digital-identities-and-attributes',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-digital'],
   },
 
@@ -5107,7 +4676,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Updates regulation, speeds up approval times, and ensures regulatory bodies work together to support innovation.',
     infoUrl: 'https://www.gov.uk/government/organisations/regulatory-innovation-office',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-digital', 'sector-science'],
   },
 
@@ -5119,7 +4687,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides advice to research institutions on national security risks linked to international research collaborations.',
     infoUrl: 'https://www.gov.uk/government/organisations/research-collaboration-advice-team',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-science'],
   },
 
@@ -5131,7 +4698,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional community for scientists and engineers in government, supporting capability and career development.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-science-and-engineering-profession',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-science'],
   },
 
@@ -5143,7 +4709,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides collective strategic and operational leadership of the Cabinet Office.',
     infoUrl: 'https://www.gov.uk/government/organisations/cabinet-office-board',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5155,7 +4720,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Runs the government\'s flagship graduate recruitment and development programme for the Civil Service.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-service-fast-stream',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5167,7 +4731,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A Cabinet Office group that supports the running and reform of the Civil Service.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-service-group',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5179,7 +4742,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works across government to break down barriers faced by disabled people in the UK and improve their lives.',
     infoUrl: 'https://www.gov.uk/government/organisations/disability-unit',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-welfare'],
   },
 
@@ -5191,7 +4753,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides professional standards, guidance, and resources to support analytical work conducted across government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-analysis-function',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5203,7 +4764,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A cross-government network responsible for procuring or supporting the procurement of goods and services for government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-commercial-function',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-business'],
   },
 
@@ -5215,7 +4775,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports all professional communicators across government to gain the skills and knowledge they need.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-communication-service',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5227,7 +4786,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works across government to improve data quality standards across the public sector.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-data-quality-hub',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-digital'],
   },
 
@@ -5239,7 +4797,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Enables delivery of high-quality public services and ensures public money is spent efficiently and effectively.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-finance-function',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-finance'],
   },
 
@@ -5251,7 +4808,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional body for government lawyers who provide legal advice to government and represent it in court.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-legal-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-legal'],
   },
 
@@ -5263,7 +4819,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The government profession concerned with the performance of people at work and organisational behaviour.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-occupational-psychology-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5275,7 +4830,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Uses scientific and mathematical techniques to find better solutions to complex management problems in government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-operational-research-service',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5287,7 +4841,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The strategic and functional centre for the Government People Function and HR in the Civil Service.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-people-group',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5299,7 +4852,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The function and profession for portfolio, programme and project delivery across UK government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-project-delivery',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5311,7 +4863,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers recruitment services across the Civil Service, supporting the hiring of civil servants.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-recruitment-service',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5323,7 +4874,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Unites security professionals across government to support professional development in security roles.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-security-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-security'],
   },
 
@@ -5335,7 +4885,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Helps civil servants and public sector leaders develop the skills, knowledge and networks needed to deliver for citizens.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-skills',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5347,7 +4896,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides intelligence analysis to support national security and foreign policy decision-making.',
     infoUrl: 'https://www.gov.uk/government/organisations/intelligence-analysis',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security', 'sector-international'],
   },
 
@@ -5359,7 +4907,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Equips public and Civil Service leaders with skills, knowledge and networks to solve complex problems.',
     infoUrl: 'https://www.gov.uk/government/organisations/leadership-college-for-government',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5371,7 +4918,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads reform of government operations and enhances Civil Service capability to better deliver for the public.',
     infoUrl: 'https://www.gov.uk/government/organisations/modernisation-and-reform',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5383,7 +4929,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Coordinates national security policy and intelligence across government.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-security-and-intelligence',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security'],
   },
 
@@ -5395,7 +4940,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides a unified source of advice, guidance and support on cyber security, bridging industry and government.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-cyber-security-centre',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-cyber', 'sector-security'],
   },
 
@@ -5407,7 +4951,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government legal specialists who draft primary legislation, translating government policy into Bills for Parliament.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-legal'],
   },
 
@@ -5419,7 +4962,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works across government and civil society to ensure everyone has access to the best possible public services.',
     infoUrl: 'https://www.gov.uk/government/organisations/open-public-services',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5431,7 +4973,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works with departments and public bodies to understand and reduce the impact of fraud on the public sector.',
     infoUrl: 'https://www.gov.uk/government/organisations/public-sector-fraud-authority',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-finance'],
   },
 
@@ -5443,7 +4984,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works across government to identify and tackle racial and ethnic inequalities through legislation, policy and data.',
     infoUrl: 'https://www.gov.uk/government/organisations/race-equality-unit',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5455,7 +4995,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A government-wide fund addressing the highest-priority threats to UK national security at home and abroad.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-integrated-security-fund',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security', 'sector-international'],
   },
 
@@ -5467,7 +5006,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers education and development programmes to officials and professionals working in government and the resilience sector.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-resilience-academy',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5479,7 +5017,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The single government provider of National Security Vetting, managing personnel security risks across government.',
     infoUrl: 'https://www.gov.uk/government/organisations/united-kingdom-security-vetting',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security'],
   },
 
@@ -5491,7 +5028,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads policy on gender equality, LGBT+ people and the overall framework of equality legislation in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/women-and-equalities-unit',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5503,7 +5039,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A network of over 5,000 property professionals managing government\'s property-related activities across departments.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-property-function',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5515,7 +5050,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Part of the Stabilisation Unit, focused on building international partnerships and delivering technical assistance.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-partnerships-international',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-international'],
   },
 
@@ -5527,7 +5061,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Established in 2018 to support and develop geographical expertise across the public sector.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-geography-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5539,7 +5072,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports civil servants who enable the creation, organisation, and exploitation of information and knowledge across government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-knowledge-and-information-management-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5551,7 +5083,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional network for operational delivery staff who deliver direct services to the public across government.',
     infoUrl: 'https://www.gov.uk/government/organisations/operational-delivery-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5563,7 +5094,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional community for policy professionals across government, supporting standards and capability.',
     infoUrl: 'https://www.gov.uk/government/organisations/policy-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5575,7 +5105,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional community for social researchers working across government departments and agencies.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-social-research-profession',
     parentIds: ['co'],
-    childIds: [],
     tags: ['high-profile-group', 'profession'],
   },
 
@@ -5587,7 +5116,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A Home Office innovation unit taking a highly innovative approach to solving public sector technology and data challenges.',
     infoUrl: 'https://www.gov.uk/government/organisations/accelerated-capability-environment',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-digital', 'sector-security'],
   },
 
@@ -5599,7 +5127,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Secures the UK border by carrying out immigration and customs controls for people and goods entering the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/border-force',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['high-profile-group', 'police', 'sector-immigration'],
   },
 
@@ -5611,7 +5138,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides strategic leadership across the border security system to disrupt organised crime groups facilitating irregular migration.',
     infoUrl: 'https://www.gov.uk/government/organisations/border-security-command',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security', 'sector-immigration'],
   },
 
@@ -5623,7 +5149,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The sole issuer of UK passports and responsible for civil registration services through the General Register Office.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-passport-office',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-immigration'],
   },
 
@@ -5635,7 +5160,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conducts enforcement operations against illegal working and immigration crime, including raids, arrests and removals.',
     infoUrl: 'https://www.gov.uk/government/organisations/immigration-enforcement',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['high-profile-group', 'police', 'sector-immigration'],
   },
 
@@ -5647,7 +5171,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s National Technical Authority for physical and personnel protective security, helping reduce national vulnerabilities.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-protective-security-authority',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security'],
   },
 
@@ -5659,7 +5182,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers a free, independent complaint resolution and investigation service for those unhappy with the Home Office\'s final complaint response.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-the-independent-examiner-of-complaints',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['high-profile-group'],
   },
 
@@ -5671,7 +5193,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Unites Defence\'s cyber and specialist capabilities under a single military command, operating continuously to detect and respond to threats.',
     infoUrl: 'https://www.gov.uk/government/organisations/cyber-and-specialist-operations-command',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-cyber', 'sector-defence'],
   },
 
@@ -5683,7 +5204,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides world-class professional defence and security education to students from the UK Armed Forces, Civil Service, industry, and overseas.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-academy',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence'],
   },
 
@@ -5695,7 +5215,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The military\'s real estate and infrastructure specialist, responsible for planning, building, maintaining, and operating defence facilities.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-infrastructure-organisation',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence'],
   },
 
@@ -5707,7 +5226,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Maintains safe and capable submarines at sea, manages nuclear warheads, and delivers the UK\'s nuclear deterrent.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-nuclear-organisation',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence', 'sector-nuclear'],
   },
 
@@ -5719,7 +5237,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'An autonomous regulator and investigator overseeing health, safety, and environmental protection across the defence sector.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-safety-authority',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'armed-forces', 'sector-defence'],
   },
 
@@ -5731,7 +5248,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Offers a programme of personal, physical, and intellectual development to prepare students for technical careers in the Armed Forces.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-sixth-form-college',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence', 'sector-education'],
   },
 
@@ -5743,7 +5259,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects Royal Navy ports, vessels and other government assets within designated harbour areas.',
     infoUrl: 'https://www.gov.uk/government/organisations/kings-harbour-master',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence'],
   },
 
@@ -5755,7 +5270,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Responsible for the regulation, assurance and enforcement of the defence air operating and technical domains.',
     infoUrl: 'https://www.gov.uk/government/organisations/military-aviation-authority',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'armed-forces', 'sector-defence', 'sector-transport'],
   },
 
@@ -5767,7 +5281,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A partnership between defence and intelligence that conducts offensive and defensive cyber operations to protect UK national security.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-cyber-force',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-cyber', 'sector-defence'],
   },
 
@@ -5779,7 +5292,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops and operates the UK\'s space surveillance and protection capabilities across defence, the UK Space Agency and the Met Office.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-space-operations-centre',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence', 'sector-science'],
   },
 
@@ -5791,7 +5303,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads the UK government\'s efforts to ensure veterans receive the respect, support and recognition they are owed for their service.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-veterans-affairs',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-veterans', 'sector-defence'],
   },
 
@@ -5803,7 +5314,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Fosters technological innovation to deliver defence and security advantage for the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-defence-innovation',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence', 'sector-science'],
   },
 
@@ -5815,7 +5325,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes the efficiency of reserve forces by providing opportunities for education, personal development and international experiences.',
     infoUrl: 'https://www.gov.uk/government/organisations/united-kingdom-reserve-forces-association',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-defence', 'sector-veterans'],
   },
 
@@ -5827,7 +5336,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers welfare support, compensation payments and transition assistance to former armed forces personnel and their families.',
     infoUrl: 'https://www.gov.uk/government/organisations/veterans-uk',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-veterans', 'sector-defence'],
   },
 
@@ -5839,7 +5347,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The innovation team for Cyber & Specialist Operations Command, connecting cutting-edge technology with users across Defence.',
     infoUrl: 'https://www.gov.uk/government/organisations/jhub-defence-innovation',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['high-profile-group', 'armed-forces', 'sector-cyber', 'sector-defence'],
   },
 
@@ -5851,7 +5358,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides facility maintenance services to prisons across the South of England.',
     infoUrl: 'https://www.gov.uk/government/organisations/gov-facility-services-limited',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-justice'],
   },
 
@@ -5863,7 +5369,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A cross-government unit facilitating the shift to zero-emission vehicles through subsidies and investment in charging infrastructure.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-zero-emission-vehicles',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-transport', 'sector-environment'],
   },
 
@@ -5875,7 +5380,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A collaborative R&D programme between Defra, the Environment Agency, Welsh Government and Natural Resources Wales on flood risk.',
     infoUrl: 'https://www.gov.uk/government/organisations/flood-and-coastal-erosion-risk-management-research-and-development-programme',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-environment'],
   },
 
@@ -5887,7 +5391,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides veterinary policy, advice and professional support to government departments and agencies.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-veterinary-services',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-food-farming'],
   },
 
@@ -5899,7 +5402,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates environmental and decommissioning activity for offshore oil, gas and carbon capture operations on the UK continental shelf.',
     infoUrl: 'https://www.gov.uk/government/organisations/offshore-petroleum-regulator-for-environment-and-decommissioning',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'sector-energy', 'sector-environment'],
   },
 
@@ -5911,7 +5413,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works with further education colleges to improve their quality and financial resilience.',
     infoUrl: 'https://www.gov.uk/government/organisations/further-education-commissioner',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-education'],
   },
 
@@ -5923,7 +5424,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regional directors work locally across children\'s social care, SEND and schools to improve outcomes for children and families.',
     infoUrl: 'https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-education'],
   },
 
@@ -5935,7 +5435,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A collaborative forum for government, industry and the third sector to make the UK the safest place to be online.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-council-for-internet-safety',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-digital', 'sector-education'],
   },
 
@@ -5947,7 +5446,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works to improve the nation\'s health and address health inequalities so everyone can expect to live more of life in good health.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-health-improvement-and-disparities',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-health'],
   },
 
@@ -5959,7 +5457,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Champions research, innovation and technology to transform health and care services and support the life sciences sector.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-life-sciences',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-health', 'sector-science', 'sector-business'],
   },
 
@@ -5971,7 +5468,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises ministers and the NHS across all four UK nations on all aspects of population screening programmes.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-national-screening-committee',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['high-profile-group', 'adviser', 'sector-health'],
   },
 
@@ -5983,7 +5479,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The government\'s professional network for medical and clinical staff working across government departments and agencies.',
     infoUrl: 'https://www.gov.uk/government/organisations/medical-profession',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-health'],
   },
 
@@ -5995,7 +5490,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops regulatory frameworks and policy to enable the safe deployment of self-driving vehicles in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/centre-for-connected-and-autonomous-vehicles',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-transport', 'sector-digital'],
   },
 
@@ -6007,7 +5501,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects the rights of agency workers by ensuring employment agencies and businesses treat their workers fairly.',
     infoUrl: 'https://www.gov.uk/government/organisations/employment-agency-standards-inspectorate',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'sector-business'],
   },
 
@@ -6019,7 +5512,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers the UK\'s system of export controls and licensing for military and dual-use items.',
     infoUrl: 'https://www.gov.uk/government/organisations/export-control-joint-unit',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'sector-business', 'sector-international', 'sector-defence'],
   },
 
@@ -6031,7 +5523,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Sources and secures transformational investment to drive growth, job creation and productivity across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-investment',
     parentIds: ['dbt'],
-    childIds: ['office-investment-fs'],
     tags: ['high-profile-group', 'sector-business', 'sector-finance'],
   },
 
@@ -6043,7 +5534,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The single front door for international financial services firms wishing to set up or expand operations in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-investment-financial-services',
     parentIds: ['office-investment'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-finance', 'sector-business'],
   },
 
@@ -6055,7 +5545,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects people and places from product-related harm, ensuring consumers and businesses can buy and sell products with confidence.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-product-safety-and-standards',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'sector-business'],
   },
 
@@ -6067,7 +5556,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes and upholds responsible and sustainable business practices across the UK economy.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-responsible-business-conduct',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-business', 'sector-international'],
   },
 
@@ -6079,7 +5567,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides an independent secretariat to 8 Pay Review Bodies making recommendations affecting around 2.5 million public sector workers.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-the-pay-review-bodies',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'review-body'],
   },
 
@@ -6091,7 +5578,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Strengthens the UK\'s implementation and enforcement of trade sanctions.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-trade-sanctions-implementation',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'sector-business', 'sector-international'],
   },
 
@@ -6103,7 +5589,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Helps UK defence, cyber and security companies export and assists overseas defence companies in investing in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-defence-and-security-exports',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-business', 'sector-defence', 'sector-international'],
   },
 
@@ -6115,7 +5600,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes OECD guidelines for multinational enterprises on responsible business conduct and operates the associated complaints mechanism.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-national-contact-point',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-business', 'sector-international'],
   },
 
@@ -6127,7 +5611,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Increases global awareness and mobilises international efforts to prevent and end sexual violence in armed conflicts.',
     infoUrl: 'https://www.gov.uk/government/organisations/preventing-sexual-violence-in-conflict-initiative',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-international'],
   },
 
@@ -6139,7 +5622,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides technical security expertise to government and critical national infrastructure to protect against eavesdropping threats.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-national-authority-for-counter-eavesdropping',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-security'],
   },
 
@@ -6151,7 +5633,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers ownerless property passing to the Crown, including estates of people who die intestate and assets of dissolved companies.',
     infoUrl: 'https://www.gov.uk/government/organisations/bona-vacantia',
     parentIds: ['gld'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-legal', 'sector-finance'],
   },
 
@@ -6163,7 +5644,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Helps ensure financial sanctions are properly understood, implemented and enforced in the United Kingdom.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-financial-sanctions-implementation',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-finance', 'sector-international'],
   },
 
@@ -6175,7 +5655,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Brings together those working in corporate finance from across government to share learning and experience.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-corporate-finance-profession',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-finance'],
   },
 
@@ -6187,7 +5666,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional body for economists in the UK Civil Service, supporting economists working across government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-economic-service',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-finance'],
   },
 
@@ -6199,7 +5677,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on how best to create a permanent and fitting tribute to the Windrush generation and their descendants.',
     infoUrl: 'https://www.gov.uk/government/organisations/windrush-commemoration-committee',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-culture'],
   },
 
@@ -6211,7 +5688,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides professional support to planners and planning inspectors working across government departments.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-planning-profession',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-planning'],
   },
 
@@ -6223,7 +5699,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers independent property valuation and professional advice to the public sector where public money or functions are involved.',
     infoUrl: 'https://www.gov.uk/government/organisations/district-valuer-services-dvs',
     parentIds: ['voa'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-housing', 'sector-finance'],
   },
 
@@ -6235,7 +5710,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides scientific guidance to ensure public health considerations related to climate change are incorporated into planning and infrastructure.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-centre-for-climate-health-security',
     parentIds: ['uk-health-security'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-health', 'sector-environment'],
   },
 
@@ -6247,7 +5721,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A central platform bringing together UKHSA\'s key health equity resources, data, research and community insights.',
     infoUrl: 'https://www.gov.uk/government/organisations/health-equity-in-health-protection-initiative',
     parentIds: ['uk-health-security'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-health'],
   },
 
@@ -6259,7 +5732,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Funds outstanding original research across the whole range of the arts and humanities.',
     infoUrl: 'https://www.gov.uk/government/organisations/arts-and-humanities-research-council',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-culture', 'sector-science'],
   },
 
@@ -6271,7 +5743,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Invests in biological sciences research to push back the frontiers of biology and deliver a healthy, prosperous and sustainable future.',
     infoUrl: 'https://www.gov.uk/government/organisations/biotechnology-biological-sciences-research-council',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science', 'sector-food-farming', 'sector-health'],
   },
 
@@ -6283,7 +5754,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s largest funder of economic, social, behavioural, and human data science research.',
     infoUrl: 'https://www.gov.uk/government/organisations/economic-and-social-research-council',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science'],
   },
 
@@ -6295,7 +5765,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Creates knowledge in engineering and physical sciences to build UK capability and benefit society and the economy.',
     infoUrl: 'https://www.gov.uk/government/organisations/engineering-and-physical-sciences-research-council',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science'],
   },
 
@@ -6307,7 +5776,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Funds world-leading discovery and translational research to accelerate diagnosis, advance treatment and prevent human illness.',
     infoUrl: 'https://www.gov.uk/government/organisations/medical-research-council',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science', 'sector-health'],
   },
 
@@ -6319,7 +5787,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The driving force of investment in environmental science in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/natural-environment-research-council',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science', 'sector-environment'],
   },
 
@@ -6331,7 +5798,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers world-leading national and international research and innovation capabilities to discover the secrets of the universe.',
     infoUrl: 'https://www.gov.uk/government/organisations/science-and-technology-facilities-council',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science'],
   },
 
@@ -6343,7 +5809,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s national innovation agency, supporting business-led innovation across all sectors, technologies and regions.',
     infoUrl: 'https://www.gov.uk/government/organisations/innovate-uk',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science', 'sector-business'],
   },
 
@@ -6355,7 +5820,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Handles research funding and knowledge exchange support for universities and higher education institutions across England.',
     infoUrl: 'https://www.gov.uk/government/organisations/research-england',
     parentIds: ['ukri'],
-    childIds: [],
     tags: ['high-profile-group', 'research-council', 'sector-science', 'sector-education'],
   },
 
@@ -6367,7 +5831,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the effective operation of the UK\'s internal market and provides independent advice to UK and devolved governments.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-the-internal-market',
     parentIds: ['cma'],
-    childIds: [],
     tags: ['high-profile-group', 'regulator', 'sector-business'],
   },
 
@@ -6379,7 +5842,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent, non-binding advice to public authorities on certain subsidies under the UK Subsidy Control Regime.',
     infoUrl: 'https://www.gov.uk/government/organisations/subsidy-advice-unit',
     parentIds: ['cma'],
-    childIds: [],
     tags: ['high-profile-group', 'adviser', 'sector-business', 'sector-finance'],
   },
 
@@ -6391,7 +5853,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Keeps those sentenced to prison in custody and helps them lead law-abiding lives both inside and after release.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-prison-service',
     parentIds: ['hmpps'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-justice'],
   },
 
@@ -6403,7 +5864,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A statutory criminal justice service that supervises offenders serving community sentences or released from prison.',
     infoUrl: 'https://www.gov.uk/government/organisations/probation-service',
     parentIds: ['hmpps'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-justice'],
   },
 
@@ -6415,7 +5875,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Creates safe, decent and nurturing custodial environments providing outstanding care and support for children in custody.',
     infoUrl: 'https://www.gov.uk/government/organisations/youth-custody-service',
     parentIds: ['hmpps'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-justice', 'sector-education'],
   },
 
@@ -6427,7 +5886,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A specialist group providing solutions to astronomical and celestial navigation problems.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-nautical-almanac-office',
     parentIds: ['uk-hydrographic'],
-    childIds: [],
     tags: ['high-profile-group', 'trading-fund', 'sector-transport'],
   },
 
@@ -6439,7 +5897,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The world\'s second largest naval aviation museum, holding over 90 aircraft and more than 2 million records related to naval aviation history.',
     infoUrl: 'https://www.gov.uk/government/organisations/fleet-air-arm-museum',
     parentIds: ['nmrn'],
-    childIds: [],
     tags: ['high-profile-group', 'museum-gallery', 'sector-culture', 'sector-defence'],
   },
 
@@ -6451,7 +5908,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Preserves over a million archival items and objects chronicling the Royal Marines\' heritage from 1664 to the present.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-marines-museum',
     parentIds: ['nmrn'],
-    childIds: [],
     tags: ['high-profile-group', 'museum-gallery', 'sector-culture', 'sector-defence'],
   },
 
@@ -6463,7 +5919,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Documents the history and development of submarines, with particular focus on the Royal Navy\'s submarine service.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-navy-submarine-museum',
     parentIds: ['nmrn'],
-    childIds: [],
     tags: ['high-profile-group', 'museum-gallery', 'sector-culture', 'sector-defence'],
   },
 
@@ -6475,7 +5930,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports freedom to speak up in health and care organisations by overseeing and improving whistleblowing culture.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-guardians-office',
     parentIds: ['cqc'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-health'],
   },
 
@@ -6487,7 +5941,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A limited company leading delivery of the STEP programme to design and build the UK\'s first prototype fusion energy plant.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions',
     parentIds: ['ukaea'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-energy', 'sector-nuclear', 'sector-science'],
   },
 
@@ -6499,7 +5952,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Maintains the Cattle Tracing System (CTS), an online database of all bovine animals in Great Britain.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-cattle-movement-service',
     parentIds: ['rpa'],
-    childIds: [],
     tags: ['high-profile-group', 'sector-food-farming'],
   },
 
@@ -6511,7 +5963,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects civil nuclear sites and nuclear materials in England and Scotland, and provides policing for other critical national infrastructure.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-nuclear-constabulary',
     parentIds: ['civil-nuclear-police'],
-    childIds: [],
     tags: ['high-profile-group', 'police', 'sector-nuclear', 'sector-security'],
   },
 
@@ -6523,7 +5974,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Handles planning appeals, national infrastructure planning applications, and specialist planning casework in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-planning-inspectors',
     parentIds: ['planning-inspectorate'],
-    childIds: [],
     tags: ['high-profile-group', 'inspector', 'sector-planning'],
   },
 
@@ -6535,7 +5985,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional community for internal auditors across government, supporting standards and capability development.',
     infoUrl: 'https://www.gov.uk/government/organisations/internal-audit-profession',
     parentIds: ['giaa'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-finance'],
   },
 
@@ -6547,7 +5996,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional network for statisticians and data scientists working across government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-statistical-service',
     parentIds: ['ons'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-science'],
   },
 
@@ -6559,7 +6007,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional network for tax professionals working across government departments and agencies.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-tax-profession',
     parentIds: ['hmrc'],
-    childIds: [],
     tags: ['high-profile-group', 'profession', 'sector-finance'],
   },
 
@@ -6572,7 +6019,6 @@ export const govElements: Record<string, GovElement> = {
     subtype: 'cabinet',
     description: 'The collective decision-making body of senior government ministers',
     parentIds: [],
-    childIds: ['pm', 'chancellor', 'fcdo-sec', 'moj-sec', 'defra-sec', 'dluhc-sec', 'wpc-sec', 'dfe-sec', 'dhsc-sec', 'desnz-sec', 'dcms-sec', 'dbt-sec', 'cabinet-office-sec', 'scotland-sec', 'wales-sec', 'ni-sec', 'home-sec', 'defence-sec', 'transport-sec', 'science-sec', 'co-paymaster', 'co-minister-state', 'co-minister-without-portfolio'],
   },
 
   // ── Cabinet Office bodies ─────────────────────────────────────────────────
@@ -6584,7 +6030,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers the infected blood compensation scheme, providing redress to those infected and affected by contaminated blood products supplied by the NHS.',
     infoUrl: 'https://www.gov.uk/government/organisations/infected-blood-compensation-authority',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-health'],
   },
 
@@ -6597,7 +6042,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s public service broadcaster, providing independent news, information, and entertainment funded primarily by the licence fee.',
     infoUrl: 'https://www.bbc.co.uk/aboutthebbc',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-media'],
   },
   's4c': {
@@ -6608,7 +6052,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The Welsh-language public broadcaster, providing television services in Welsh.',
     infoUrl: 'https://www.s4c.cymru',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-media'],
   },
   'ncs': {
@@ -6619,7 +6062,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers the National Citizen Service programme for young people in England, promoting social mixing and volunteering.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-citizen-service',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-charities'],
   },
 
@@ -6632,7 +6074,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers Contracts for Difference, the UK\'s main mechanism for supporting investment in low-carbon electricity generation.',
     infoUrl: 'https://www.lowcarboncontracts.uk',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-energy'],
   },
 
@@ -6645,7 +6086,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates nurses, midwives and nursing associates in the UK, setting standards for education, training, conduct and performance.',
     infoUrl: 'https://www.nmc.org.uk',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'sector-health'],
   },
   'nhs-property-services': {
@@ -6656,7 +6096,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages, maintains and improves NHS property and facilities in England, one of the largest property owners in the UK.',
     infoUrl: 'https://www.property.nhs.uk',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['nhs-body', 'sector-health'],
   },
   'genomics-england': {
@@ -6667,7 +6106,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Delivers whole genome sequencing for NHS patients and drives research into genomic medicine.',
     infoUrl: 'https://www.genomicsengland.co.uk',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['nhs-body', 'sector-health', 'sector-science'],
   },
 
@@ -6680,7 +6118,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates complaints about local councils and social care providers in England, providing independent and impartial redress.',
     infoUrl: 'https://www.lgo.org.uk',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['ombudsman', 'sector-housing'],
   },
   'office-for-place': {
@@ -6691,7 +6128,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the government\'s agenda to improve the design and quality of new housing and places in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-place',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-housing', 'sector-planning'],
   },
 
@@ -6704,7 +6140,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops and quality assures apprenticeship standards and T Levels in England, working with employers to shape technical education.',
     infoUrl: 'https://www.gov.uk/government/organisations/institute-for-apprenticeships-and-technical-education',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education'],
   },
 
@@ -6717,7 +6152,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The professional body for policing in England and Wales, setting standards, developing curricula, and providing leadership training.',
     infoUrl: 'https://www.college.police.uk',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['police', 'sector-justice'],
   },
 
@@ -6730,7 +6164,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Commemorates Commonwealth service personnel who died in the two World Wars, maintaining cemeteries and memorials worldwide.',
     infoUrl: 'https://www.cwgc.org',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence', 'sector-veterans'],
   },
   'royal-hospital-chelsea': {
@@ -6741,7 +6174,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'A retirement and nursing home for veterans of the British Army, providing care and community for Chelsea Pensioners.',
     infoUrl: 'https://www.chelsea-pensioners.co.uk',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence', 'sector-veterans'],
   },
 
@@ -6755,7 +6187,6 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.ukar.co.uk',
     parentIds: ['treasury'],
     secondaryParentIds: ['ukgi'],
-    childIds: [],
     tags: ['sector-finance'],
   },
   'ukgi': {
@@ -6766,7 +6197,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The government\'s centre of expertise for corporate finance and corporate governance, managing and realising value from government shareholdings.',
     infoUrl: 'https://www.ukgi.org.uk',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['sector-finance'],
   },
 
@@ -6779,7 +6209,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes mediation in respect of public processions in Northern Ireland and makes determinations on contentious parades.',
     infoUrl: 'https://www.paradescommission.org',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-justice'],
   },
 
@@ -6792,7 +6221,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s national economic development bank, making finance markets work better for smaller businesses and channelling investment to support growth.',
     infoUrl: 'https://www.british-business-bank.co.uk',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business', 'sector-finance'],
   },
 
@@ -6805,7 +6233,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s national synchrotron science facility, enabling world-class research across structural biology, materials science, and beyond.',
     infoUrl: 'https://www.diamond.ac.uk',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science'],
   },
   'ktn': {
@@ -6816,7 +6243,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Connects businesses, universities and investors to accelerate innovation and the commercialisation of research across the UK.',
     infoUrl: 'https://www.ktn-uk.org',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science', 'sector-business'],
   },
 
@@ -6829,7 +6255,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the Leader of the House of Commons in managing government business in the Commons.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-office-of-the-leader-of-the-house-of-commons',
     parentIds: ['leader-commons-sec', 'co'],
-    childIds: [],
   },
   'leader-lords-office': {
     id: 'leader-lords-office',
@@ -6839,7 +6264,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the Leader of the House of Lords in managing government business in the Lords.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords',
     parentIds: ['leader-lords-sec', 'co'],
-    childIds: [],
   },
   'qe-memorial-committee': {
     id: 'qe-memorial-committee',
@@ -6849,7 +6273,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on the creation of a lasting national memorial to Her Majesty Queen Elizabeth II.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-queen-elizabeth-memorial-committee',
     parentIds: ['co'],
-    childIds: [],
   },
   'commissioner-public-appts': {
     id: 'commissioner-public-appts',
@@ -6859,7 +6282,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates the process for making public appointments to ensure they are made on merit after fair and open competition.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-commissioner-for-public-appointments',
     parentIds: ['co'],
-    childIds: [],
   },
   'evaluation-task-force': {
     id: 'evaluation-task-force',
@@ -6870,7 +6292,6 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/evaluation-task-force',
     parentIds: ['co'],
     secondaryParentIds: ['treasury'],
-    childIds: [],
   },
   'govt-estates-mgmt': {
     id: 'govt-estates-mgmt',
@@ -6880,7 +6301,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees management and use of the government estate to improve efficiency and value for money.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-estates-management',
     parentIds: ['co'],
-    childIds: [],
   },
   'independent-adviser-ministers': {
     id: 'independent-adviser-ministers',
@@ -6890,7 +6310,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to the Prime Minister on the application of the Ministerial Code.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-adviser-on-ministers-interests',
     parentIds: ['co'],
-    childIds: [],
   },
   'infected-blood-memorial': {
     id: 'infected-blood-memorial',
@@ -6900,7 +6319,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on the design and delivery of a memorial to those affected by the infected blood scandal.',
     infoUrl: 'https://www.gov.uk/government/organisations/infected-blood-memorial-committee',
     parentIds: ['co'],
-    childIds: [],
   },
   'office-equality-opportunity': {
     id: 'office-equality-opportunity',
@@ -6910,7 +6328,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads cross-government work on equality, diversity, and reducing disparities.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-equality-and-opportunity',
     parentIds: ['co'],
-    childIds: [],
   },
   'registrar-lobbyists': {
     id: 'registrar-lobbyists',
@@ -6920,7 +6337,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Maintains the statutory register of consultant lobbyists and enforces the Transparency of Lobbying Act.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-registrar-of-consultant-lobbyists',
     parentIds: ['co'],
-    childIds: [],
   },
   'privy-council-office': {
     id: 'privy-council-office',
@@ -6930,7 +6346,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the Sovereign and the Lord President of the Council, managing business of the Privy Council.',
     infoUrl: 'https://www.gov.uk/government/organisations/privy-council-office',
     parentIds: ['co'],
-    childIds: [],
   },
   'covid-commemoration': {
     id: 'covid-commemoration',
@@ -6940,7 +6355,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes recommendations on how the UK should commemorate those who lost their lives during the COVID-19 pandemic.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-commission-on-covid-commemoration',
     parentIds: ['co'],
-    childIds: [],
   },
 
   // ── DBT additions ──────────────────────────────────────────────────────────
@@ -6952,7 +6366,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Brings together enforcement of employment rights including the National Minimum Wage, statutory sick pay, and gangmaster licensing.',
     infoUrl: 'https://www.gov.uk/government/organisations/fair-work-agency',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business'],
   },
   'post-office': {
@@ -6963,7 +6376,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates the national post office network, providing postal, financial, and government services across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/post-office-ltd',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business'],
   },
   'certification-officer': {
@@ -6974,7 +6386,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent statutory officer who maintains a list of trade unions and employers\' associations and handles complaints.',
     infoUrl: 'https://www.gov.uk/government/organisations/certification-officer',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business'],
   },
   'groceries-adjudicator': {
@@ -6985,7 +6396,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Ensures large supermarkets treat their direct suppliers lawfully and fairly under the Groceries Supply Code of Practice.',
     infoUrl: 'https://www.gov.uk/government/organisations/groceries-code-adjudicator',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business', 'sector-food-farming'],
   },
   'cic-regulator': {
@@ -6996,7 +6406,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates community interest companies to ensure they operate in the community interest.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-regulator-of-community-interest-companies',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business'],
   },
   'pubs-adjudicator': {
@@ -7007,7 +6416,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the Pubs Code and arbitrates disputes between tied pub tenants and large pub-owning businesses.',
     infoUrl: 'https://www.gov.uk/government/organisations/pubs-code-adjudicator',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['sector-business'],
   },
 
@@ -7020,7 +6428,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'UK public service broadcaster operating as a commercially funded, publicly owned corporation.',
     infoUrl: 'https://www.gov.uk/government/organisations/channel-4',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-media'],
   },
   'historic-royal-palaces': {
@@ -7031,7 +6438,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent charity that manages unoccupied royal palaces including the Tower of London and Hampton Court.',
     infoUrl: 'https://www.gov.uk/government/organisations/historic-royal-palaces',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'royal-parks': {
@@ -7042,7 +6448,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages and maintains eight royal parks in London, including Hyde Park and St James\'s Park.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-parks',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture', 'sector-environment'],
   },
   'churches-conservation': {
@@ -7053,7 +6458,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects and conserves historic churches no longer needed for regular worship across England.',
     infoUrl: 'https://www.gov.uk/government/organisations/churches-conservation-trust',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
 
@@ -7066,7 +6470,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Markets wool on behalf of UK farmers, operating a central marketing system for British fleece wool.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-wool',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['sector-food-farming'],
   },
   'broads-authority': {
@@ -7077,8 +6480,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the Norfolk and Suffolk Broads, a unique wetland national park in East Anglia.',
     infoUrl: 'https://www.gov.uk/government/organisations/broads-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'covent-garden-market': {
     id: 'covent-garden-market',
@@ -7088,7 +6490,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Owns and manages New Covent Garden Market, the UK\'s largest wholesale fruit, vegetable and flower market.',
     infoUrl: 'https://www.gov.uk/government/organisations/covent-garden-market-authority',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['sector-food-farming'],
   },
   'dartmoor-npa': {
@@ -7099,8 +6500,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the natural beauty of Dartmoor National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/dartmoor-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'exmoor-npa': {
     id: 'exmoor-npa',
@@ -7110,8 +6510,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the natural beauty of Exmoor National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/exmoor-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'flood-re': {
     id: 'flood-re',
@@ -7121,7 +6520,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Joint initiative between UK Government and insurers to make flood insurance more affordable for high-risk homes.',
     infoUrl: 'https://www.gov.uk/government/organisations/flood-re',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['sector-environment'],
   },
   'lake-district-npa': {
@@ -7132,8 +6530,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the Lake District National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/lake-district-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'national-forest': {
     id: 'national-forest',
@@ -7143,7 +6540,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops and manages the National Forest across 200 square miles of central England.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-forest-company',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['sector-environment'],
   },
   'new-forest-npa': {
@@ -7154,8 +6550,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the New Forest National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/new-forest-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'north-york-moors-npa': {
     id: 'north-york-moors-npa',
@@ -7165,8 +6560,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the North York Moors National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/north-york-moors-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'northumberland-npa': {
     id: 'northumberland-npa',
@@ -7176,8 +6570,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances Northumberland National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/northumberland-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'peak-district-npa': {
     id: 'peak-district-npa',
@@ -7187,8 +6580,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the Peak District National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/peak-district-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'south-downs-npa': {
     id: 'south-downs-npa',
@@ -7198,8 +6590,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the South Downs National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/south-downs-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
   'yorkshire-dales-npa': {
     id: 'yorkshire-dales-npa',
@@ -7209,8 +6600,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conserves and enhances the Yorkshire Dales National Park and promotes opportunities for public enjoyment.',
     infoUrl: 'https://www.gov.uk/government/organisations/yorkshire-dales-national-park-authority',
     parentIds: ['defra'],
-    childIds: [],
-    tags: ['sector-environment'],
+    tags: ['national-park', 'sector-environment'],
   },
 
   // ── DSIT additions ────────────────────────────────────────────────────────
@@ -7222,7 +6612,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s national measurement institute, developing and maintaining national measurement standards.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-physical-laboratory',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science'],
   },
   'ordnance-survey': {
@@ -7233,7 +6622,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s national mapping agency, producing and maintaining authoritative geographic data for Great Britain.',
     infoUrl: 'https://www.gov.uk/government/organisations/ordnance-survey',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science', 'sector-digital'],
   },
   'british-tech-investments': {
@@ -7244,7 +6632,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government vehicle for strategic investments in critical UK technology companies.',
     infoUrl: 'https://www.gov.uk/government/organisations/british-technology-investments',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science', 'sector-business'],
   },
   'govt-office-science': {
@@ -7255,7 +6642,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Ensures government policies and decisions are informed by the best scientific evidence and strategic long-term thinking.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-office-for-science',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science'],
   },
   'uk-shared-business': {
@@ -7266,7 +6652,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides shared business services including procurement, finance, HR, and IT to research councils and other public bodies.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-shared-business-services-ltd',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['sector-science'],
   },
 
@@ -7279,7 +6664,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s aviation regulator, responsible for safety of civil aviation, air traffic services, and consumer protection.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-aviation-authority',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'crossrail-intl': {
@@ -7290,7 +6674,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides consultancy services leveraging the expertise gained in delivering the Elizabeth line to international clients.',
     infoUrl: 'https://www.gov.uk/government/organisations/crossrail-international',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'dft-operator': {
@@ -7301,7 +6684,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government-owned company that acts as operator of last resort for rail franchises.',
     infoUrl: 'https://www.gov.uk/government/organisations/dft-operator-limited',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'lcr': {
@@ -7312,7 +6694,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government-owned company that manages property and development around HS1 and other rail assets.',
     infoUrl: 'https://www.gov.uk/government/organisations/london-and-continental-railways',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'platform4': {
@@ -7324,7 +6705,6 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/platform4',
     parentIds: ['network-rail'],
     secondaryParentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'aaib': {
@@ -7335,7 +6715,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates civil aircraft accidents and serious incidents in the UK to improve aviation safety.',
     infoUrl: 'https://www.gov.uk/government/organisations/air-accidents-investigation-branch',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'dptac': {
@@ -7346,7 +6725,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises government on the transport needs of disabled people across all modes of transport.',
     infoUrl: 'https://www.gov.uk/government/organisations/disabled-persons-transport-advisory-committee',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'maib': {
@@ -7357,7 +6735,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates marine accidents to improve safety and prevent future occurrences.',
     infoUrl: 'https://www.gov.uk/government/organisations/marine-accident-investigation-branch',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'raib': {
@@ -7368,7 +6745,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates rail accidents and incidents on the UK mainline railway to improve safety.',
     infoUrl: 'https://www.gov.uk/government/organisations/rail-accident-investigation-branch',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
 
@@ -7381,7 +6757,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates the NEST pension scheme, a workplace pension scheme set up by government to support automatic enrolment.',
     infoUrl: 'https://www.gov.uk/government/organisations/nest-corporation',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['sector-welfare', 'sector-finance'],
   },
   'onr': {
@@ -7392,7 +6767,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The independent nuclear regulator for the UK, responsible for nuclear safety, security, and safeguards.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-for-nuclear-regulation',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['regulator', 'sector-energy'],
   },
   'pension-protection-fund': {
@@ -7403,7 +6777,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects members of eligible defined benefit pension schemes when their employer becomes insolvent.',
     infoUrl: 'https://www.gov.uk/government/organisations/pension-protection-fund',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['sector-welfare', 'sector-finance'],
   },
   'ice-dwp': {
@@ -7414,7 +6787,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently investigates complaints about DWP and its contracted providers that cannot be resolved internally.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-case-examiner',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['sector-welfare'],
   },
   'remploy-trustees': {
@@ -7425,7 +6797,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the pension scheme for former Remploy employees.',
     infoUrl: 'https://www.gov.uk/government/organisations/remploy-pension-scheme-trustees-ltd',
     parentIds: ['dwp'],
-    childIds: [],
     tags: ['sector-welfare'],
   },
 
@@ -7439,7 +6810,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent oversight and guidance on how health and care data is accessed, used and protected.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-data-guardian',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['sector-health', 'sector-digital'],
   },
   'porton-biopharma': {
@@ -7450,7 +6820,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manufactures specialist biological products including vaccines and therapeutic proteins for public health.',
     infoUrl: 'https://www.gov.uk/government/organisations/porton-biopharma-limited',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['sector-health'],
   },
   // ── FCDO additions ────────────────────────────────────────────────────────
@@ -7462,7 +6831,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Intelligence and security organisation providing signals intelligence and information assurance to the UK government.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-communications-headquarters',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-security', 'sector-international'],
   },
   'hmgcc': {
@@ -7473,7 +6841,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides secure communications and bespoke technology solutions to support UK government overseas.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-government-communications-centre',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-security', 'sector-international'],
   },
   'sis': {
@@ -7484,7 +6851,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s foreign intelligence service (MI6), providing intelligence in support of national security and economic wellbeing.',
     infoUrl: 'https://www.gov.uk/government/organisations/secret-intelligence-service',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-security', 'sector-international'],
   },
 
@@ -7497,7 +6863,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages a diverse portfolio of land and property across the UK on behalf of the Crown, returning profits to the Treasury.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-crown-estate',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['sector-finance'],
   },
   'govt-debt-mgmt': {
@@ -7508,7 +6873,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages HM Treasury\'s debt management policy and coordinates government debt management across departments.',
     infoUrl: 'https://www.gov.uk/government/organisations/government-debt-management-function',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['sector-finance'],
   },
   'fca': {
@@ -7519,7 +6883,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates financial services firms and markets in the UK to protect consumers and ensure market integrity.',
     infoUrl: 'https://www.gov.uk/government/organisations/financial-conduct-authority',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['regulator', 'sector-finance'],
   },
   'psr': {
@@ -7530,7 +6893,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates payment systems in the UK to make them work well for the people and organisations that use them.',
     infoUrl: 'https://www.gov.uk/government/organisations/payment-systems-regulator',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['regulator', 'sector-finance'],
   },
   'royal-mint': {
@@ -7541,7 +6903,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s official manufacturer of coins, producing UK currency and commemorative coins for domestic and international markets.',
     infoUrl: 'https://www.gov.uk/government/organisations/royal-mint',
     parentIds: ['treasury'],
-    childIds: [],
     tags: ['sector-finance'],
   },
 
@@ -7554,7 +6915,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently reviews the operation of UK terrorism legislation and reports to Parliament.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-reviewer-of-terrorism-legislation',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'ipco': {
@@ -7565,7 +6925,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent oversight of the use of investigatory powers by public authorities.',
     infoUrl: 'https://www.gov.uk/government/organisations/investigatory-powers-commissioners-office',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'nctso': {
@@ -7576,7 +6935,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides counter-terrorism protective security advice to businesses and organisations across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-counter-terrorism-security-office',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'nca-rrb': {
@@ -7587,7 +6945,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to government on the pay of National Crime Agency officers.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-crime-agency-remuneration-review-body',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'prevent-commissioner': {
@@ -7598,7 +6955,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently reviews the Prevent counter-extremism programme and reports on its effectiveness.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-independent-prevent-commissioner',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'security-service': {
@@ -7609,7 +6965,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s domestic counter-intelligence and security agency (MI5), protecting national security.',
     infoUrl: 'https://www.gov.uk/government/organisations/security-service-mi5',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'adjudicators-office': {
@@ -7620,7 +6975,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently investigates complaints about HMRC and the Valuation Office Agency.',
     infoUrl: 'https://www.gov.uk/government/organisations/the-adjudicator-s-office',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'cce': {
@@ -7631,7 +6985,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent body that supports the government in tackling extremism and understanding the scale and nature of the threat.',
     infoUrl: 'https://www.gov.uk/government/organisations/commission-for-countering-extremism',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'forensic-science-regulator': {
@@ -7642,7 +6995,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Sets and monitors quality standards for forensic science in the criminal justice system.',
     infoUrl: 'https://www.gov.uk/government/organisations/forensic-science-regulator',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security', 'sector-legal'],
   },
   'hmicfrs': {
@@ -7653,7 +7005,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independently assesses the effectiveness and efficiency of police forces and fire & rescue services in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-inspectorate-of-constabulary-and-fire-rescue-services',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-security'],
   },
   'ifrp': {
@@ -7664,7 +7015,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to the Home Office on family returns to ensure the best interests of children are considered.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-family-returns-panel',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-immigration'],
   },
   'labour-market-evidence': {
@@ -7675,7 +7025,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides evidence and analysis on labour market issues to inform immigration policy decisions.',
     infoUrl: 'https://www.gov.uk/government/organisations/labour-market-evidence-group',
     parentIds: ['home-office'],
-    childIds: [],
     tags: ['sector-immigration'],
   },
 
@@ -7688,7 +7037,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages government-owned oil pipelines and storage depots on behalf of the Ministry of Defence.',
     infoUrl: 'https://www.gov.uk/government/organisations/oil-and-pipelines-agency',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence', 'sector-energy'],
   },
   'sheffield-forgemasters': {
@@ -7699,7 +7047,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government-owned specialist engineering company producing large steel forgings and castings for defence and nuclear sectors.',
     infoUrl: 'https://www.gov.uk/government/organisations/sheffield-forgemasters',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence'],
   },
   'mod-advisory-merm': {
@@ -7710,7 +7057,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides expert advice on military and emergency response medicine to support defence medical services.',
     infoUrl: 'https://www.gov.uk/government/organisations/advisory-group-on-military-and-emergency-response-medicine',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence', 'sector-health'],
   },
   'cacc': {
@@ -7721,7 +7067,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on compensation for land and buildings acquired compulsorily by the Ministry of Defence.',
     infoUrl: 'https://www.gov.uk/government/organisations/central-advisory-committee-on-compensation',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence'],
   },
   'dnse-committee': {
@@ -7732,7 +7077,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on nuclear safety to the Secretary of State for Defence.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-nuclear-safety-expert-committee',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence', 'sector-energy'],
   },
   'dsma': {
@@ -7743,7 +7087,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises media organisations and government on the publication of information that may affect national security.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-and-security-media-advisory-committee',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence', 'sector-media'],
   },
   'rfca': {
@@ -7754,7 +7097,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the Reserve Forces and Cadet organisations, acting as a link between the Armed Forces and civilian communities.',
     infoUrl: 'https://www.gov.uk/government/organisations/reserve-forces-and-cadets-associations',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence'],
   },
   'service-complaints-ombudsman': {
@@ -7765,7 +7107,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent oversight of the armed forces complaints system and investigates unresolved complaints.',
     infoUrl: 'https://www.gov.uk/government/organisations/service-complaints-ombudsman',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence'],
   },
   'service-prosecuting-authority': {
@@ -7776,7 +7117,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent prosecution decisions and prosecutes cases before the Court Martial.',
     infoUrl: 'https://www.gov.uk/government/organisations/service-prosecuting-authority',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence', 'sector-legal'],
   },
 
@@ -7789,7 +7129,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent oversight and advice on building control reform following the Grenfell Tower inquiry.',
     infoUrl: 'https://www.gov.uk/government/organisations/building-control-independent-panel',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-housing', 'sector-construction'],
   },
   'arb': {
@@ -7800,7 +7139,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates architects in the UK, maintaining the register of architects and setting standards for education and practice.',
     infoUrl: 'https://www.gov.uk/government/organisations/architects-registration-board',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-housing', 'sector-construction'],
   },
   'cambridge-growth-company': {
@@ -7811,7 +7149,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government-backed organisation supporting delivery of the Cambridge Growth Area, including infrastructure and housing.',
     infoUrl: 'https://www.gov.uk/government/organisations/cambridge-growth-company',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-housing', 'sector-planning'],
   },
   'land-reg-rule-committee': {
@@ -7822,7 +7159,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises the Lord Chancellor on making rules about land registration.',
     infoUrl: 'https://www.gov.uk/government/organisations/land-registration-rule-committee',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-housing'],
   },
   'holocaust-memorial': {
@@ -7833,7 +7169,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads delivery of the new UK Holocaust Memorial and Learning Centre in London.',
     infoUrl: 'https://www.gov.uk/government/organisations/uk-holocaust-memorial-foundation',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'boundary-commission-wales': {
@@ -7844,7 +7179,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews and makes recommendations on parliamentary constituency boundaries in Wales.',
     infoUrl: 'https://boundarycommissionforwales.gov.uk',
     parentIds: ['dluhc'],
-    childIds: [],
   },
 
   // ── MoJ additions ─────────────────────────────────────────────────────────
@@ -7856,7 +7190,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides training and professional development for those working in prisons and probation.',
     infoUrl: 'https://www.gov.uk/government/organisations/academy-for-social-justice',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'hmip': {
@@ -7867,7 +7200,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent scrutiny of the conditions for and treatment of prisoners and detainees.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-inspectorate-of-prisons',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'hmiprobation': {
@@ -7878,7 +7210,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent scrutiny of the work of the probation and youth offending services.',
     infoUrl: 'https://www.gov.uk/government/organisations/hm-inspectorate-of-probation',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'imb': {
@@ -7889,7 +7220,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent watchdogs that monitor day-to-day life in prisons and immigration removal centres.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-monitoring-boards',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'jaco': {
@@ -7900,7 +7230,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates complaints about the judicial appointments process and judicial conduct decisions.',
     infoUrl: 'https://www.gov.uk/government/organisations/judicial-appointments-and-conduct-ombudsman',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice', 'sector-legal'],
   },
   'judicial-office': {
@@ -7911,7 +7240,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supports the Lord Chief Justice and the wider judiciary in carrying out their responsibilities.',
     infoUrl: 'https://www.gov.uk/government/organisations/judicial-office',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice', 'sector-legal'],
   },
   'legal-ombudsman': {
@@ -7922,7 +7250,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Resolves complaints from members of the public about the service they receive from lawyers.',
     infoUrl: 'https://www.gov.uk/government/organisations/legal-ombudsman',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice', 'sector-legal'],
   },
   'ospt': {
@@ -7933,7 +7260,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Acts as litigation friend or guardian for people who lack mental capacity, and administers estates as trustee of last resort.',
     infoUrl: 'https://www.gov.uk/government/organisations/official-solicitor-and-public-trustee',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice', 'sector-legal'],
   },
   'ppo': {
@@ -7944,7 +7270,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates deaths, serious incidents, and complaints in prisons, probation, and immigration detention.',
     infoUrl: 'https://www.gov.uk/government/organisations/prisons-and-probation-ombudsman',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'victims-commissioner': {
@@ -7955,7 +7280,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes and safeguards the interests of victims and witnesses of crime.',
     infoUrl: 'https://www.gov.uk/government/organisations/victims-commissioner',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-justice'],
   },
 
@@ -7968,7 +7292,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews and makes recommendations on parliamentary constituency boundaries in Northern Ireland.',
     infoUrl: 'https://www.boundarycommission.org.uk',
     parentIds: ['ni-office'],
-    childIds: [],
   },
 
   // ── Scotland Office additions ──────────────────────────────────────────────
@@ -7980,7 +7303,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews and makes recommendations on parliamentary constituency boundaries in Scotland.',
     infoUrl: 'https://www.bcomm-scotland.independent.gov.uk',
     parentIds: ['scotland-office'],
-    childIds: [],
   },
 
   // ── UK Export Finance additions ────────────────────────────────────────────
@@ -7992,7 +7314,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to the Secretary of State on UK Export Finance\'s policies and business.',
     infoUrl: 'https://www.gov.uk/government/organisations/export-guarantees-advisory-council',
     parentIds: ['ukef'],
-    childIds: [],
     tags: ['sector-business', 'sector-international'],
   },
 
@@ -8005,7 +7326,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'NDA subsidiary responsible for decommissioning and clean-up of Magnox and RSRL nuclear legacy sites.',
     infoUrl: 'https://www.gov.uk/government/organisations/nuclear-restoration-services',
     parentIds: ['nda'],
-    childIds: [],
     tags: ['sector-nuclear', 'sector-energy'],
   },
   'nuclear-waste-services': {
@@ -8016,7 +7336,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'NDA subsidiary responsible for the long-term management and disposal of radioactive waste in the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/nuclear-waste-services',
     parentIds: ['nda'],
-    childIds: [],
     tags: ['sector-nuclear', 'sector-energy', 'sector-environment'],
   },
   'sellafield': {
@@ -8027,7 +7346,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'NDA subsidiary managing the decommissioning and clean-up of the Sellafield nuclear site in Cumbria.',
     infoUrl: 'https://www.gov.uk/government/organisations/sellafield-ltd',
     parentIds: ['nda'],
-    childIds: [],
     tags: ['sector-nuclear', 'sector-energy'],
   },
 
@@ -8040,7 +7358,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Distributes National Lottery funding to support heritage projects across the UK.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-lottery-heritage-fund',
     parentIds: ['nhmf'],
-    childIds: [],
     tags: ['lottery', 'sector-culture', 'sector-environment'],
   },
 
@@ -8054,7 +7371,6 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/flood-forecasting-centre',
     parentIds: ['environment-agency'],
     secondaryParentIds: ['met-office'],
-    childIds: [],
     tags: ['sector-environment'],
   },
 
@@ -8067,7 +7383,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Adjudicates disputes about company names, operating under the Intellectual Property Office.',
     infoUrl: 'https://www.gov.uk/government/organisations/company-names-tribunal',
     parentIds: ['ipo'],
-    childIds: [],
     tags: ['sector-business'],
   },
 
@@ -8080,7 +7395,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates GB\'s electricity and gas networks, planning and managing the transition to clean energy.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-energy-system-operator',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-energy'],
   },
   'uk-nnl': {
@@ -8091,7 +7405,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s national laboratory for nuclear fission, providing research, development and technical services.',
     infoUrl: 'https://www.gov.uk/government/organisations/national-nuclear-laboratory',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-energy', 'sector-science'],
   },
   'electricity-settlements': {
@@ -8102,7 +7415,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers the Capacity Market and Contracts for Difference schemes on behalf of the government.',
     infoUrl: 'https://www.gov.uk/government/organisations/electricity-settlements-company',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-energy'],
   },
   'gbe': {
@@ -8113,7 +7425,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Government-owned energy company set up to invest in clean energy projects and accelerate the transition to net zero.',
     infoUrl: 'https://www.gov.uk/government/organisations/great-british-energy',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['sector-energy'],
   },
 
@@ -8126,7 +7437,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Develops and promotes the arts in Northern Ireland, distributing public and lottery funding to artists and arts organisations.',
     infoUrl: 'https://www.gov.uk/government/organisations/arts-council-of-northern-ireland',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'ni-cancer-registry': {
@@ -8137,7 +7447,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Collects and analyses data on all cancer cases diagnosed in Northern Ireland to support research and public health.',
     infoUrl: 'https://www.qub.ac.uk/research-centres/nicr/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-health'],
   },
   'chief-electoral-ni': {
@@ -8148,7 +7457,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent office responsible for electoral registration and running elections in Northern Ireland.',
     infoUrl: 'https://www.gov.uk/government/organisations/electoral-office-for-northern-ireland',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'police-ombudsman-ni': {
@@ -8159,7 +7467,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent body that investigates complaints against the Police Service of Northern Ireland.',
     infoUrl: 'https://www.policeombudsman.org/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['ombudsman', 'sector-justice'],
   },
   'public-health-agency-ni': {
@@ -8170,7 +7477,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides health protection, improvement and emergency response for the population of Northern Ireland.',
     infoUrl: 'https://www.publichealth.hscni.net/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-health'],
   },
   'public-prosecution-ni': {
@@ -8181,7 +7487,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent government department responsible for prosecuting cases investigated by the police and other agencies in Northern Ireland.',
     infoUrl: 'https://www.ppsni.gov.uk/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['prosecution', 'sector-justice'],
   },
   'probation-board-ni': {
@@ -8192,7 +7497,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Supervises offenders in the community and advises courts to reduce re-offending in Northern Ireland.',
     infoUrl: 'https://www.pbni.org.uk/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'invest-ni': {
@@ -8203,7 +7507,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Economic development agency for Northern Ireland, supporting business growth and attracting inward investment.',
     infoUrl: 'https://www.investni.com/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-business'],
   },
   'afbi': {
@@ -8214,7 +7517,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides scientific research and expert advice on agriculture, food, and environmental matters in Northern Ireland.',
     infoUrl: 'https://www.afbini.gov.uk/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-food-farming', 'sector-science'],
   },
   'labour-relations-ni': {
@@ -8225,7 +7527,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes good employment relations and provides conciliation, arbitration and advisory services in Northern Ireland.',
     infoUrl: 'https://www.lra.org.uk/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-business'],
   },
   'sport-ni': {
@@ -8236,7 +7537,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Leads the development of sport in Northern Ireland, distributing funding to sport organisations and facilities.',
     infoUrl: 'https://www.sportni.net/',
     parentIds: ['ni-office'],
-    childIds: [],
     tags: ['sector-culture'],
   },
 
@@ -8249,7 +7549,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Funds and develops the arts in Wales using money from the Welsh Government and the National Lottery.',
     infoUrl: 'https://arts.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'careers-wales': {
@@ -8260,7 +7559,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides careers information, advice and guidance to people in Wales throughout their lives.',
     infoUrl: 'https://careerswales.gov.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['sector-education'],
   },
   'natural-resources-wales': {
@@ -8271,7 +7569,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages Wales\'s natural resources sustainably, including forests, fisheries, flood risk and biodiversity.',
     infoUrl: 'https://naturalresources.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['sector-environment'],
   },
   'public-health-wales': {
@@ -8282,7 +7579,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'NHS trust responsible for improving and protecting the health and wellbeing of the people of Wales.',
     infoUrl: 'https://phw.nhs.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['nhs-body', 'sector-health'],
   },
   'pso-wales': {
@@ -8293,7 +7589,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent office investigating complaints about public services in Wales including local government and NHS Wales.',
     infoUrl: 'https://www.ombudsman.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['ombudsman'],
   },
   'wales-audit-office': {
@@ -8304,7 +7599,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent organisation that examines public spending in Wales on behalf of the Auditor General for Wales.',
     infoUrl: 'https://www.audit.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['sector-finance'],
   },
   'welsh-language-commissioner': {
@@ -8315,7 +7609,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes and facilitates the use of the Welsh language, and can investigate complaints about Welsh language standards.',
     infoUrl: 'https://www.welshlanguagecommissioner.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'sports-council-wales': {
@@ -8326,7 +7619,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Primary adviser to the Welsh Government on sporting matters and principal channel for distributing sports funding.',
     infoUrl: 'https://sport.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'nhs-wales-informatics': {
@@ -8337,7 +7629,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides national digital and data services to support NHS Wales and the wider Welsh health and care system.',
     infoUrl: 'https://dhcw.nhs.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['nhs-body', 'sector-health', 'sector-digital'],
   },
   'estyn': {
@@ -8348,7 +7639,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'The inspectorate for education and training in Wales, inspecting schools, colleges and other education providers.',
     infoUrl: 'https://www.estyn.gov.wales/',
     parentIds: ['wales-office'],
-    childIds: [],
     tags: ['inspector', 'sector-education'],
   },
 
@@ -8361,7 +7651,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent advisory committee that monitors progress towards the government\'s fuel poverty targets and reports annually.',
     infoUrl: 'https://www.gov.uk/government/organisations/committee-on-fuel-poverty',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['adviser', 'sector-energy'],
   },
   'corwm': {
@@ -8372,7 +7661,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent scrutiny and advice to UK government and devolved administrations on the management of radioactive waste.',
     infoUrl: 'https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['adviser', 'sector-nuclear', 'sector-environment'],
   },
   'nlfab': {
@@ -8383,7 +7671,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent body that scrutinises the adequacy of financing arrangements for nuclear decommissioning liabilities.',
     infoUrl: 'https://www.gov.uk/government/organisations/nuclear-liabilities-financing-assurance-board',
     parentIds: ['desnz'],
-    childIds: [],
     tags: ['adviser', 'sector-nuclear'],
   },
   'acss': {
@@ -8394,7 +7681,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent strategic advice to UKRI on social science research priorities and policy.',
     infoUrl: 'https://www.ukri.org/about-us/esrc/governance/advisory-committee-for-social-science/',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['adviser', 'sector-science'],
   },
   'council-science-technology': {
@@ -8405,7 +7691,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Top-level advisory body advising the Prime Minister and Cabinet on science and technology policy.',
     infoUrl: 'https://www.gov.uk/government/organisations/council-for-science-and-technology',
     parentIds: ['dsit'],
-    childIds: [],
     tags: ['adviser', 'sector-science'],
   },
   'sage': {
@@ -8416,7 +7701,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides scientific and technical advice to support government decision-making during emergencies.',
     infoUrl: 'https://www.gov.uk/government/organisations/scientific-advisory-group-for-emergencies',
     parentIds: ['co'],
-    childIds: [],
     tags: ['adviser', 'sector-science'],
   },
   'trade-agriculture-commission': {
@@ -8427,7 +7711,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Scrutinises trade agreements and their impact on UK agricultural and food standards.',
     infoUrl: 'https://www.gov.uk/government/organisations/trade-and-agriculture-commission',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['adviser', 'sector-food-farming', 'sector-business'],
   },
   'industrial-development-advisory': {
@@ -8438,7 +7721,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to ministers on applications for financial assistance under the Industrial Development Act.',
     infoUrl: 'https://www.gov.uk/government/organisations/industrial-development-advisory-board',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['adviser', 'sector-business'],
   },
   'isac': {
@@ -8449,7 +7731,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent expert panel advising government on developing and implementing the Industrial Strategy.',
     infoUrl: 'https://www.gov.uk/government/organisations/industrial-strategy-advisory-council',
     parentIds: ['dbt'],
-    childIds: [],
     tags: ['adviser', 'sector-business'],
   },
   'ipsa': {
@@ -8460,7 +7741,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates and administers the business costs and staffing expenditure of MPs, and sets and administers MPs\' pay.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-parliamentary-standards-authority',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-legal'],
   },
   'independent-water-commission': {
@@ -8471,7 +7751,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Conducts a fundamental review of the water sector regulatory and ownership model in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-water-commission',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['adviser', 'sector-environment'],
   },
   'independent-complaints-reviewer': {
@@ -8482,7 +7761,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews complaints about the service provided by the Official Solicitor and the Public Trustee.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-complaints-reviewer',
     parentIds: ['moj'],
-    childIds: [],
     tags: ['sector-legal'],
   },
   'independent-dormant-assets-commission': {
@@ -8493,7 +7771,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews and advises on the expansion of the dormant assets scheme to more types of financial assets.',
     infoUrl: 'https://www.gov.uk/government/organisations/dormant-assets-commission',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['adviser', 'sector-finance'],
   },
   'chevening': {
@@ -8504,7 +7781,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'UK government\'s global scholarship programme, funded by the FCDO and partner organisations, supporting future leaders.',
     infoUrl: 'https://www.chevening.org/',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international', 'sector-education'],
   },
   'bbc-world-service': {
@@ -8515,7 +7791,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'International broadcasting arm of the BBC, funded in part by the FCDO grant-in-aid, reaching audiences in over 40 languages.',
     infoUrl: 'https://www.bbc.co.uk/worldservice',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-media', 'sector-international'],
   },
   'child-safeguarding-panel': {
@@ -8526,7 +7801,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Identifies and reviews serious child safeguarding cases that are complex or of national importance in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/child-safeguarding-practice-review-panel',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-welfare', 'sector-justice'],
   },
   'independent-review-mechanism': {
@@ -8537,7 +7811,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides an independent review of development finance institution decisions for those affected by FCDO-funded projects.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-review-mechanism',
     parentIds: ['fcdo'],
-    childIds: [],
     tags: ['sector-international'],
   },
   'osa': {
@@ -8548,7 +7821,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes statutory decisions on objections to school admission arrangements and certain other school organisation matters.',
     infoUrl: 'https://www.gov.uk/government/organisations/office-of-the-schools-adjudicator',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education'],
   },
   'english-institute-sport': {
@@ -8559,7 +7831,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides world-class support services to high-performance sport in England, including sports science and medicine.',
     infoUrl: 'https://www.eis2win.co.uk/',
     parentIds: ['dcms'],
-    childIds: [],
     tags: ['sector-culture'],
   },
   'fire-service-college': {
@@ -8570,7 +7841,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides specialist training and education for the fire and rescue service and other emergency responders.',
     infoUrl: 'https://www.fireservicecollege.ac.uk/',
     parentIds: ['dluhc'],
-    childIds: [],
     tags: ['sector-justice'],
   },
   'hesa': {
@@ -8581,7 +7851,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Collects, processes and publishes data about UK higher education, supporting accountability and decision-making.',
     infoUrl: 'https://www.hesa.ac.uk/',
     parentIds: ['dfe'],
-    childIds: [],
     tags: ['sector-education', 'sector-science'],
   },
   'independent-reconfiguration-panel': {
@@ -8592,7 +7861,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises NHS England and ministers on contested proposals to change NHS services.',
     infoUrl: 'https://www.gov.uk/government/organisations/independent-reconfiguration-panel',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['adviser', 'nhs-body', 'sector-health'],
   },
   'phso': {
@@ -8603,7 +7871,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Investigates complaints that government departments and other public organisations in the UK, and the NHS in England, have not acted properly.',
     infoUrl: 'https://www.ombudsman.org.uk/',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['ombudsman', 'sector-health', 'sector-justice'],
   },
   'professional-standards-authority': {
@@ -8614,7 +7881,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Oversees the regulation of health and social care professionals in the UK to promote public safety.',
     infoUrl: 'https://www.professionalstandards.org.uk/',
     parentIds: ['dhsc'],
-    childIds: [],
     tags: ['regulator', 'sector-health'],
   },
   'military-engineering-establishment': {
@@ -8625,7 +7891,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'MOD establishment providing experimental and test facilities for military engineering research.',
     infoUrl: 'https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['sector-defence'],
   },
   'lgbt-veterans-review': {
@@ -8636,7 +7901,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Reviews the experiences of LGBT veterans who were dismissed or forced to resign from the UK armed forces before 2000.',
     infoUrl: 'https://www.gov.uk/government/organisations/lgbt-veterans-independent-review',
     parentIds: ['mod'],
-    childIds: [],
     tags: ['adviser', 'sector-defence', 'sector-veterans'],
   },
   'rssb': {
@@ -8647,7 +7911,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works with the rail industry to develop and promote safe railway standards and practices in Great Britain.',
     infoUrl: 'https://www.rssb.co.uk/',
     parentIds: ['dft'],
-    childIds: [],
     tags: ['sector-transport'],
   },
   'electoral-commission': {
@@ -8658,7 +7921,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Independent body that oversees elections and regulates political finance in the UK.',
     infoUrl: 'https://www.electoralcommission.org.uk/',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-legal'],
   },
   'parliamentary-pension-fund': {
@@ -8669,7 +7931,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Manages the pension scheme for Members of Parliament.',
     infoUrl: 'https://www.gov.uk/government/organisations/parliamentary-contributory-pension-fund',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-finance'],
   },
   'open-innovation-team': {
@@ -8680,7 +7941,6 @@ export const govElements: Record<string, GovElement> = {
     description: 'Works with academics and experts to bring external expertise into government policy-making processes.',
     infoUrl: 'https://www.gov.uk/government/organisations/open-innovation-team',
     parentIds: ['co'],
-    childIds: [],
     tags: ['sector-science'],
   },
   'packuk': {
@@ -8691,43 +7951,54 @@ export const govElements: Record<string, GovElement> = {
     description: 'Voluntary scheme working with the packaging industry to reduce packaging waste in the UK.',
     infoUrl: 'https://www.packuk.org/',
     parentIds: ['defra'],
-    childIds: [],
     tags: ['sector-environment'],
   },
+}
+
+const _childrenByParent = new Map<string, string[]>()
+for (const el of Object.values(govElements)) {
+  for (const pid of el.parentIds) {
+    if (!_childrenByParent.has(pid)) _childrenByParent.set(pid, [])
+    _childrenByParent.get(pid)!.push(el.id)
+  }
+}
+
+const _secondaryChildrenByParent = new Map<string, string[]>()
+for (const el of Object.values(govElements)) {
+  for (const pid of (el.secondaryParentIds ?? [])) {
+    if (!_secondaryChildrenByParent.has(pid)) _secondaryChildrenByParent.set(pid, [])
+    _secondaryChildrenByParent.get(pid)!.push(el.id)
+  }
+}
+
+export function getChildIds(id: string): string[] {
+  return _childrenByParent.get(id) ?? []
+}
+
+export function getSecondaryChildIds(id: string): string[] {
+  return _secondaryChildrenByParent.get(id) ?? []
 }
 
 export function getElement(id: string): GovElement | undefined {
   return govElements[id]
 }
 
-export function getConnectedElements(id: string): { parents: GovElement[]; children: GovElement[]; secondaryParents: GovElement[] } {
+export function getConnectedElements(id: string): { parents: GovElement[]; children: GovElement[]; secondaryParents: GovElement[]; secondaryChildren: GovElement[] } {
   const element = govElements[id]
-  if (!element) return { parents: [], children: [], secondaryParents: [] }
+  if (!element) return { parents: [], children: [], secondaryParents: [], secondaryChildren: [] }
 
-  // For departments: find officials whose childIds reference this department.
-  // Cabinet/junior ministers who "lead" it are secondary parents (also led by);
-  // any other officials pointing here stay as children.
-  const secondaryParentOfficials: GovElement[] = []
-  if (element.category === 'department') {
-    Object.values(govElements).forEach(el => {
-      if (
-        el.category === 'official' &&
-        el.childIds.includes(id) &&
-        !element.parentIds.includes(el.id)
-      ) {
-        secondaryParentOfficials.push(el)
-      }
-    })
-  }
+  const secondaryParents = (element.secondaryParentIds ?? [])
+    .map(pid => govElements[pid])
+    .filter(Boolean) as GovElement[]
 
-  const secondaryParents: GovElement[] = [
-    ...(element.secondaryParentIds || []).map(pid => govElements[pid]).filter(Boolean) as GovElement[],
-    ...secondaryParentOfficials,
-  ]
+  const secondaryChildren = getSecondaryChildIds(id)
+    .map(cid => govElements[cid])
+    .filter(Boolean) as GovElement[]
 
   return {
     parents: element.parentIds.map(pid => govElements[pid]).filter(Boolean) as GovElement[],
     secondaryParents,
-    children: element.childIds.map(cid => govElements[cid]).filter(Boolean) as GovElement[],
+    children: getChildIds(id).map(cid => govElements[cid]).filter(Boolean) as GovElement[],
+    secondaryChildren,
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import cytoscape from 'cytoscape'
-import { govElements, GovElement } from '../data/elements'
+import { govElements, getChildIds, GovElement } from '../data/elements'
 import { getElementColor } from '../utils/colors'
 import './OrgChart.css'
 
@@ -59,23 +59,13 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       })
     }
 
-    // Step 1.5: For ministerial departments, also surface junior ministers who lead this dept
-    // (they have focusId in childIds but are not in the dept's parentIds)
-    if (focusElement.category === 'department' && focusElement.subtype === 'ministerial') {
-      Object.values(govElements).forEach(el => {
-        if (el.subtype === 'junior-minister' && el.childIds.includes(focusId) && !ancestorLevels.has(el.id)) {
-          ancestorLevels.set(el.id, 1)
-        }
-      })
-    }
-
     // Step 2: Collect direct children and grandchildren
     // Also include elements that list focusId as a secondary parent
     const childrenSet = new Set<string>()
     const grandchildrenSet = new Set<string>()
 
     const directChildIds = [
-      ...focusElement.childIds,
+      ...getChildIds(focusId),
       ...Object.values(govElements)
         .filter(el => el.secondaryParentIds?.includes(focusId))
         .map(el => el.id),
@@ -84,7 +74,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
     directChildIds.forEach(cid => {
       if (govElements[cid]) {
         childrenSet.add(cid)
-        govElements[cid].childIds.forEach(gcid => {
+        getChildIds(cid).forEach(gcid => {
           if (govElements[gcid] && !childrenSet.has(gcid)) {
             grandchildrenSet.add(gcid)
           }
@@ -113,9 +103,9 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       if (nodeId === focusId) return
       const element = govElements[nodeId]
       if (!element) return
-      // Keep officials that are directly linked to the focused dept (e.g. cabinet-attending junior ministers)
+      // Keep officials that are secondary parents of the focused dept (e.g. junior ministers)
       if (focusElement.category === 'department' && focusElement.subtype === 'ministerial' &&
-          element.childIds.includes(focusId)) return
+          focusElement.secondaryParentIds?.includes(nodeId)) return
       const groupParent = element.parentIds.find(pid => {
         const parent = govElements[pid]
         return parent && parent.category === 'group'
@@ -230,7 +220,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       if (level !== 2 || !nodesToShow.has(id)) return
       const el = govElements[id]
       if (!el) return
-      const d1Parent = el.childIds.find(cid => d1Set.has(cid))
+      const d1Parent = [...d1Set].find(d1Id => govElements[d1Id]?.parentIds.includes(id))
       if (d1Parent) {
         if (!d2AncestorsByParent.has(d1Parent)) d2AncestorsByParent.set(d1Parent, [])
         d2AncestorsByParent.get(d1Parent)!.push(id)
@@ -272,7 +262,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
         if (l !== level || !nodesToShow.has(id)) return
         const el = govElements[id]
         if (!el) return
-        const parent = el.childIds.find(cid => prevLevelSet.has(cid))
+        const parent = [...prevLevelSet].find(pid => govElements[pid]?.parentIds.includes(id))
         if (parent) {
           if (!byParent.has(parent)) byParent.set(parent, [])
           byParent.get(parent)!.push(id)
@@ -294,7 +284,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
     nodesToShow.forEach(nodeId => {
       const element = govElements[nodeId]
       if (element && element.category === 'department') {
-        element.childIds.forEach(childId => {
+        getChildIds(element.id).forEach(childId => {
           if (nodesToShow.has(childId)) {
             const child = govElements[childId]
             if (child && child.subtype === 'division-directorate') {
@@ -622,9 +612,9 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
     Object.values(govElements).forEach(element => {
       if (!nodesToShow.has(element.id)) return
 
-      element.childIds.forEach(childId => {
+      getChildIds(element.id).forEach(childId => {
         if (!nodesToShow.has(childId)) return
-        
+
         const targetElement = govElements[childId]
         if (targetElement) {
           // Skip edges for compound node membership (Cabinet and its members)
@@ -661,12 +651,17 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
       // Secondary parent edges (dashed lines)
       ;(element.secondaryParentIds || []).forEach(pid => {
         if (!nodesToShow.has(pid)) return
+        const secondaryParent = govElements[pid]
+        const isOfficialLeadingDept =
+          secondaryParent?.category === 'official' &&
+          element.category === 'department' &&
+          element.subtype === 'ministerial'
         elements.push({
           data: {
             id: `${pid}-${element.id}-secondary`,
             source: pid,
             target: element.id,
-            label: 'also sponsors',
+            label: isOfficialLeadingDept ? 'also leads' : 'also sponsors',
             secondary: 1,
           },
         })
@@ -929,7 +924,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
             }
           })
           // Traverse downward (to children)
-          el.childIds.forEach(cid => {
+          getChildIds(el.id).forEach(cid => {
             if (visible.has(cid) && !visited.has(cid)) {
               queue.push({ id: cid, nodeIds: [...nodeIds, cid], edgeIds: [...edgeIds, `${id}-${cid}`] })
             }
@@ -1209,15 +1204,15 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
             <span>Tribunal</span>
           </div>
           <div className="legend-item" onClick={() => onOpenCategory('body', 'public-corporation')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'public-corporation')}>
-            <div className="legend-shape parallelogram" style={{ backgroundColor: '#fad7a0', borderColor: '#e67e22' }}></div>
+            <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#fad7a0" stroke="#e67e22" strokeWidth="1.5"/></svg>
             <span>Public Corporation</span>
           </div>
           <div className="legend-item" onClick={() => onOpenCategory('body', 'royal-charter-body')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'royal-charter-body')}>
-            <div className="legend-shape parallelogram" style={{ backgroundColor: '#d7b8e8', borderColor: '#8e44ad' }}></div>
+            <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#d7b8e8" stroke="#8e44ad" strokeWidth="1.5"/></svg>
             <span>Royal Charter Body</span>
           </div>
           <div className="legend-item" onClick={() => onOpenCategory('body', 'other')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'other')}>
-            <div className="legend-shape parallelogram" style={{ backgroundColor: '#dae0e0', borderColor: '#7f8c8d' }}></div>
+            <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#dae0e0" stroke="#7f8c8d" strokeWidth="1.5"/></svg>
             <span>Other Body</span>
           </div>
         </div>
