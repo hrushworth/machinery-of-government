@@ -680,11 +680,16 @@
   order: 3;
 }
 
-.view-toggle-btn {
+.chart-overlay-buttons {
   position: absolute;
   top: 0.6rem;
-  right: 2.6rem; /* sits just left of the refresh button */
+  right: 2.6rem;
   z-index: 10;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.view-toggle-btn {
   background: rgba(255,255,255,0.92);
   border: 1.5px solid #d0d5dd;
   border-radius: 6px;

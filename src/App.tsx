@@ -108,14 +108,6 @@ function App() {
         <div className="header-buttons">
           <button
             className="header-button"
-            onClick={() => setDarkMode(d => !d)}
-            aria-label="Toggle dark mode"
-            aria-pressed={darkMode}
-          >
-            {darkMode ? '☀ Light' : '☾ Dark'}
-          </button>
-          <button
-            className="header-button"
             onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false) }}
             aria-label="Toggle info panel"
             aria-pressed={infoOpen}
@@ -192,14 +184,24 @@ function App() {
               highlightIds={searchOpen ? searchHighlightIds : null}
             />
           )}
-          <button
-            className={`view-toggle-btn${viewMode === 'full' ? ' view-toggle-btn-active' : ''}`}
-            onClick={() => setViewMode(m => m === 'focus' ? 'full' : 'focus')}
-            title={viewMode === 'focus' ? 'Switch to full network view' : 'Switch to focus view'}
-            aria-label={viewMode === 'focus' ? 'Full view' : 'Focus view'}
-          >
-            {viewMode === 'focus' ? '⊞ Full' : '⊡ Focus'}
-          </button>
+          <div className="chart-overlay-buttons">
+            <button
+              className={`view-toggle-btn${viewMode === 'full' ? ' view-toggle-btn-active' : ''}`}
+              onClick={() => setViewMode(m => m === 'focus' ? 'full' : 'focus')}
+              title={viewMode === 'focus' ? 'Switch to full network view' : 'Switch to focus view'}
+              aria-label={viewMode === 'focus' ? 'Full view' : 'Focus view'}
+            >
+              {viewMode === 'focus' ? '⊞ Full' : '⊡ Focus'}
+            </button>
+            <button
+              className="view-toggle-btn"
+              onClick={() => setDarkMode(d => !d)}
+              title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={darkMode ? 'Light mode' : 'Dark mode'}
+            >
+              {darkMode ? '☀' : '☾'}
+            </button>
+          </div>
         </div>
 
         {searchOpen && (
@@ -280,46 +282,6 @@ function App() {
       {/* Mobile bottom nav bar */}
       {isMobile && (
         <nav className="mobile-bottom-nav" aria-label="Main navigation">
-          <button
-            className={`mobile-nav-tab${infoOpen ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false) }}
-            aria-label="Help"
-          >
-            <span className="mobile-nav-icon">❓</span>
-            <span className="mobile-nav-label">Help</span>
-          </button>
-          <button
-            className={`mobile-nav-tab${categoriesOpen ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => { setCategoriesOpen(o => !o); setSearchOpen(false); setInfoOpen(false) }}
-            aria-label="Categories"
-          >
-            <span className="mobile-nav-icon">🗂️</span>
-            <span className="mobile-nav-label">Categories</span>
-          </button>
-          <button
-            className={`mobile-nav-tab${searchOpen ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => { setSearchOpen(o => !o); setInfoOpen(false); setCategoriesOpen(false) }}
-            aria-label="Search"
-          >
-            <span className="mobile-nav-icon">🔍</span>
-            <span className="mobile-nav-label">Search</span>
-          </button>
-          <button
-            className={`mobile-nav-tab${viewMode === 'full' ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => setViewMode(m => m === 'focus' ? 'full' : 'focus')}
-            aria-label={viewMode === 'focus' ? 'Full view' : 'Focus view'}
-          >
-            <span className="mobile-nav-icon">{viewMode === 'focus' ? '⊞' : '⊡'}</span>
-            <span className="mobile-nav-label">{viewMode === 'focus' ? 'Full' : 'Focus'}</span>
-          </button>
-          <button
-            className={`mobile-nav-tab${darkMode ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => setDarkMode(d => !d)}
-            aria-label={darkMode ? 'Light mode' : 'Dark mode'}
-          >
-            <span className="mobile-nav-icon">{darkMode ? '☀' : '☾'}</span>
-            <span className="mobile-nav-label">{darkMode ? 'Light' : 'Dark'}</span>
-          </button>
           {selectedElementId && (
             <button
               className={`mobile-nav-tab${elementPaneVisible && sheetState !== 'closed' ? ' mobile-nav-tab-active' : ''}`}
@@ -337,6 +299,30 @@ function App() {
               <span className="mobile-nav-label">Details</span>
             </button>
           )}
+          <button
+            className={`mobile-nav-tab${searchOpen ? ' mobile-nav-tab-active' : ''}`}
+            onClick={() => { setSearchOpen(o => !o); setInfoOpen(false); setCategoriesOpen(false) }}
+            aria-label="Search"
+          >
+            <span className="mobile-nav-icon">🔍</span>
+            <span className="mobile-nav-label">Search</span>
+          </button>
+          <button
+            className={`mobile-nav-tab${categoriesOpen ? ' mobile-nav-tab-active' : ''}`}
+            onClick={() => { setCategoriesOpen(o => !o); setSearchOpen(false); setInfoOpen(false) }}
+            aria-label="Categories"
+          >
+            <span className="mobile-nav-icon">🗂️</span>
+            <span className="mobile-nav-label">Categories</span>
+          </button>
+          <button
+            className={`mobile-nav-tab${infoOpen ? ' mobile-nav-tab-active' : ''}`}
+            onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false) }}
+            aria-label="Help"
+          >
+            <span className="mobile-nav-icon">❓</span>
+            <span className="mobile-nav-label">Help</span>
+          </button>
         </nav>
       )}
     </div>
