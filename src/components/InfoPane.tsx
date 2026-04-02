@@ -19,6 +19,20 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
       </p>
 
       <section className="info-section">
+        <h3>Views</h3>
+        <dl className="info-controls">
+          <dt>Focus view</dt>
+          <dd>The default view. Shows the selected element at the centre, with its parents, grandparents, children, and grandchildren arranged radially. Click any node to re-focus the chart on it.</dd>
+
+          <dt>Full view</dt>
+          <dd>Shows every element in the network simultaneously, arranged in concentric rings by constitutional distance from the Prime Minister. Hover any node to highlight it and its full ancestor chain. Click to pin the highlight and open the element pane. Click <strong>⊞ Full</strong> in the chart toolbar to switch; <strong>⊡ Focus</strong> to return.</dd>
+
+          <dt>Dark / Light mode</dt>
+          <dd>Toggle between light and dark appearances using the <strong>☾ Dark</strong> / <strong>☀ Light</strong> button in the header (or the moon icon on mobile).</dd>
+        </dl>
+      </section>
+
+      <section className="info-section">
         <h3>How to navigate</h3>
         <dl className="info-controls">
           <dt>Select an element</dt>
@@ -31,10 +45,13 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
           <dd>Click and drag on the background.</dd>
 
           <dt>Zoom</dt>
-          <dd>Scroll wheel, or pinch on a trackpad.</dd>
+          <dd>Scroll wheel, or pinch on a trackpad / touchscreen.</dd>
+
+          <dt>Reset / re-centre</dt>
+          <dd>Click the <strong>↺</strong> button in the top-right corner of the chart to reset the layout (focus view) or re-centre on the PM (full view).</dd>
 
           <dt>Search</dt>
-          <dd>Click <strong>Search</strong> in the header to open a search panel. You can search by name or filter by one or more tags.</dd>
+          <dd>Click <strong>Search</strong> in the header to open a search panel. Search by name, or filter by one or more tags. In full view, matching elements are highlighted across the whole network.</dd>
 
           <dt>Browse by category</dt>
           <dd>Click the category badge (e.g. "Ministerial Department") on any element to see all elements of that type.</dd>
@@ -132,15 +149,15 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
         <ul className="info-list">
           <li>All Cabinet ministers with current role holders</li>
           <li>All junior ministers across every department</li>
-          <li>Permanent Secretaries for all major departments</li>
-          <li>All 20+ ministerial departments and non-ministerial departments</li>
+          <li>Permanent Secretaries and key independent officials</li>
+          <li>All ministerial and non-ministerial departments</li>
           <li>40+ executive agencies</li>
           <li>100+ executive and advisory NDPBs</li>
           <li>Tribunals, ombudsmen, regulators, and public corporations</li>
           <li>Government professions and cross-cutting Cabinet Office functions</li>
+          <li>Powers and legislation data for all Cabinet ministers and selected independent officials</li>
           <li>Budget data for 37 department groups (2024–25 outturn)</li>
           <li>Staff headcount for all ministerial and non-ministerial departments and their agencies (31 March 2025)</li>
-          <li>Powers and legislation data for selected high-profile elements</li>
         </ul>
         <p className="info-note">
           Data reflects the UK government structure as of early 2025. Role holders and
@@ -153,10 +170,9 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
       <section className="info-section">
         <h3>Limitations</h3>
         <ul className="info-list">
-          <li>Powers and legislation data is currently only entered for a small number of high-profile elements.</li>
-          <li>Budget data covers department-level groups; individual agencies and NDPBs do not yet have their own budget entries unless they appear as a separate OSCAR organisation.</li>
+          <li>Budget data covers department-level groups; individual agencies and NDPBs do not have separate budget entries unless they appear as a distinct OSCAR organisation.</li>
           <li>OSCAR body-level spend figures aggregate all transactions attributed to an organisation code and may differ from figures in individual annual reports.</li>
-          <li>The chart shows up to two levels of children and all ancestors for any selected element; deeper relationships are accessible by navigating through the chart.</li>
+          <li>The focus view shows up to two levels of children and all ancestors for any selected element; the full view shows the entire network.</li>
         </ul>
       </section>
 

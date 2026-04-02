@@ -1,4 +1,4 @@
-# UK Government Organization Chart
+# Machinery of Government
 
 An interactive web application for exploring the structure of the UK Government — showing how departments, ministers, agencies, public bodies, and other organisations relate to and oversee one another.
 
@@ -21,18 +21,39 @@ Contains public sector information licensed under the [Open Government Licence v
 
 ## Features
 
+### Views
+
+**Focus view** (default)
+The selected element is placed at the centre with its parents, grandparents, children, and grandchildren arranged radially. Click any node to re-focus the chart. The ↺ button resets the layout.
+
+**Full view**
+Every element in the network is shown simultaneously, arranged in concentric rings by constitutional distance from the Prime Minister:
+- Ring 0 — Prime Minister
+- Ring 1 — Cabinet Ministers
+- Ring 2 — Junior Ministers
+- Ring 3 — Ministerial and Non-Ministerial Departments
+- Ring 4 — Executive Agencies and Divisions/Directorates
+- Ring 5+ — All other bodies, placed by BFS distance from the nearest ring-1–4 node
+
+Node names are hidden by default. Hover any node to reveal its name and highlight its full ancestor chain (all parents, grandparents, etc.) plus direct children. Click to pin the highlight and open the element pane. Click on the background to clear the pin. The ↺ button re-centres on the PM.
+
+When the search pane is open in full view, matching elements are highlighted across the whole network and all edges are hidden, making it easy to see where a filtered set of organisations sits in the network.
+
+**Dark / light mode**
+Toggle between light and dark appearances via the header button (desktop) or the moon/sun icon in the mobile navigation bar.
+
 ### Navigation & Visualization
-- **Interactive network graph** — click any node to focus it at the centre, with connections arranged radially around it
+- **Interactive network graph** — click any node to focus it; connections arranged radially in focus view
 - **Element pane** — detailed sidebar with tabbed sections for Info, Powers, Budget, and Staff
 - **Category pane** — click any category badge to see a description and full list of all elements of that type
 - **Tag pane** — click any tag pill to see all organisations sharing that tag
-- **Search pane** — full-text and tag-based search across all elements, with results grouped by category and tag
-- **Help pane** — in-app guide accessible via the Help button in the header
+- **Search pane** — full-text and tag-based search across all elements; in full view, results are highlighted live on the network
+- **Help pane** — in-app guide accessible via the Help button
 - **Categories pane** — browse all element types grouped by section
 
 ### Element Detail Tabs
 
-Each element's detail pane has up to four tabs, with a scrollable tab bar where needed:
+Each element's detail pane has up to four tabs:
 
 **Info**
 - Description, role title, current role holder
@@ -41,96 +62,71 @@ Each element's detail pane has up to four tabs, with a scrollable tab bar where 
 - Link to GOV.UK page
 
 **Powers**
-- Powers, duties, functions, and responsibilities listed as cards
+- Powers, duties, functions, and responsibilities listed as cards, filterable by type
 - Each entry shows the power type, date in force, and one or more legislative sources
 - Sources link directly to [legislation.gov.uk](https://www.legislation.gov.uk) where available
-- Sources include Acts of Parliament, Statutory Instruments, Royal Prerogative, case law, and constitutional convention
-- Data entered for selected high-profile elements (Prime Minister, HM Treasury); more to be added
+- Data entered for all Cabinet ministers, the PM, the Comptroller and Auditor General, the Investigatory Powers Commissioner, and other key officials
 
 **Budget**
 - 2024–25 final outturn spending from HM Treasury OSCAR data
 - Headline figures: net expenditure, gross expenditure, income
-- DEL / AME split shown as a proportional bar (Admin DEL, Programme DEL, Dept AME, Non-Dept AME)
-- Spending breakdown with three views selectable via a switcher:
-  - **By Type** — economic category (Pay, Goods & Services, Capital Investment, Current Grants, etc.)
-  - **By Programme** — named Estimates row (e.g. "State Pension", "Universal Credit", "NHS Providers")
-  - **By Body** — spend attributed to individual arm's-length bodies and agencies within the group
-- Donut charts with hover tooltips and a full HTML legend — animated when switching views
-- Clicking a pie slice for a body navigates to that body's element where one exists
-- Link to the body's annual report collection on GOV.UK where known
+- DEL / AME split shown as a proportional bar
+- Spending breakdown with three views: By Type, By Programme, By Body
+- Donut charts with hover tooltips; clicking a body slice navigates to that element
 - Budget data available for 37 department groups
 
 **Staff**
-- Civil service headcount as at 31 March 2025 from Civil Service Statistics 2025
-- Summary total with breakdown by grade (SCS, Grade 6/7, SEO/HEO, EO, AA/AO, unreported)
-- Where a department has sub-organisations, a toggle switches between grade view and by-organisation view
-- Grade breakdown table shows per-organisation headcount across all grade bands
-- Clicking a pie slice or table row for a sub-organisation navigates to that element where one exists
-- Staff data available for all ministerial departments and major non-ministerial departments
+- Civil Service headcount as at 31 March 2025
+- Grade breakdown (SCS, Grade 6/7, SEO/HEO, EO, AA/AO)
+- For departments, a toggle switches between grade view and by-organisation view
+- Clicking a sub-organisation row navigates to that element
 
 ### Classification System
 
-Elements are classified by **category** and **subtype**:
-
-**Officials**
-- Prime Minister
-- Cabinet Ministers
-- Junior Ministers
-- Civil Servants (Permanent Secretaries)
-- Independent Officials (chairs, etc.)
-
-**Departments**
-- Ministerial Departments — led by a Secretary of State
-- Non-Ministerial Departments — independent of direct ministerial control
-- Executive Agencies — operational delivery bodies within departments
-- Divisions / Directorates — major public-facing sub-units within departments
-
-**Bodies**
-- Executive NDPBs — arm's-length bodies with executive functions (regulators, public corporations, etc.)
-- Advisory NDPBs — bodies providing independent advice to government
-- Other Bodies — tribunals, ombudsmen, public corporations, and similar entities
-
-**Groups**
-- Cabinet — the collective decision-making body of senior ministers
+| Category | Subtypes |
+|----------|----------|
+| Official | Prime Minister, Cabinet Minister, Junior Minister, Civil Servant, Independent Official |
+| Department | Ministerial Department, Non-Ministerial Department, Executive Agency, Division / Directorate |
+| Body | Executive NDPB, Advisory NDPB, Public Corporation, Royal Charter Body, Tribunal, Other Body |
+| Group | Cabinet, Other Group |
 
 ### Tag System
 
-Each element can carry one or more tags describing its **type** (e.g. Regulator, Museum / Gallery, Armed Forces) and **sector** (e.g. Health, Finance, Digital / Technology). Tags are colour-coded and clickable to browse all organisations sharing that tag.
+Each element can carry **type tags** (e.g. Regulator, Museum / Gallery, Armed Forces) and **sector tags** (e.g. Health, Finance, Digital / Technology). Tags are colour-coded, clickable in the element pane, and filterable in the search pane. In full view, tag filters highlight the matching elements across the entire network.
 
 ---
 
 ## Data Coverage
 
-`src/data/elements.ts` contains a comprehensive database of UK Government structure, including:
-
+`src/data/elements.ts` — comprehensive database of UK Government structure:
 - All Cabinet ministers with current role holders
 - All junior ministers across every department
-- Permanent Secretaries for all major departments
-- All 20+ ministerial departments
-- All non-ministerial departments
+- Permanent Secretaries and key independent officials
+- All ministerial and non-ministerial departments
 - 40+ executive agencies
 - 100+ executive and advisory NDPBs
 - Arms-length bodies, tribunals, ombudsmen, regulators, and public corporations
 - Government professions and cross-cutting functions (Cabinet Office)
-- Sub-bodies and subsidiary organisations
 
-`src/data/powers.ts` contains powers and legislation data for selected elements.
+`src/data/powers.ts` — powers and legislation data for:
+- All 19 Cabinet ministers (comprehensive coverage of statutory powers, duties, functions, and responsibilities)
+- The Prime Minister (33+ entries covering constitutional and statutory powers)
+- The Investigatory Powers Commissioner
+- The Comptroller and Auditor General
+- Key independent officials
 
-`src/data/budgets-oscar.json` contains 2024–25 outturn budget data for 37 department groups, pre-processed from HM Treasury OSCAR data by `scripts/extract-oscar.mjs`. Body lines include an `elementId` field where the body has a matching element in `elements.ts`, enabling pie-slice click navigation.
+`src/data/budgets-oscar.json` — 2024–25 outturn budget data for 37 department groups, pre-processed from HM Treasury OSCAR data.
 
-`src/data/staffing.ts` contains Civil Service headcount data as at 31 March 2025 for all ministerial departments and major non-ministerial departments, with per-grade breakdowns and sub-organisation detail. The `getStaffProfile()` helper derives sub-organisation profiles at runtime from parent data without duplication.
+`src/data/staffing.ts` — Civil Service headcount as at 31 March 2025 for all ministerial departments and major non-ministerial departments, with per-grade breakdowns and sub-organisation detail.
 
 ---
 
 ## Tech Stack
 
-- **React 18** — UI framework
-- **TypeScript** — type-safe JavaScript
-- **Vite** — build tool and dev server
-- **Cytoscape.js** — network/graph visualization
+- **React 18** + **TypeScript** via **Vite 5**
+- **Cytoscape.js** — network graph (both focus and full views)
 - **Recharts** — budget and staff donut charts
-- **SheetJS (xlsx)** — OSCAR spreadsheet parsing (extraction script only)
-- **CSS3** — component-scoped styling
+- **CSS3** — component-scoped styling with CSS custom property-based dark mode
 
 ---
 
@@ -138,28 +134,20 @@ Each element can carry one or more tags describing its **type** (e.g. Regulator,
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+Node.js 18+ and npm.
 
-### Installation & Development
+### Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server (available at http://localhost:5173)
-npm run dev
+npm run dev        # http://localhost:5173
 ```
 
-If port 5173 is in use, specify an alternative:
-```bash
-npm run dev -- --port 3000
-```
-
-### Building for Production
+### Production build
 
 ```bash
-npm run build        # outputs to dist/
-npm run preview      # preview the production build locally
+npm run build      # outputs to dist/
+npm run preview    # preview the production build locally
 ```
 
 ---
@@ -169,39 +157,30 @@ npm run preview      # preview the production build locally
 ```
 src/
 ├── components/
-│   ├── OrgChart.tsx            # Cytoscape network visualization
-│   ├── OrgChart.css
-│   ├── ElementDetails.tsx      # Element detail pane (Info / Powers / Budget / Staff tabs)
-│   ├── ElementDetails.css
-│   ├── BudgetTab.tsx           # Budget tab with donut charts and breakdown switcher
-│   ├── BudgetTab.css
-│   ├── StaffTab.tsx            # Staff tab with grade and org breakdown
-│   ├── StaffTab.css
-│   ├── InfoPane.tsx            # Help / about pane
-│   ├── InfoPane.css
-│   ├── CategoryInfo.tsx        # Category info & element list pane
-│   ├── CategoryInfo.css
-│   ├── CategoriesPane.tsx      # Browse all categories pane
-│   ├── CategoriesPane.css
-│   ├── TagInfo.tsx             # Tag info & element list pane
-│   ├── TagInfo.css
-│   ├── SearchPane.tsx          # Search and filter pane
-│   └── SearchPane.css
+│   ├── OrgChart.tsx / .css         # Focus view — Cytoscape radial layout
+│   ├── FullView.tsx / .css         # Full view — all elements, concentric ring layout
+│   ├── ElementDetails.tsx / .css   # Element detail pane (Info / Powers / Budget / Staff)
+│   ├── BudgetTab.tsx / .css        # Budget tab
+│   ├── StaffTab.tsx / .css         # Staff tab
+│   ├── InfoPane.tsx / .css         # Help / about pane
+│   ├── CategoryInfo.tsx / .css     # Category info & element list
+│   ├── CategoriesPane.tsx / .css   # Browse all categories
+│   ├── TagInfo.tsx / .css          # Tag info & element list
+│   └── SearchPane.tsx / .css       # Search and filter pane
 ├── data/
-│   ├── elements.ts             # All government element data and tag definitions
-│   ├── powers.ts               # Powers, duties, and legislation data
-│   ├── budgets.ts              # Budget types and import of OSCAR JSON
-│   ├── budgets-oscar.json      # Pre-processed 2024–25 outturn data (37 depts)
-│   └── staffing.ts             # Civil Service headcount data (2025)
+│   ├── elements.ts                 # All government element data and tag definitions
+│   ├── powers.ts                   # Powers, duties, and legislation data
+│   ├── budgets.ts                  # Budget types and OSCAR JSON import
+│   ├── budgets-oscar.json          # Pre-processed 2024–25 outturn data
+│   └── staffing.ts                 # Civil Service headcount data (2025)
 ├── utils/
-│   └── colors.ts               # Element colour scheme
-├── App.tsx                     # Main app component and state management
-├── App.css                     # App layout and panel ordering
-├── main.tsx                    # React entry point
-└── index.css                   # Global styles
+│   └── colors.ts                   # Element colour scheme
+├── App.tsx                         # Main app, state management, dark mode, view mode
+├── App.css                         # Layout, panel ordering, responsive breakpoints, dark mode tokens
+└── main.tsx                        # React entry point
 
 scripts/
-└── extract-oscar.mjs           # OSCAR spreadsheet → budgets-oscar.json
+└── extract-oscar.mjs               # OSCAR xlsx → budgets-oscar.json
 ```
 
 ---
@@ -216,22 +195,27 @@ scripts/
   name: string                 // display name
   category: 'official' | 'department' | 'body' | 'group'
   subtype: string              // see classification system above
-  description: string          // overview
+  description: string
   role?: string                // role title (officials only)
   currentHolder?: string       // person currently in the role
   infoUrl?: string             // link to GOV.UK page
   parentIds: string[]          // elements this reports to / is part of
-  childIds: string[]           // elements this oversees / contains
+  secondaryParentIds?: string[] // additional oversight relationships (e.g. junior minister → dept)
   tags?: string[]              // tag IDs from tagDefinitions
 }
 ```
+
+Reverse lookups are computed at module load time:
+- `getChildIds(id)` — elements that list `id` in their `parentIds`
+- `getSecondaryChildIds(id)` — elements that list `id` in their `secondaryParentIds`
+- `getConnectedElements(id)` — returns `{ parents, children, secondaryParents, secondaryChildren }`
 
 ### PowerProfile (`src/data/powers.ts`)
 
 ```typescript
 {
   elementId: string
-  lastReviewed?: string        // ISO date
+  lastReviewed?: string
   powers: Array<{
     id: string
     title: string
@@ -243,7 +227,7 @@ scripts/
       title: string
       section?: string
       year?: number
-      legislationUrl?: string  // links to legislation.gov.uk
+      legislationUrl?: string
       caseRef?: string
     }>
     notes?: string
@@ -251,80 +235,9 @@ scripts/
 }
 ```
 
-### BudgetProfile (`src/data/budgets.ts`)
+### BudgetProfile and StaffProfile
 
-```typescript
-{
-  elementId: string
-  oscarDeptGroupCode: string | null   // e.g. "DOH033.GROUP"
-  budgets: Array<{
-    financialYear: string              // e.g. "2024-25"
-    totalNetExpenditure: number        // £ thousands
-    totalGrossExpenditure: number
-    totalIncome: number                // negative
-    unit: 'thousands'
-    delAdmin?: number
-    delProg?: number
-    deptAme?: number
-    nonDeptAme?: number
-    expenditureLines: BudgetLine[]     // by economic type
-    incomeLines: BudgetLine[]
-    programmeLines: BudgetLine[]       // by named Estimates row
-    programmeIncomeLines: BudgetLine[]
-    bodyLines: BudgetLine[]            // by arm's length body
-    bodyIncomeLines: BudgetLine[]
-    annualReportUrl: string | null
-    sourceLabel: string
-  }>
-}
-
-// BudgetLine
-{
-  label: string
-  amount: number        // £ thousands; positive = expenditure, negative = income
-  elementId?: string    // element ID to navigate to when the slice is clicked
-  notes?: string
-}
-```
-
-### StaffProfile (`src/data/staffing.ts`)
-
-```typescript
-{
-  elementId: string
-  year: string                 // e.g. "2024-25"
-  grades: GradeBreakdown       // total + scs, g67, sheo, eo, aaao, other
-  orgs: Array<{
-    label: string
-    orgId?: string             // element ID for navigation
-    grades: GradeBreakdown
-  }>
-}
-```
-
-Use `getStaffProfile(elementId)` — this searches both top-level profiles and sub-organisation arrays, so sub-orgs like executive agencies can be looked up without duplicating data.
-
-Tags are defined in the `tagDefinitions` record with a label, category (`'type'` or `'sector'`), and hex colour.
-
----
-
-## Refreshing Budget Data
-
-Budget data is pre-processed from HM Treasury OSCAR spreadsheets.
-
-1. Download the new OSCAR file from [GOV.UK OSCAR publications](https://www.gov.uk/government/publications/oscar-publications)
-2. Place it in the project root and update the filename in `scripts/extract-oscar.mjs`
-3. Update `BODY_LABEL_TO_ELEMENT` in `extract-oscar.mjs` if any body names have changed
-4. Run: `node scripts/extract-oscar.mjs`
-5. The script overwrites `src/data/budgets-oscar.json`
-
-The OSCAR file uses `TYPE_LONG_NAME` to distinguish row types. Both `FINAL OUTTURN` and `IN-YEAR RETURN` rows must be summed; `NON-BUDGET` rows are excluded. All figures are in £ thousands; negative values represent income or receipts.
-
----
-
-## Adding Powers Data
-
-To add powers, duties, or responsibilities for an element, add an entry to the `powerProfiles` record in `src/data/powers.ts`, keyed by the element's ID from `elements.ts`. Sources should include a `legislationUrl` pointing to the relevant section on [legislation.gov.uk](https://www.legislation.gov.uk) where possible.
+See the existing `budgets.ts` and `staffing.ts` type definitions. Use `getStaffProfile(elementId)` — it searches both top-level profiles and sub-organisation arrays so agencies can be looked up without duplicating data.
 
 ---
 
@@ -333,31 +246,39 @@ To add powers, duties, or responsibilities for an element, add an entry to the `
 | Action | Control |
 |--------|---------|
 | Select an element | Click a node |
-| Pan the chart | Click and drag |
-| Zoom | Scroll wheel |
+| Pan | Click and drag |
+| Zoom | Scroll wheel / pinch |
+| Reset focus layout / re-centre full view | ↺ button (top-right of chart) |
+| Switch focus ↔ full view | ⊞ Full / ⊡ Focus button |
+| Toggle dark / light mode | ☾ Dark / ☀ Light button (header or mobile nav) |
 | Navigate to related element | Click a parent/child in the element pane |
-| Navigate via budget/staff pie | Click a labelled slice |
 | Open category pane | Click the category badge in the element pane |
 | Open tag pane | Click a tag pill in the element pane |
-| Search | Click the Search button in the header |
-| Browse categories | Click the Categories button in the header |
-| Open help / about | Click the Help button in the header |
+| Search | Search button in the header / mobile nav |
+| Browse categories | Categories button in the header / mobile nav |
+| Help | Help / ? button in the header / mobile nav |
+
+---
+
+## Refreshing Budget Data
+
+```bash
+# 1. Place new BUD_xx-xx.xlsx in project root
+# 2. Update filename in scripts/extract-oscar.mjs
+# 3. Run:
+node scripts/extract-oscar.mjs
+```
+
+Update `BODY_LABEL_TO_ELEMENT` in the script if any body names have changed or new elements have been added.
+
+---
+
+## Adding Powers Data
+
+Add an entry to `src/data/powers.ts` keyed by the element's ID from `elements.ts`. Use `legislationUrl` pointing to legislation.gov.uk for sources where possible.
 
 ---
 
 ## Disclaimer
 
 The information in this application is provided for general reference purposes only. While every effort has been made to ensure accuracy, the data may be incomplete, incorrect, or out of date. Government structures, ministerial appointments, and organisational relationships change frequently. The author makes no representations or warranties of any kind, express or implied, as to the accuracy, completeness, or fitness for any particular purpose of the information contained herein. The author accepts no liability whatsoever for any loss, damage, or inconvenience arising from reliance on information in this application. Always verify against official sources such as [GOV.UK](https://www.gov.uk/government/organisations).
-
----
-
-## Future Development
-
-Potential enhancements:
-- Powers and legislation data for more elements
-- Multi-year budget comparisons
-- Historical tracking of organisational changes
-- API integration with live GOV.UK data
-- Export and sharing of org chart views
-#   M a c h i n e r y - o f - G o v e r n m e n t  
- 

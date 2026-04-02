@@ -228,7 +228,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
                       <div className="item-content">
                         <div className="item-name">{parent.name}</div>
                         {parent.currentHolder && (
-                          <div className="item-subtitle" style={{ color: '#333' }}>{parent.currentHolder}</div>
+                          <div className="item-subtitle item-holder">{parent.currentHolder}</div>
                         )}
                         <div className="item-subtitle" style={{ color: parentColor }}>{parentCategoryLabel}</div>
                       </div>
@@ -265,7 +265,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
                         <div className="item-content">
                           <div className="item-name">{parent.name}</div>
                           {parent.currentHolder && (
-                            <div className="item-subtitle" style={{ color: '#333' }}>{parent.currentHolder}</div>
+                            <div className="item-subtitle item-holder">{parent.currentHolder}</div>
                           )}
                           <div className="item-subtitle" style={{ color: parentColor }}>{parentCategoryLabel}</div>
                         </div>
@@ -316,7 +316,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
                       <div className="item-content">
                         <div className="item-name">{child.name}</div>
                         {child.currentHolder && (
-                          <div className="item-subtitle" style={{ color: '#333' }}>{child.currentHolder}</div>
+                          <div className="item-subtitle item-holder">{child.currentHolder}</div>
                         )}
                         <div className="item-subtitle" style={{ color: childColor }}>{childCategoryLabel}</div>
                       </div>

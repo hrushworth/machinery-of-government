@@ -6,9 +6,10 @@ import './SearchPane.css'
 interface SearchPaneProps {
   onSelectElement: (id: string) => void
   onClose: () => void
+  onResultsChange?: (ids: string[]) => void
 }
 
-export default function SearchPane({ onSelectElement, onClose }: SearchPaneProps) {
+export default function SearchPane({ onSelectElement, onClose, onResultsChange }: SearchPaneProps) {
   const [query, setQuery] = useState('')
   const [activeTagIds, setActiveTagIds] = useState<Set<string>>(new Set())
   const inputRef = useRef<HTMLInputElement>(null)
@@ -50,6 +51,11 @@ export default function SearchPane({ onSelectElement, onClose }: SearchPaneProps
     .sort((a, b) => a.name.localeCompare(b.name))
 
   const noResults = matchedTags.length === 0 && matchedElements.length === 0
+
+  // Notify parent whenever the filtered element list changes (used by FullView to highlight)
+  useEffect(() => {
+    onResultsChange?.(matchedElements.map(el => el.id))
+  }, [matchedElements.map(el => el.id).join(',')]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="search-pane">

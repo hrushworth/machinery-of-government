@@ -156,6 +156,11 @@
   text-transform: capitalize;
 }
 
+.item-holder {
+  color: #333;
+  text-transform: none;
+}
+
 .info-link {
   display: inline-block;
   background: linear-gradient(135deg, #3498db, #2980b9);

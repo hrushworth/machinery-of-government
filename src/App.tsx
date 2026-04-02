@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import OrgChart from './components/OrgChart'
+import FullView from './components/FullView'
 import ElementDetails from './components/ElementDetails'
 import CategoryInfo from './components/CategoryInfo'
 import TagInfo from './components/TagInfo'
@@ -16,6 +17,9 @@ function App() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [infoOpen, setInfoOpen] = useState(false)
   const [categoriesOpen, setCategoriesOpen] = useState(false)
+  const [viewMode, setViewMode] = useState<'focus' | 'full'>('focus')
+  const [darkMode, setDarkMode] = useState(false)
+  const [searchHighlightIds, setSearchHighlightIds] = useState<string[] | null>(null)
 
   // Mobile detection — only touch devices, not narrow desktop windows
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px) and (pointer: coarse)').matches)
@@ -95,13 +99,21 @@ function App() {
   }, [sheetState, closeElementPane])
 
   return (
-    <div className="app">
+    <div className={`app${darkMode ? ' app-dark' : ''}`}>
       <header className="app-header">
         <div className="app-header-text">
           <h1>Machinery of Government</h1>
           <p>Explore the organisation and relationships within the UK Government · by <a href="https://x.com/Hrushworth" target="_blank" rel="noopener noreferrer">@hrushworth</a></p>
         </div>
         <div className="header-buttons">
+          <button
+            className="header-button"
+            onClick={() => setDarkMode(d => !d)}
+            aria-label="Toggle dark mode"
+            aria-pressed={darkMode}
+          >
+            {darkMode ? '☀ Light' : '☾ Dark'}
+          </button>
           <button
             className="header-button"
             onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false) }}
@@ -164,19 +176,38 @@ function App() {
           </aside>
         )}
 
-        <div className="chart-container">
-          <OrgChart
-            onSelectElement={selectElement}
-            selectedElementId={selectedElementId}
-            onOpenCategory={(category, subtype) => setSelectedCategory({ category, subtype })}
-          />
+        <div className="chart-container" style={{ position: 'relative' }}>
+          {viewMode === 'focus' ? (
+            <OrgChart
+              onSelectElement={selectElement}
+              selectedElementId={selectedElementId}
+              onOpenCategory={(category, subtype) => setSelectedCategory({ category, subtype })}
+              darkMode={darkMode}
+            />
+          ) : (
+            <FullView
+              onSelectElement={selectElement}
+              selectedElementId={selectedElementId}
+              darkMode={darkMode}
+              highlightIds={searchOpen ? searchHighlightIds : null}
+            />
+          )}
+          <button
+            className={`view-toggle-btn${viewMode === 'full' ? ' view-toggle-btn-active' : ''}`}
+            onClick={() => setViewMode(m => m === 'focus' ? 'full' : 'focus')}
+            title={viewMode === 'focus' ? 'Switch to full network view' : 'Switch to focus view'}
+            aria-label={viewMode === 'focus' ? 'Full view' : 'Focus view'}
+          >
+            {viewMode === 'focus' ? '⊞ Full' : '⊡ Focus'}
+          </button>
         </div>
 
         {searchOpen && (
           <aside className="details-panel search-panel">
             <SearchPane
               onSelectElement={selectElement}
-              onClose={() => setSearchOpen(false)}
+              onClose={() => { setSearchOpen(false); setSearchHighlightIds(null) }}
+              onResultsChange={setSearchHighlightIds}
             />
           </aside>
         )}
@@ -272,6 +303,22 @@ function App() {
           >
             <span className="mobile-nav-icon">🔍</span>
             <span className="mobile-nav-label">Search</span>
+          </button>
+          <button
+            className={`mobile-nav-tab${viewMode === 'full' ? ' mobile-nav-tab-active' : ''}`}
+            onClick={() => setViewMode(m => m === 'focus' ? 'full' : 'focus')}
+            aria-label={viewMode === 'focus' ? 'Full view' : 'Focus view'}
+          >
+            <span className="mobile-nav-icon">{viewMode === 'focus' ? '⊞' : '⊡'}</span>
+            <span className="mobile-nav-label">{viewMode === 'focus' ? 'Full' : 'Focus'}</span>
+          </button>
+          <button
+            className={`mobile-nav-tab${darkMode ? ' mobile-nav-tab-active' : ''}`}
+            onClick={() => setDarkMode(d => !d)}
+            aria-label={darkMode ? 'Light mode' : 'Dark mode'}
+          >
+            <span className="mobile-nav-icon">{darkMode ? '☀' : '☾'}</span>
+            <span className="mobile-nav-label">{darkMode ? 'Light' : 'Dark'}</span>
           </button>
           {selectedElementId && (
             <button

@@ -42,6 +42,44 @@
   width: 100%;
 }
 
+.org-chart-dark .org-chart {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+}
+
+.org-chart-dark {
+  background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+}
+
+.org-chart-dark .org-chart-refresh {
+  background: rgba(30, 37, 51, 0.9);
+  border-color: #444;
+  color: #bbb;
+}
+
+.org-chart-dark .org-chart-refresh:hover {
+  background: #1e2533;
+  color: #5dade2;
+  border-color: #5dade2;
+}
+
+.org-chart-dark .legend {
+  background: #161b22;
+  border-top-color: #30363d;
+}
+
+.org-chart-dark .legend-section h4 {
+  color: #8b949e;
+}
+
+.org-chart-dark .legend-item {
+  color: #c9d1d9;
+}
+
+.org-chart-dark .legend-item:hover {
+  background-color: #21262d;
+  color: #e6edf3;
+}
+
 .org-chart:active {
   cursor: grabbing;
 }

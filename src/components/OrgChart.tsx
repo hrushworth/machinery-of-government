@@ -8,9 +8,10 @@ interface OrgChartProps {
   onSelectElement: (id: string) => void
   selectedElementId: string | null
   onOpenCategory: (category: string, subtype: string) => void
+  darkMode?: boolean
 }
 
-export default function OrgChart({ onSelectElement, selectedElementId, onOpenCategory }: OrgChartProps) {
+export default function OrgChart({ onSelectElement, selectedElementId, onOpenCategory, darkMode = false }: OrgChartProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const focusIdRef = useRef<string>('cabinet')
@@ -1140,8 +1141,12 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
     }
   }, [selectedElementId, onSelectElement, refreshKey])
 
+  // Node labels are drawn inside coloured shapes that don't change with dark mode,
+  // so keep them dark (#333) in both modes for legibility.
+  // (Dark mode only affects the canvas background and legend chrome via CSS.)
+
   return (
-    <div className="org-chart-wrapper">
+    <div className={`org-chart-wrapper${darkMode ? ' org-chart-dark' : ''}`}>
       <div ref={containerRef} className="org-chart" />
       <button className="org-chart-refresh" onClick={handleRefresh} title="Reset layout" aria-label="Reset layout">↺</button>
       <div className="legend">
