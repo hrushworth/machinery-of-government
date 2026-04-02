@@ -1677,6 +1677,16 @@ export const govElements: Record<string, GovElement> = {
     secondaryParentIds: ['fcdo-europe', 'fcdo-indo-pacific', 'fcdo-intl-dev', 'fcdo-middle-east', 'fcdo-multilateral'],
     tags: ['sector-international'],
   },
+  'fcdo-services': {
+    id: 'fcdo-services',
+    name: 'FCDO Services',
+    category: 'department',
+    subtype: 'agency',
+    description: 'Executive agency of the FCDO providing secure, specialist services to government — including diplomatic and secure communications, protective security, and logistics.',
+    infoUrl: 'https://www.gov.uk/government/organisations/fcdo-services',
+    parentIds: ['fcdo'],
+    tags: ['sector-international'],
+  },
   'home-office': {
     id: 'home-office',
     name: 'Home Office',
