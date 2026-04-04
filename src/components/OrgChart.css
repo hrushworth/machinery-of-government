@@ -2,17 +2,23 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
   overflow: hidden;
   position: relative;
 }
 
-.org-chart-refresh {
+.org-chart-buttons {
   position: absolute;
   top: 0.6rem;
   right: 0.6rem;
   z-index: 10;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.org-chart-btn {
   background: rgba(255,255,255,0.9);
   border: 1.5px solid #d0d5dd;
   border-radius: 6px;
@@ -28,7 +34,7 @@
   line-height: 1;
 }
 
-.org-chart-refresh:hover {
+.org-chart-btn:hover {
   background: #fff;
   color: #2980b9;
   border-color: #2980b9;
@@ -50,32 +56,32 @@
   background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
 }
 
-.org-chart-dark .org-chart-refresh {
+.org-chart-dark .org-chart-btn {
   background: rgba(30, 37, 51, 0.9);
   border-color: #444;
   color: #bbb;
 }
 
-.org-chart-dark .org-chart-refresh:hover {
+.org-chart-dark .org-chart-btn:hover {
   background: #1e2533;
   color: #5dade2;
   border-color: #5dade2;
 }
 
-.org-chart-dark .legend {
+.app-dark .legend {
   background: #161b22;
   border-top-color: #30363d;
 }
 
-.org-chart-dark .legend-section h4 {
+.app-dark .legend-section h4 {
   color: #8b949e;
 }
 
-.org-chart-dark .legend-item {
+.app-dark .legend-item {
   color: #c9d1d9;
 }
 
-.org-chart-dark .legend-item:hover {
+.app-dark .legend-item:hover {
   background-color: #21262d;
   color: #e6edf3;
 }
@@ -92,6 +98,8 @@
   border-top: 1px solid #e0e0e0;
   overflow-x: auto;
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .legend-section-two-col {
@@ -245,8 +253,3 @@
   border-color: #229954;
 }
 
-@media (max-width: 768px) {
-  .legend {
-    display: none;
-  }
-}

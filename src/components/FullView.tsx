@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import React, { useEffect, useRef, useCallback } from 'react'
 import cytoscape from 'cytoscape'
 import { govElements } from '../data/elements'
 import { getElementColor } from '../utils/colors'
@@ -6,6 +6,7 @@ import './FullView.css'
 
 interface FullViewProps {
   onSelectElement: (id: string) => void
+  onDeselect: () => void
   selectedElementId: string | null
   darkMode: boolean
   highlightIds: string[] | null  // when set (search pane open), only these nodes are highlighted
@@ -405,11 +406,14 @@ function applyBestRotation(
   }
 }
 
-export default function FullView({ onSelectElement, selectedElementId, darkMode, highlightIds }: FullViewProps) {
+export default function FullView({ onSelectElement, onDeselect, selectedElementId, darkMode, highlightIds }: FullViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const pinnedIdRef = useRef<string | null>(null)
   const searchActiveRef = useRef(false)
+  const tooltipRef = useRef<HTMLDivElement>(null)
+  const tooltipActiveRef = useRef(false)
+  const prevSelectedIdRef = useRef<string | null>(null)
 
   // Animate all nodes in a ring by rotating them along their arc.
   // Uses requestAnimationFrame-based interpolation so nodes arc around the centre.
@@ -464,6 +468,22 @@ export default function FullView({ onSelectElement, selectedElementId, darkMode,
       }
     }
     animateRingRotation(cy, moves, 500)
+    setTimeout(() => {
+      const c = cyRef.current
+      if (!c) return
+      const pmNode = c.getElementById('pm')
+      if (pmNode.length) {
+        c.animate({ center: { eles: pmNode }, zoom: 0.35 } as any, { duration: 300 })
+      }
+    }, 520)
+    onDeselect()
+  }
+
+  const handleRandom = () => {
+    const all = Object.values(govElements)
+    if (!all.length) return
+    const pick = all[Math.floor(Math.random() * all.length)]
+    onSelectElement(pick.id)
   }
 
   const rotateToSelection = useCallback((cy: cytoscape.Core, selectedId: string) => {
@@ -495,7 +515,7 @@ export default function FullView({ onSelectElement, selectedElementId, darkMode,
   const highlightNode = useCallback((cy: cytoscape.Core, hoveredId: string | null, _pinned: boolean) => {
     if (!hoveredId) {
       // Restore everything
-      cy.nodes().removeStyle('opacity z-index border-width label font-size min-zoomed-font-size color text-max-width text-background-opacity text-background-color text-background-padding text-background-shape')
+      cy.nodes().removeStyle('opacity z-index border-width')
       cy.edges().removeStyle('opacity line-color target-arrow-color width z-index')
       return
     }
@@ -525,18 +545,9 @@ export default function FullView({ onSelectElement, selectedElementId, darkMode,
           'opacity': 1,
           'z-index': isHovered ? 9999 : 100,
           'border-width': isHovered ? '3px' : '2px',
-          'label': govElements[nid]?.name ?? nid,
-          'font-size': isHovered ? '14px' : '12px',
-          'min-zoomed-font-size': '12px',
-          'color': darkMode ? '#fff' : '#111',
-          'text-background-color': darkMode ? '#1e2533' : '#ffffff',
-          'text-background-opacity': 0.92,
-          'text-max-width': isHovered ? '140px' : '110px',
-          'text-background-padding': '3px',
-          'text-background-shape': 'roundrectangle',
         })
       } else {
-        n.style({ 'opacity': 0.12, 'z-index': 0, 'label': '' })
+        n.style({ 'opacity': 0.12, 'z-index': 0 })
       }
     })
 
@@ -695,6 +706,26 @@ export default function FullView({ onSelectElement, selectedElementId, darkMode,
           selector: 'node[category="body"][subtype="other"]',
           style: { 'shape': 'diamond', 'border-color': '#616a6b' },
         },
+        // Selected node indicator
+        {
+          selector: 'node.fv-selected',
+          style: {
+            'border-width': '4px',
+            'border-color': '#f39c12',
+            'opacity': 1,
+            'z-index': 500,
+            'font-size': '13px',
+            'font-weight': 'bold',
+            'min-zoomed-font-size': '8px',
+            'color': '#1a1a1a',
+            'text-background-color': 'white',
+            'text-background-opacity': 0.95,
+            'text-background-padding': '4px',
+            'text-background-shape': 'roundrectangle',
+            'text-max-width': '140px',
+            'text-wrap': 'wrap',
+          } as any,
+        },
         // Edges
         {
           selector: 'edge',
@@ -734,12 +765,16 @@ export default function FullView({ onSelectElement, selectedElementId, darkMode,
       if (!cy) return
       const hid = event.target.id()
       if (searchActiveRef.current) return
-      // If pinned, only take over when not the pinned node's own highlight
       if (pinnedIdRef.current && pinnedIdRef.current !== hid) {
         highlightNode(cy, hid, false)
       } else if (!pinnedIdRef.current) {
         highlightNode(cy, hid, false)
       }
+      if (tooltipRef.current) {
+        tooltipRef.current.textContent = govElements[hid]?.name ?? hid
+        tooltipRef.current.style.display = 'block'
+      }
+      tooltipActiveRef.current = true
     })
 
     cyRef.current.on('mouseout', 'node', () => {
@@ -750,6 +785,8 @@ export default function FullView({ onSelectElement, selectedElementId, darkMode,
       } else {
         highlightNode(cy, null, false)
       }
+      if (tooltipRef.current) tooltipRef.current.style.display = 'none'
+      tooltipActiveRef.current = false
     })
 
     // Click: select, pin, and rotate rings
@@ -838,22 +875,60 @@ export default function FullView({ onSelectElement, selectedElementId, darkMode,
     cy.edges().forEach((e: any) => e.style({ 'opacity': 0 }))
   }, [highlightIds, darkMode, highlightNode])
 
-  // When selectedElementId changes externally (e.g. via search), update pin and rotate
+  // When selectedElementId changes, update selection indicator and pin/rotate
   useEffect(() => {
     const cy = cyRef.current
-    if (!cy || !selectedElementId) return
-    // Only act if this node actually exists in the full-view graph (groups are excluded)
+    if (!cy) return
+
+    // Clear previous selection indicator
+    if (prevSelectedIdRef.current && prevSelectedIdRef.current !== selectedElementId) {
+      const prev = cy.getElementById(prevSelectedIdRef.current)
+      if (prev.length) {
+        prev.removeClass('fv-selected')
+        prev.data('label', '')
+      }
+    }
+
+    if (!selectedElementId) {
+      prevSelectedIdRef.current = null
+      return
+    }
     if (!cy.getElementById(selectedElementId).length) return
+
+    // Apply selection indicator
+    const node = cy.getElementById(selectedElementId)
+    node.addClass('fv-selected')
+    node.data('label', govElements[selectedElementId]?.name ?? selectedElementId)
+    prevSelectedIdRef.current = selectedElementId
+
     pinnedIdRef.current = selectedElementId
     highlightNode(cy, selectedElementId, true)
     rotateToSelection(cy, selectedElementId)
   }, [selectedElementId, highlightNode, rotateToSelection])
 
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (tooltipActiveRef.current && tooltipRef.current) {
+      tooltipRef.current.style.left = `${e.clientX + 14}px`
+      tooltipRef.current.style.top = `${e.clientY + 14}px`
+    }
+  }
+
   return (
-    <div className={`full-view-wrapper${darkMode ? ' full-view-dark' : ' full-view-light'}`}>
+    <div
+      className={`full-view-wrapper${darkMode ? ' full-view-dark' : ' full-view-light'}`}
+      onMouseMove={handleMouseMove}
+    >
       <div ref={containerRef} className="full-view-canvas" />
-      <button className="full-view-reset" onClick={handleReCentre} title="Re-centre on PM" aria-label="Re-centre on PM">↺</button>
+      <div className="full-view-buttons">
+        <button className="full-view-btn" onClick={handleRandom} title="Random element" aria-label="Random element" style={{ fontSize: '18px', lineHeight: 1 }}>⚄</button>
+        <button className="full-view-btn" onClick={handleReCentre} title="Re-centre on PM" aria-label="Re-centre on PM">↺</button>
+      </div>
       <div className="full-view-hint">Hover to explore · Click to select · Scroll to zoom</div>
+      <div
+        ref={tooltipRef}
+        className={`full-view-tooltip${darkMode ? ' full-view-tooltip-dark' : ''}`}
+        style={{ display: 'none' }}
+      />
     </div>
   )
 }

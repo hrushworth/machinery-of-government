@@ -7,16 +7,22 @@ import './OrgChart.css'
 interface OrgChartProps {
   onSelectElement: (id: string) => void
   selectedElementId: string | null
-  onOpenCategory: (category: string, subtype: string) => void
   darkMode?: boolean
 }
 
-export default function OrgChart({ onSelectElement, selectedElementId, onOpenCategory, darkMode = false }: OrgChartProps) {
+export default function OrgChart({ onSelectElement, selectedElementId, darkMode = false }: OrgChartProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const focusIdRef = useRef<string>('cabinet')
   const visibleNodesRef = useRef<Set<string>>(new Set())
   const [refreshKey, setRefreshKey] = useState(0)
+
+  const handleRandom = () => {
+    const all = Object.values(govElements)
+    if (!all.length) return
+    const pick = all[Math.floor(Math.random() * all.length)]
+    onSelectElement(pick.id)
+  }
 
   const handleRefresh = () => {
     if (cyRef.current) {
@@ -1148,87 +1154,9 @@ export default function OrgChart({ onSelectElement, selectedElementId, onOpenCat
   return (
     <div className={`org-chart-wrapper${darkMode ? ' org-chart-dark' : ''}`}>
       <div ref={containerRef} className="org-chart" />
-      <button className="org-chart-refresh" onClick={handleRefresh} title="Reset layout" aria-label="Reset layout">↺</button>
-      <div className="legend">
-        <div className="legend-section">
-          <h4>Officials</h4>
-          <div className="legend-item" onClick={() => onOpenCategory('official', 'prime-minister')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'prime-minister')}>
-            <div className="legend-shape heptagon"><div className="shape-inner" style={{ backgroundColor: '#5c0000' }}><div className="shape-inner" style={{ backgroundColor: '#c97070', transform: 'scale(0.78)' }}></div></div></div>
-            <span>Prime Minister</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('official', 'cabinet-minister')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'cabinet-minister')}>
-            <div className="legend-shape octagon"><div className="shape-inner" style={{ backgroundColor: '#922b21' }}><div className="shape-inner" style={{ backgroundColor: '#e8a09a', transform: 'scale(0.78)' }}></div></div></div>
-            <span>Cabinet Minister</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('official', 'junior-minister')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'junior-minister')}>
-            <div className="legend-shape circle" style={{ backgroundColor: '#fadbd8', borderColor: '#cd6155' }}></div>
-            <span>Junior Minister</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('official', 'civil-servant')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'civil-servant')}>
-            <div className="legend-shape circle" style={{ backgroundColor: '#a9d8f5', borderColor: '#2980b9' }}></div>
-            <span>Civil Servant</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('official', 'independent')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('official', 'independent')}>
-            <div className="legend-shape circle" style={{ backgroundColor: '#a9d8ab', borderColor: '#229954' }}></div>
-            <span>Independent Official</span>
-          </div>
-        </div>
-
-        <div className="legend-section">
-          <h4>Departments</h4>
-          <div className="legend-item" onClick={() => onOpenCategory('department', 'ministerial')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('department', 'ministerial')}>
-            <div className="legend-shape square" style={{ backgroundColor: '#f4a6a0', borderColor: '#e74c3c' }}></div>
-            <span>Ministerial Dept</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('department', 'division-directorate')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('department', 'division-directorate')}>
-            <div className="legend-shape rounded-square" style={{ backgroundColor: '#f4a6a0', borderColor: '#e74c3c' }}></div>
-            <span>Division/Directorate</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('department', 'non-ministerial')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('department', 'non-ministerial')}>
-            <div className="legend-shape square" style={{ backgroundColor: '#a9d8f5', borderColor: '#2980b9' }}></div>
-            <span>Non-Ministerial</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('department', 'agency')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('department', 'agency')}>
-            <div className="legend-shape rounded-square" style={{ backgroundColor: '#d7b8e8', borderColor: '#7d3c98' }}></div>
-            <span>Executive Agency</span>
-          </div>
-        </div>
-
-        <div className="legend-section legend-section-two-col">
-          <h4>Public Bodies</h4>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'executive-ndpb')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'executive-ndpb')}>
-            <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#a9d8ab', borderColor: '#229954' }}></div></div>
-            <span>Executive NDPB</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'advisory-ndpb')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'advisory-ndpb')}>
-            <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#fef5d4', borderColor: '#f1c40f' }}></div></div>
-            <span>Advisory NDPB</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'tribunal')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'tribunal')}>
-            <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#f5cba7', borderColor: '#d35400' }}></div></div>
-            <span>Tribunal</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'public-corporation')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'public-corporation')}>
-            <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#fad7a0" stroke="#e67e22" strokeWidth="1.5"/></svg>
-            <span>Public Corporation</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'royal-charter-body')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'royal-charter-body')}>
-            <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#d7b8e8" stroke="#8e44ad" strokeWidth="1.5"/></svg>
-            <span>Royal Charter Body</span>
-          </div>
-          <div className="legend-item" onClick={() => onOpenCategory('body', 'other')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('body', 'other')}>
-            <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#dae0e0" stroke="#7f8c8d" strokeWidth="1.5"/></svg>
-            <span>Other Body</span>
-          </div>
-        </div>
-
-        <div className="legend-section">
-          <h4>Groups</h4>
-          <div className="legend-item" onClick={() => onOpenCategory('group', 'cabinet')} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && onOpenCategory('group', 'cabinet')}>
-            <div className="legend-shape square" style={{ backgroundColor: '#e8a09a', borderColor: '#922b21' }}></div>
-            <span>Cabinet</span>
-          </div>
-        </div>
+      <div className="org-chart-buttons">
+        <button className="org-chart-btn" onClick={handleRandom} title="Random element" aria-label="Random element" style={{ fontSize: '18px', lineHeight: 1 }}>⚄</button>
+        <button className="org-chart-btn" onClick={handleRefresh} title="Reset layout" aria-label="Reset layout">↺</button>
       </div>
     </div>
   )
