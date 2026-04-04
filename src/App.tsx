@@ -97,13 +97,14 @@ function App() {
   const dragStartTranslate = useRef(0)
   const isDragging = useRef(false)
 
-  const selectElement = useCallback((id: string) => {
-    if (isMobile) {
+  const selectElement = useCallback((id: string, direct = false) => {
+    if (isMobile && !direct) {
       // On mobile: just preview — chip shows the name, no chart update yet
       setPreviewedElementId(id)
     } else {
       setSelectedElementId(id)
-      setElementPaneVisible(true)
+      setPreviewedElementId(id)
+      if (!isMobile) setElementPaneVisible(true)
     }
   }, [isMobile])
 
@@ -201,7 +202,7 @@ function App() {
               category={selectedCategory.category}
               subtype={selectedCategory.subtype}
               onClose={() => setSelectedCategory(null)}
-              onSelectElement={selectElement}
+              onSelectElement={(id) => selectElement(id, true)}
             />
           </aside>
         )}
@@ -211,7 +212,7 @@ function App() {
             <TagInfo
               tagId={selectedTagId}
               onClose={() => setSelectedTagId(null)}
-              onSelectElement={selectElement}
+              onSelectElement={(id) => selectElement(id, true)}
             />
           </aside>
         )}
@@ -425,7 +426,7 @@ function App() {
             <div className="bottom-sheet-content">
               <ElementDetails
                 elementId={selectedElementId}
-                onSelectElement={selectElement}
+                onSelectElement={(id) => selectElement(id, true)}
                 onClose={closeElementPane}
                 onOpenCategory={(category, subtype) => setSelectedCategory({ category, subtype })}
                 onOpenTag={(tagId) => setSelectedTagId(tagId)}
@@ -439,7 +440,7 @@ function App() {
       {/* Mobile selection chip — shown when an element is previewed/selected and sheet is closed */}
       {isMobile && previewedElementId && sheetState === 'closed' && govElements[previewedElementId] && (() => {
         const el = govElements[previewedElementId]
-        const subtitle = el.role ?? el.subtype.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        const subtitle = el.role ?? el.subtype.split('-').map((w: string) => w.toUpperCase() === 'NDPB' ? 'NDPB' : w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
         const isSelected = previewedElementId === selectedElementId
         return (
           <div className={`mobile-selection-chip${darkMode ? ' mobile-selection-chip-dark' : ''}`}>

@@ -2996,13 +2996,13 @@ export const govElements: Record<string, GovElement> = {
   },
   'ifca': {
     id: 'ifca',
-    name: 'Financial Conduct Authority',
+    name: 'Inshore Fisheries and Conservation Authorities',
     category: 'body',
     subtype: 'executive-ndpb',
-    description: 'Regulates financial services and markets',
-    infoUrl: 'https://www.gov.uk/government/organisations/financial-conduct-authority',
-    parentIds: ['treasury'],
-    tags: ['regulator', 'sector-environment', 'sector-food-farming'],
+    description: 'Ten statutory bodies that manage and regulate inshore fisheries and conserve the marine environment within 6 nautical miles of the English coast.',
+    infoUrl: 'https://www.gov.uk/government/organisations/inshore-fisheries-and-conservation-authority',
+    parentIds: ['defra'],
+    tags: ['sector-environment', 'sector-food-farming'],
   },
   'ifr': {
     id: 'ifr',
