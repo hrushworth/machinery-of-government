@@ -9,6 +9,9 @@ import InfoPane from './components/InfoPane'
 import CategoriesPane from './components/CategoriesPane'
 import { govElements } from './data/elements'
 import { getElementColor } from './utils/colors'
+import type { Jurisdiction } from './data/jurisdictions'
+import { elementMatchesJurisdiction, jurisdictionInfo } from './data/jurisdictions'
+import JurisdictionFilter from './components/JurisdictionFilter'
 import './App.css'
 
 // Tiny SVG shape matching the Cytoscape node shape for each subtype
@@ -77,6 +80,14 @@ function App() {
   const [legendVisible, setLegendVisible] = useState(true)
   const [previewedElementId, setPreviewedElementId] = useState<string | null>(null)
   const [searchHighlightIds, setSearchHighlightIds] = useState<string[] | null>(null)
+  const [jurisdictionFilter, setJurisdictionFilter] = useState<Jurisdiction | null>(null)
+  const [jurisdictionPanelOpen, setJurisdictionPanelOpen] = useState(false)
+
+  const jurisdictionHighlightIds = jurisdictionFilter
+    ? Object.values(govElements)
+        .filter(el => elementMatchesJurisdiction(el.jurisdictions, jurisdictionFilter))
+        .map(el => el.id)
+    : null
 
   // Mobile detection — only touch devices, not narrow desktop windows
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px) and (pointer: coarse)').matches)
@@ -242,10 +253,11 @@ function App() {
             <FullView
               onSelectElement={selectElement}
               onDeselect={() => { setSelectedElementId(null); setElementPaneVisible(false); setPreviewedElementId(null) }}
+              onReset={() => setJurisdictionFilter(null)}
               selectedElementId={selectedElementId}
               previewedElementId={previewedElementId}
               darkMode={darkMode}
-              highlightIds={searchOpen ? searchHighlightIds : null}
+              highlightIds={searchOpen ? searchHighlightIds : jurisdictionHighlightIds}
               isMobile={isMobile}
             />
           )}
@@ -268,6 +280,24 @@ function App() {
                 ☰ Legend
               </button>
             )}
+            <div style={{ position: 'relative' }}>
+              <button
+                className={`view-toggle-btn${jurisdictionFilter ? ' view-toggle-btn-active' : ''}`}
+                onClick={() => setJurisdictionPanelOpen(o => !o)}
+                title={jurisdictionFilter ? `Jurisdiction: ${jurisdictionInfo[jurisdictionFilter].label}` : 'Filter by jurisdiction'}
+                aria-label="Filter by jurisdiction"
+              >
+                🌍{jurisdictionFilter ? ` ${jurisdictionInfo[jurisdictionFilter].shortLabel}` : ' Territory'}
+              </button>
+              {jurisdictionPanelOpen && (
+                <JurisdictionFilter
+                  active={jurisdictionFilter}
+                  onChange={setJurisdictionFilter}
+                  onClose={() => setJurisdictionPanelOpen(false)}
+                  darkMode={darkMode}
+                />
+              )}
+            </div>
             <button
               className="view-toggle-btn"
               onClick={() => setDarkMode(d => !d)}
@@ -279,27 +309,32 @@ function App() {
           </div>
           {!isMobile && legendVisible && (
             <div className="legend">
-              <div className="legend-section">
+              <div className="legend-section legend-section-two-col">
                 <h4>Officials</h4>
+                {/* Col 1: ministerial hierarchy */}
                 <div className="legend-item" onClick={() => setSelectedCategory({ category: 'official', subtype: 'prime-minister' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'official', subtype: 'prime-minister' })}>
                   <div className="legend-shape heptagon"><div className="shape-inner" style={{ backgroundColor: '#5c0000' }}><div className="shape-inner" style={{ backgroundColor: '#c97070', transform: 'scale(0.78)' }}></div></div></div>
                   <span>Prime Minister</span>
                 </div>
-                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'official', subtype: 'cabinet-minister' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'official', subtype: 'cabinet-minister' })}>
-                  <div className="legend-shape octagon"><div className="shape-inner" style={{ backgroundColor: '#922b21' }}><div className="shape-inner" style={{ backgroundColor: '#e8a09a', transform: 'scale(0.78)' }}></div></div></div>
-                  <span>Cabinet Minister</span>
-                </div>
-                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'official', subtype: 'junior-minister' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'official', subtype: 'junior-minister' })}>
-                  <div className="legend-shape circle" style={{ backgroundColor: '#fadbd8', borderColor: '#cd6155' }}></div>
-                  <span>Junior Minister</span>
-                </div>
+                {/* Col 2 row 1 */}
                 <div className="legend-item" onClick={() => setSelectedCategory({ category: 'official', subtype: 'civil-servant' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'official', subtype: 'civil-servant' })}>
                   <div className="legend-shape circle" style={{ backgroundColor: '#a9d8f5', borderColor: '#2980b9' }}></div>
                   <span>Civil Servant</span>
                 </div>
+                {/* Col 1 row 2 */}
+                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'official', subtype: 'cabinet-minister' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'official', subtype: 'cabinet-minister' })}>
+                  <div className="legend-shape octagon"><div className="shape-inner" style={{ backgroundColor: '#922b21' }}><div className="shape-inner" style={{ backgroundColor: '#e8a09a', transform: 'scale(0.78)' }}></div></div></div>
+                  <span>Cabinet Minister</span>
+                </div>
+                {/* Col 2 row 2 */}
                 <div className="legend-item" onClick={() => setSelectedCategory({ category: 'official', subtype: 'independent' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'official', subtype: 'independent' })}>
                   <div className="legend-shape circle" style={{ backgroundColor: '#a9d8ab', borderColor: '#229954' }}></div>
                   <span>Independent Official</span>
+                </div>
+                {/* Col 1 row 3 */}
+                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'official', subtype: 'junior-minister' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'official', subtype: 'junior-minister' })}>
+                  <div className="legend-shape circle" style={{ backgroundColor: '#fadbd8', borderColor: '#cd6155' }}></div>
+                  <span>Junior Minister</span>
                 </div>
               </div>
 
@@ -325,25 +360,28 @@ function App() {
 
               <div className="legend-section legend-section-two-col">
                 <h4>Public Bodies</h4>
+                {/* Row 1 */}
                 <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'executive-ndpb' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'executive-ndpb' })}>
                   <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#a9d8ab', borderColor: '#229954' }}></div></div>
                   <span>Executive NDPB</span>
-                </div>
-                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'advisory-ndpb' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'advisory-ndpb' })}>
-                  <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#fef5d4', borderColor: '#f1c40f' }}></div></div>
-                  <span>Advisory NDPB</span>
-                </div>
-                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'tribunal' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'tribunal' })}>
-                  <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#f5cba7', borderColor: '#d35400' }}></div></div>
-                  <span>Tribunal</span>
                 </div>
                 <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'public-corporation' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'public-corporation' })}>
                   <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#fad7a0" stroke="#e67e22" strokeWidth="1.5"/></svg>
                   <span>Public Corporation</span>
                 </div>
+                {/* Row 2 */}
+                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'advisory-ndpb' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'advisory-ndpb' })}>
+                  <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#fef5d4', borderColor: '#f1c40f' }}></div></div>
+                  <span>Advisory NDPB</span>
+                </div>
                 <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'royal-charter-body' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'royal-charter-body' })}>
                   <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#d7b8e8" stroke="#8e44ad" strokeWidth="1.5"/></svg>
                   <span>Royal Charter Body</span>
+                </div>
+                {/* Row 3 */}
+                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'tribunal' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'tribunal' })}>
+                  <div className="legend-shape diamond"><div className="diamond-inner" style={{ backgroundColor: '#f5cba7', borderColor: '#d35400' }}></div></div>
+                  <span>Tribunal</span>
                 </div>
                 <div className="legend-item" onClick={() => setSelectedCategory({ category: 'body', subtype: 'other' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'body', subtype: 'other' })}>
                   <svg className="legend-shape" width="18" height="14" viewBox="0 0 18 14"><polygon points="3,13 18,13 15,1 0,1" fill="#dae0e0" stroke="#7f8c8d" strokeWidth="1.5"/></svg>
@@ -351,13 +389,15 @@ function App() {
                 </div>
               </div>
 
-              <div className="legend-section">
-                <h4>Groups</h4>
-                <div className="legend-item" onClick={() => setSelectedCategory({ category: 'group', subtype: 'cabinet' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'group', subtype: 'cabinet' })}>
-                  <div className="legend-shape square" style={{ backgroundColor: '#e8a09a', borderColor: '#922b21' }}></div>
-                  <span>Cabinet</span>
+              {viewMode === 'focus' && (
+                <div className="legend-section">
+                  <h4>Groups</h4>
+                  <div className="legend-item" onClick={() => setSelectedCategory({ category: 'group', subtype: 'cabinet' })} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setSelectedCategory({ category: 'group', subtype: 'cabinet' })}>
+                    <div className="legend-shape square" style={{ backgroundColor: '#e8a09a', borderColor: '#922b21' }}></div>
+                    <span>Cabinet</span>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
         </div>

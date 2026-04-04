@@ -1,3 +1,4 @@
+import type { Jurisdiction } from './jurisdictions'
 export type ElementCategory = 'official' | 'department' | 'body' | 'group'
 export type OfficialType = 'prime-minister' | 'cabinet-minister' | 'junior-minister' | 'civil-servant' | 'independent'
 export type DepartmentType = 'ministerial' | 'non-ministerial' | 'agency' | 'division-directorate'
@@ -76,6 +77,7 @@ export interface GovElement {
   parentIds: string[]
   secondaryParentIds?: string[]
   tags?: string[]
+  jurisdictions?: Jurisdiction[]
 }
 
 export interface ElementRelationship {
@@ -156,6 +158,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'cabinet'],
   },
   'defence-sec': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'defence-sec',
     name: 'Secretary of State for Defence',
     category: 'official',
@@ -233,6 +236,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'cabinet'],
   },
   'home-sec': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'home-sec',
     name: 'Secretary of State for Home Affairs',
     category: 'official',
@@ -255,6 +259,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'cabinet'],
   },
   'ni-sec': {
+    jurisdictions: ['northern-ireland'],
     id: 'ni-sec',
     name: 'Secretary of State for Northern Ireland',
     category: 'official',
@@ -277,6 +282,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'cabinet'],
   },
   'scotland-sec': {
+    jurisdictions: ['scotland'],
     id: 'scotland-sec',
     name: 'Secretary of State for Scotland',
     category: 'official',
@@ -299,6 +305,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'cabinet'],
   },
   'wales-sec': {
+    jurisdictions: ['wales'],
     id: 'wales-sec',
     name: 'Secretary of State for Wales',
     category: 'official',
@@ -916,6 +923,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'dcms-sec'],
   },
   'ni-pus': {
+    jurisdictions: ['northern-ireland'],
     id: 'ni-pus',
     name: 'Parliamentary Under-Secretary (Northern Ireland)',
     category: 'official',
@@ -926,6 +934,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'ni-sec'],
   },
   'scotland-pus': {
+    jurisdictions: ['scotland'],
     id: 'scotland-pus',
     name: 'Parliamentary Under-Secretary (Scotland)',
     category: 'official',
@@ -936,6 +945,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'scotland-sec'],
   },
   'wales-pus-1': {
+    jurisdictions: ['wales'],
     id: 'wales-pus-1',
     name: 'Parliamentary Under-Secretary (Wales)',
     category: 'official',
@@ -946,6 +956,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm', 'wales-sec'],
   },
   'wales-pus-2': {
+    jurisdictions: ['wales'],
     id: 'wales-pus-2',
     name: 'Parliamentary Under-Secretary (Wales)',
     category: 'official',
@@ -1109,6 +1120,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: [],
   },
   'home-perm-sec': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'home-perm-sec',
     name: 'Cabinet Secretary and Head of the Civil Service',
     category: 'official',
@@ -1120,6 +1132,7 @@ export const govElements: Record<string, GovElement> = {
   },
   // NOTE: home-perm-sec is Cabinet Secretary (Dame Antonia Romeo) – NOT the Home Office perm sec
   'home-office-perm-sec': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'home-office-perm-sec',
     name: 'Permanent Under-Secretary, Home Office',
     category: 'official',
@@ -1140,6 +1153,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: [],
   },
   'mod-perm-sec': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'mod-perm-sec',
     name: 'Permanent Secretary, MoD',
     category: 'official',
@@ -1160,6 +1174,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: [],
   },
   'ni-perm-sec': {
+    jurisdictions: ['northern-ireland'],
     id: 'ni-perm-sec',
     name: 'Permanent Secretary, NIO',
     category: 'official',
@@ -1667,6 +1682,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-welfare'],
   },
   'fcdo': {
+    jurisdictions: ['uk', 'overseas-territories', 'crown-dependencies'],
     id: 'fcdo',
     name: 'Foreign, Commonwealth & Development Office',
     category: 'department',
@@ -1678,6 +1694,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-international'],
   },
   'fcdo-services': {
+    jurisdictions: ['uk', 'overseas-territories', 'crown-dependencies'],
     id: 'fcdo-services',
     name: 'FCDO Services',
     category: 'department',
@@ -1688,6 +1705,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-international'],
   },
   'home-office': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'home-office',
     name: 'Home Office',
     category: 'department',
@@ -1699,6 +1717,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-immigration', 'sector-security'],
   },
   'mod': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'mod',
     name: 'Ministry of Defence',
     category: 'department',
@@ -1721,6 +1740,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice', 'sector-legal'],
   },
   'ni-office': {
+    jurisdictions: ['northern-ireland'],
     id: 'ni-office',
     name: 'Northern Ireland Office',
     category: 'department',
@@ -1740,6 +1760,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['pm'],
   },
   'scotland-office': {
+    jurisdictions: ['scotland'],
     id: 'scotland-office',
     name: 'Scotland Office',
     category: 'department',
@@ -1771,6 +1792,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-business', 'sector-finance', 'sector-international'],
   },
   'wales-office': {
+    jurisdictions: ['wales'],
     id: 'wales-office',
     name: 'Wales Office',
     category: 'department',
@@ -1804,6 +1826,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['regulator', 'sector-business', 'sector-finance'],
   },
   'cps': {
+    jurisdictions: ['england-wales'],
     id: 'cps',
     name: 'Crown Prosecution Service',
     category: 'department',
@@ -1814,6 +1837,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['prosecution', 'sector-legal', 'sector-justice'],
   },
   'forestry-commission': {
+    jurisdictions: ['gb'],
     id: 'forestry-commission',
     name: 'Forestry Commission',
     category: 'department',
@@ -1924,6 +1948,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['regulator', 'sector-energy'],
   },
   'ofqual': {
+    jurisdictions: ['england-wales'],
     id: 'ofqual',
     name: 'Office of Qualifications and Examinations Regulation',
     category: 'department',
@@ -1934,6 +1959,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['regulator', 'sector-education'],
   },
   'ofsted': {
+    jurisdictions: ['england'],
     id: 'ofsted',
     name: 'Ofsted',
     category: 'department',
@@ -1954,6 +1980,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['regulator', 'sector-environment'],
   },
   'orr': {
+    jurisdictions: ['gb'],
     id: 'orr',
     name: 'Office of Rail and Road',
     category: 'department',
@@ -1997,6 +2024,7 @@ export const govElements: Record<string, GovElement> = {
 
   // ── DEPARTMENTS: Executive Agencies ─────────────────────────────────────────
   'active-travel-england': {
+    jurisdictions: ['england'],
     id: 'active-travel-england',
     name: 'Active Travel England',
     category: 'department',
@@ -2127,6 +2155,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-environment', 'sector-science'],
   },
   'forestry-england': {
+    jurisdictions: ['england'],
     id: 'forestry-england',
     name: 'Forestry England',
     category: 'department',
@@ -2287,6 +2316,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-legal', 'sector-health'],
   },
   'planning-inspectorate': {
+    jurisdictions: ['england'],
     id: 'planning-inspectorate',
     name: 'Planning Inspectorate',
     category: 'department',
@@ -2625,6 +2655,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['regulator', 'sector-housing', 'sector-construction'],
   },
   'cafcass': {
+    jurisdictions: ['england'],
     id: 'cafcass',
     name: 'Cafcass',
     category: 'body',
@@ -2885,6 +2916,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['regulator', 'adviser', 'sector-culture', 'sector-planning'],
   },
   'homes-england': {
+    jurisdictions: ['england'],
     id: 'homes-england',
     name: 'Homes England',
     category: 'body',
@@ -3215,6 +3247,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['museum-gallery', 'sector-culture'],
   },
   'natural-england': {
+    jurisdictions: ['england'],
     id: 'natural-england',
     name: 'Natural England',
     category: 'body',
@@ -3785,6 +3818,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['museum-gallery', 'sector-culture'],
   },
   'visitbritain': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'visitbritain',
     name: 'VisitBritain',
     category: 'body',
@@ -3795,6 +3829,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture', 'sector-business'],
   },
   'visitengland': {
+    jurisdictions: ['england'],
     id: 'visitengland',
     name: 'VisitEngland',
     category: 'body',
@@ -3805,6 +3840,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture', 'sector-business'],
   },
   'vts': {
+    jurisdictions: ['england'],
     id: 'vts',
     name: 'Valuation Tribunal Service',
     category: 'body',
@@ -3988,6 +4024,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['adviser'],
   },
   'bcni': {
+    jurisdictions: ['northern-ireland'],
     id: 'bcni',
     name: 'Boundary Commission for Northern Ireland',
     category: 'body',
@@ -4199,6 +4236,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['adviser', 'sector-business'],
   },
   'law-commission': {
+    jurisdictions: ['england-wales'],
     id: 'law-commission',
     name: 'Law Commission',
     category: 'body',
@@ -4319,6 +4357,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['adviser', 'sector-business'],
   },
   'sentencing-council': {
+    jurisdictions: ['england-wales'],
     id: 'sentencing-council',
     name: 'Sentencing Council for England and Wales',
     category: 'body',
@@ -4601,6 +4640,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['adviser', 'sector-food-farming', 'sector-environment'],
   },
   'traffic-commissioners': {
+    jurisdictions: ['gb'],
     id: 'traffic-commissioners',
     name: 'Traffic Commissioners for Great Britain',
     category: 'body',
@@ -4943,6 +4983,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'national-cyber-security': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'national-cyber-security',
     name: 'National Cyber Security Centre',
     category: 'department',
@@ -5284,6 +5325,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'national-cyber-force': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'national-cyber-force',
     name: 'National Cyber Force',
     category: 'department',
@@ -5416,6 +5458,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'further-education-commissioner': {
+    jurisdictions: ['england'],
     id: 'further-education-commissioner',
     name: 'Further Education Commissioner',
     category: 'department',
@@ -5427,6 +5470,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'regional-dfe-directors': {
+    jurisdictions: ['england'],
     id: 'regional-dfe-directors',
     name: 'Regional Department for Education Directors',
     category: 'department',
@@ -5449,6 +5493,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'office-health-improvement': {
+    jurisdictions: ['england'],
     id: 'office-health-improvement',
     name: 'Office for Health Improvement and Disparities',
     category: 'department',
@@ -5823,6 +5868,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'research-england': {
+    jurisdictions: ['england'],
     id: 'research-england',
     name: 'Research England',
     category: 'body',
@@ -5933,6 +5979,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'national-guardians-office': {
+    jurisdictions: ['england'],
     id: 'national-guardians-office',
     name: "National Guardian's Office",
     category: 'body',
@@ -5977,6 +6024,7 @@ export const govElements: Record<string, GovElement> = {
   },
 
   'govt-planning-inspectors': {
+    jurisdictions: ['england'],
     id: 'govt-planning-inspectors',
     name: 'Government Planning Inspectors',
     category: 'department',
@@ -6055,6 +6103,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-media'],
   },
   's4c': {
+    jurisdictions: ['wales'],
     id: 's4c',
     name: 'S4C',
     category: 'body',
@@ -6099,6 +6148,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['regulator', 'sector-health'],
   },
   'nhs-property-services': {
+    jurisdictions: ['england'],
     id: 'nhs-property-services',
     name: 'NHS Property Services',
     category: 'body',
@@ -6109,6 +6159,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['nhs-body', 'sector-health'],
   },
   'genomics-england': {
+    jurisdictions: ['england'],
     id: 'genomics-england',
     name: 'Genomics England',
     category: 'body',
@@ -6121,6 +6172,7 @@ export const govElements: Record<string, GovElement> = {
 
   // ── DLUHC bodies ──────────────────────────────────────────────────────────
   'lgo': {
+    jurisdictions: ['england'],
     id: 'lgo',
     name: 'Local Government and Social Care Ombudsman',
     category: 'body',
@@ -6131,6 +6183,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['ombudsman', 'sector-housing'],
   },
   'office-for-place': {
+    jurisdictions: ['england'],
     id: 'office-for-place',
     name: 'Office for Place',
     category: 'body',
@@ -6167,6 +6220,7 @@ export const govElements: Record<string, GovElement> = {
 
   // ── MoD bodies ────────────────────────────────────────────────────────────
   'cwgc': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'cwgc',
     name: 'Commonwealth War Graves Commission',
     category: 'body',
@@ -6441,6 +6495,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-media'],
   },
   'historic-royal-palaces': {
+    jurisdictions: ['england'],
     id: 'historic-royal-palaces',
     name: 'Historic Royal Palaces',
     category: 'body',
@@ -6451,6 +6506,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture'],
   },
   'royal-parks': {
+    jurisdictions: ['england'],
     id: 'royal-parks',
     name: 'Royal Parks',
     category: 'body',
@@ -6483,6 +6539,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-food-farming'],
   },
   'broads-authority': {
+    jurisdictions: ['england'],
     id: 'broads-authority',
     name: 'Broads Authority',
     category: 'body',
@@ -6493,6 +6550,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'covent-garden-market': {
+    jurisdictions: ['england'],
     id: 'covent-garden-market',
     name: 'Covent Garden Market Authority',
     category: 'body',
@@ -6503,6 +6561,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-food-farming'],
   },
   'dartmoor-npa': {
+    jurisdictions: ['england'],
     id: 'dartmoor-npa',
     name: 'Dartmoor National Park Authority',
     category: 'body',
@@ -6513,6 +6572,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'exmoor-npa': {
+    jurisdictions: ['england'],
     id: 'exmoor-npa',
     name: 'Exmoor National Park Authority',
     category: 'body',
@@ -6533,6 +6593,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-environment'],
   },
   'lake-district-npa': {
+    jurisdictions: ['england'],
     id: 'lake-district-npa',
     name: 'Lake District National Park Authority',
     category: 'body',
@@ -6543,6 +6604,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'national-forest': {
+    jurisdictions: ['england'],
     id: 'national-forest',
     name: 'National Forest Company',
     category: 'body',
@@ -6553,6 +6615,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-environment'],
   },
   'new-forest-npa': {
+    jurisdictions: ['england'],
     id: 'new-forest-npa',
     name: 'New Forest National Park Authority',
     category: 'body',
@@ -6563,6 +6626,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'north-york-moors-npa': {
+    jurisdictions: ['england'],
     id: 'north-york-moors-npa',
     name: 'North York Moors National Park Authority',
     category: 'body',
@@ -6573,6 +6637,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'northumberland-npa': {
+    jurisdictions: ['england'],
     id: 'northumberland-npa',
     name: 'Northumberland National Park Authority',
     category: 'body',
@@ -6583,6 +6648,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'peak-district-npa': {
+    jurisdictions: ['england'],
     id: 'peak-district-npa',
     name: 'Peak District National Park Authority',
     category: 'body',
@@ -6593,6 +6659,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'south-downs-npa': {
+    jurisdictions: ['england'],
     id: 'south-downs-npa',
     name: 'South Downs National Park Authority',
     category: 'body',
@@ -6603,6 +6670,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['national-park', 'sector-environment'],
   },
   'yorkshire-dales-npa': {
+    jurisdictions: ['england'],
     id: 'yorkshire-dales-npa',
     name: 'Yorkshire Dales National Park Authority',
     category: 'body',
@@ -6813,6 +6881,7 @@ export const govElements: Record<string, GovElement> = {
   // ── DHSC additions ────────────────────────────────────────────────────────
   // bpc already exists at line ~4364 with parentIds: ['mhra'] — parent corrected below
   'national-data-guardian': {
+    jurisdictions: ['england'],
     id: 'national-data-guardian',
     name: 'National Data Guardian',
     category: 'body',
@@ -6834,6 +6903,7 @@ export const govElements: Record<string, GovElement> = {
   },
   // ── FCDO additions ────────────────────────────────────────────────────────
   'gchq': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'gchq',
     name: 'Government Communications Headquarters',
     category: 'body',
@@ -6854,6 +6924,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-security', 'sector-international'],
   },
   'sis': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'sis',
     name: 'Secret Intelligence Service',
     category: 'body',
@@ -6978,6 +7049,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-security'],
   },
   'security-service': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'security-service',
     name: 'The Security Service',
     category: 'body',
@@ -7162,6 +7234,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-housing', 'sector-construction'],
   },
   'cambridge-growth-company': {
+    jurisdictions: ['england'],
     id: 'cambridge-growth-company',
     name: 'Cambridge Growth Company',
     category: 'body',
@@ -7192,6 +7265,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture'],
   },
   'boundary-commission-wales': {
+    jurisdictions: ['wales'],
     id: 'boundary-commission-wales',
     name: 'Boundary Commission for Wales',
     category: 'body',
@@ -7213,6 +7287,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'hmip': {
+    jurisdictions: ['england-wales'],
     id: 'hmip',
     name: 'HM Inspectorate of Prisons',
     category: 'body',
@@ -7223,6 +7298,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'hmiprobation': {
+    jurisdictions: ['england-wales'],
     id: 'hmiprobation',
     name: 'HM Inspectorate of Probation',
     category: 'body',
@@ -7233,6 +7309,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'imb': {
+    jurisdictions: ['england-wales'],
     id: 'imb',
     name: 'Independent Monitoring Boards',
     category: 'body',
@@ -7243,6 +7320,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'jaco': {
+    jurisdictions: ['england-wales'],
     id: 'jaco',
     name: 'Judicial Appointments and Conduct Ombudsman',
     category: 'body',
@@ -7253,6 +7331,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice', 'sector-legal'],
   },
   'judicial-office': {
+    jurisdictions: ['england-wales'],
     id: 'judicial-office',
     name: 'Judicial Office',
     category: 'body',
@@ -7263,6 +7342,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice', 'sector-legal'],
   },
   'legal-ombudsman': {
+    jurisdictions: ['england-wales'],
     id: 'legal-ombudsman',
     name: 'The Legal Ombudsman',
     category: 'body',
@@ -7273,6 +7353,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice', 'sector-legal'],
   },
   'ospt': {
+    jurisdictions: ['england-wales'],
     id: 'ospt',
     name: 'Official Solicitor and Public Trustee',
     category: 'body',
@@ -7283,6 +7364,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice', 'sector-legal'],
   },
   'ppo': {
+    jurisdictions: ['england-wales'],
     id: 'ppo',
     name: 'Prisons and Probation Ombudsman',
     category: 'body',
@@ -7293,6 +7375,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'victims-commissioner': {
+    jurisdictions: ['england-wales'],
     id: 'victims-commissioner',
     name: 'Victims\' Commissioner',
     category: 'body',
@@ -7305,6 +7388,7 @@ export const govElements: Record<string, GovElement> = {
 
   // ── NIO additions ─────────────────────────────────────────────────────────
   'bcni-body': {
+    jurisdictions: ['northern-ireland'],
     id: 'bcni-body',
     name: 'Boundary Commission for Northern Ireland',
     category: 'body',
@@ -7316,6 +7400,7 @@ export const govElements: Record<string, GovElement> = {
 
   // ── Scotland Office additions ──────────────────────────────────────────────
   'bcs-body': {
+    jurisdictions: ['northern-ireland'],
     id: 'bcs-body',
     name: 'Boundary Commission for Scotland',
     category: 'body',
@@ -7450,6 +7535,7 @@ export const govElements: Record<string, GovElement> = {
 
   // ── Northern Ireland bodies ────────────────────────────────────────────────
   'arts-council-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'arts-council-ni',
     name: 'Arts Council of Northern Ireland',
     category: 'body',
@@ -7460,6 +7546,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture'],
   },
   'ni-cancer-registry': {
+    jurisdictions: ['northern-ireland'],
     id: 'ni-cancer-registry',
     name: 'Northern Ireland Cancer Registry',
     category: 'body',
@@ -7470,6 +7557,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-health'],
   },
   'chief-electoral-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'chief-electoral-ni',
     name: 'Office of the Chief Electoral Officer for Northern Ireland',
     category: 'body',
@@ -7480,6 +7568,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'police-ombudsman-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'police-ombudsman-ni',
     name: 'Police Ombudsman for Northern Ireland',
     category: 'body',
@@ -7490,6 +7579,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['ombudsman', 'sector-justice'],
   },
   'public-health-agency-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'public-health-agency-ni',
     name: 'Public Health Agency (Northern Ireland)',
     category: 'body',
@@ -7500,6 +7590,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-health'],
   },
   'public-prosecution-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'public-prosecution-ni',
     name: 'Public Prosecution Service for Northern Ireland',
     category: 'body',
@@ -7510,6 +7601,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['prosecution', 'sector-justice'],
   },
   'probation-board-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'probation-board-ni',
     name: 'Probation Board for Northern Ireland',
     category: 'body',
@@ -7520,6 +7612,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'invest-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'invest-ni',
     name: 'Invest Northern Ireland',
     category: 'body',
@@ -7530,6 +7623,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-business'],
   },
   'afbi': {
+    jurisdictions: ['northern-ireland'],
     id: 'afbi',
     name: 'Agri-Food and Biosciences Institute',
     category: 'body',
@@ -7540,6 +7634,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-food-farming', 'sector-science'],
   },
   'labour-relations-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'labour-relations-ni',
     name: 'Labour Relations Agency (Northern Ireland)',
     category: 'body',
@@ -7550,6 +7645,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-business'],
   },
   'sport-ni': {
+    jurisdictions: ['northern-ireland'],
     id: 'sport-ni',
     name: 'Sport Northern Ireland',
     category: 'body',
@@ -7562,6 +7658,7 @@ export const govElements: Record<string, GovElement> = {
 
   // ── Wales bodies ──────────────────────────────────────────────────────────
   'arts-council-wales': {
+    jurisdictions: ['wales'],
     id: 'arts-council-wales',
     name: 'Arts Council of Wales',
     category: 'body',
@@ -7572,6 +7669,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture'],
   },
   'careers-wales': {
+    jurisdictions: ['wales'],
     id: 'careers-wales',
     name: 'Careers Wales',
     category: 'body',
@@ -7582,6 +7680,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-education'],
   },
   'natural-resources-wales': {
+    jurisdictions: ['wales'],
     id: 'natural-resources-wales',
     name: 'Natural Resources Wales',
     category: 'body',
@@ -7592,6 +7691,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-environment'],
   },
   'public-health-wales': {
+    jurisdictions: ['wales'],
     id: 'public-health-wales',
     name: 'Public Health Wales',
     category: 'body',
@@ -7602,6 +7702,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['nhs-body', 'sector-health'],
   },
   'pso-wales': {
+    jurisdictions: ['wales'],
     id: 'pso-wales',
     name: 'Public Services Ombudsman for Wales',
     category: 'body',
@@ -7612,6 +7713,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['ombudsman'],
   },
   'wales-audit-office': {
+    jurisdictions: ['wales'],
     id: 'wales-audit-office',
     name: 'Wales Audit Office',
     category: 'body',
@@ -7622,6 +7724,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-finance'],
   },
   'welsh-language-commissioner': {
+    jurisdictions: ['wales'],
     id: 'welsh-language-commissioner',
     name: 'Welsh Language Commissioner',
     category: 'body',
@@ -7632,6 +7735,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture'],
   },
   'sports-council-wales': {
+    jurisdictions: ['wales'],
     id: 'sports-council-wales',
     name: 'Sports Council for Wales',
     category: 'body',
@@ -7642,6 +7746,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture'],
   },
   'nhs-wales-informatics': {
+    jurisdictions: ['wales'],
     id: 'nhs-wales-informatics',
     name: 'NHS Wales Informatics Service',
     category: 'body',
@@ -7652,6 +7757,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['nhs-body', 'sector-health', 'sector-digital'],
   },
   'estyn': {
+    jurisdictions: ['wales'],
     id: 'estyn',
     name: 'Estyn',
     category: 'body',
@@ -7794,6 +7900,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['adviser', 'sector-finance'],
   },
   'chevening': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'chevening',
     name: 'Chevening Scholarship Programme',
     category: 'body',
@@ -7804,6 +7911,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-international', 'sector-education'],
   },
   'bbc-world-service': {
+    jurisdictions: ['uk', 'overseas-territories'],
     id: 'bbc-world-service',
     name: 'BBC World Service',
     category: 'body',
@@ -7844,6 +7952,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-education'],
   },
   'english-institute-sport': {
+    jurisdictions: ['england'],
     id: 'english-institute-sport',
     name: 'English Institute of Sport',
     category: 'body',
@@ -7854,6 +7963,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-culture'],
   },
   'fire-service-college': {
+    jurisdictions: ['england'],
     id: 'fire-service-college',
     name: 'Fire Service College',
     category: 'body',
@@ -7864,6 +7974,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-justice'],
   },
   'hesa': {
+    jurisdictions: ['england-wales'],
     id: 'hesa',
     name: 'Higher Education Statistics Agency',
     category: 'body',
@@ -7874,6 +7985,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['sector-education', 'sector-science'],
   },
   'independent-reconfiguration-panel': {
+    jurisdictions: ['england'],
     id: 'independent-reconfiguration-panel',
     name: 'Independent Reconfiguration Panel',
     category: 'body',
@@ -7884,6 +7996,7 @@ export const govElements: Record<string, GovElement> = {
     tags: ['adviser', 'nhs-body', 'sector-health'],
   },
   'phso': {
+    jurisdictions: ['england-wales'],
     id: 'phso',
     name: 'Parliamentary and Health Service Ombudsman',
     category: 'body',

@@ -1,0 +1,119 @@
+.jurisdiction-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 9000;
+  background: white;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  min-width: 200px;
+  padding: 10px;
+  font-size: 0.8rem;
+}
+
+.jurisdiction-panel-dark {
+  background: #1e2329;
+  border-color: #444c56;
+  color: #e6edf3;
+}
+
+.jurisdiction-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #666;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.jurisdiction-panel-dark .jurisdiction-panel-header {
+  color: #8b949e;
+  border-bottom-color: #444c56;
+}
+
+.jurisdiction-clear {
+  font-size: 0.72rem;
+  color: #c0392b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.jurisdiction-clear:hover {
+  background: #fde8e8;
+}
+
+.jurisdiction-panel-dark .jurisdiction-clear:hover {
+  background: rgba(192, 57, 43, 0.2);
+}
+
+.jurisdiction-group {
+  margin-bottom: 8px;
+}
+
+.jurisdiction-group:last-child {
+  margin-bottom: 0;
+}
+
+.jurisdiction-group-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #999;
+  margin-bottom: 3px;
+}
+
+.jurisdiction-panel-dark .jurisdiction-group-label {
+  color: #6e7681;
+}
+
+.jurisdiction-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 0.8rem;
+  transition: background 0.15s;
+}
+
+.jurisdiction-item:hover {
+  background: #f0f4ff;
+  color: #0a3d8f;
+}
+
+.jurisdiction-item-active {
+  background: #e8f0fe;
+  color: #1a56db;
+  font-weight: 600;
+}
+
+.jurisdiction-item-active::before {
+  content: '✓ ';
+}
+
+.jurisdiction-panel-dark .jurisdiction-item {
+  color: #e6edf3;
+}
+
+.jurisdiction-panel-dark .jurisdiction-item:hover {
+  background: #2d333b;
+}
+
+.jurisdiction-panel-dark .jurisdiction-item-active {
+  background: rgba(26, 86, 219, 0.2);
+  color: #79b8ff;
+}

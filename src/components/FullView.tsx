@@ -7,10 +7,11 @@ import './FullView.css'
 interface FullViewProps {
   onSelectElement: (id: string) => void
   onDeselect: () => void
+  onReset?: () => void  // extra reset callback (e.g. clear jurisdiction filter)
   selectedElementId: string | null
   previewedElementId: string | null
   darkMode: boolean
-  highlightIds: string[] | null  // when set (search pane open), only these nodes are highlighted
+  highlightIds: string[] | null  // when set (search/jurisdiction filter active), these nodes are highlighted
   isMobile: boolean
 }
 
@@ -408,11 +409,12 @@ function applyBestRotation(
   }
 }
 
-export default function FullView({ onSelectElement, onDeselect, selectedElementId, previewedElementId, darkMode, highlightIds, isMobile }: FullViewProps) {
+export default function FullView({ onSelectElement, onDeselect, onReset, selectedElementId, previewedElementId, darkMode, highlightIds, isMobile }: FullViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const pinnedIdRef = useRef<string | null>(null)
   const searchActiveRef = useRef(false)
+  const highlightIdsRef = useRef<string[] | null>(null)
   const tooltipRef = useRef<HTMLDivElement>(null)
   const tooltipActiveRef = useRef(false)
   const prevSelectedIdRef = useRef<string | null>(null)
@@ -484,6 +486,7 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
     pinnedIdRef.current = null
     highlightNode(cy, null, false)
     onDeselect()
+    onReset?.()
   }
 
   const handleRandom = () => {
@@ -569,6 +572,27 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
         e.style({ 'opacity': 1, 'line-color': '#333', 'target-arrow-color': '#333', 'width': '2px', 'z-index': 200 })
       } else {
         e.style({ 'opacity': 0.04 })
+      }
+    })
+  }, [])
+
+  // Apply the highlight filter state (used both on filter change and on mouseout)
+  const applyHighlightFilter = useCallback((cy: cytoscape.Core, ids: string[]) => {
+    const idSet = new Set(ids)
+    cy.nodes().forEach((n: any) => {
+      const nid = n.id()
+      if (idSet.has(nid)) {
+        n.style({ 'opacity': 1, 'z-index': 100, 'border-width': '2px' })
+      } else {
+        n.style({ 'opacity': 0.07, 'z-index': 0 })
+      }
+    })
+    // Show edges where both endpoints are in the filter set
+    cy.edges().forEach((e: any) => {
+      if (idSet.has(e.source().id()) && idSet.has(e.target().id())) {
+        e.style({ 'opacity': 0.4, 'line-color': '', 'target-arrow-color': '', 'width': '' })
+      } else {
+        e.style({ 'opacity': 0.03 })
       }
     })
   }, [])
@@ -797,7 +821,6 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
       const cy = cyRef.current
       if (!cy) return
       const hid = event.target.id()
-      if (searchActiveRef.current) return
       if (pinnedIdRef.current && pinnedIdRef.current !== hid) {
         highlightNode(cy, hid, false)
       } else if (!pinnedIdRef.current) {
@@ -812,8 +835,11 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
 
     cyRef.current.on('mouseout', 'node', () => {
       const cy = cyRef.current
-      if (!cy || searchActiveRef.current) return
-      if (pinnedIdRef.current) {
+      if (!cy) return
+      // Restore to filter state if active, otherwise to pinned/clear state
+      if (searchActiveRef.current && highlightIdsRef.current !== null) {
+        applyHighlightFilter(cy, highlightIdsRef.current)
+      } else if (pinnedIdRef.current) {
         highlightNode(cy, pinnedIdRef.current, true)
       } else {
         highlightNode(cy, null, false)
@@ -875,9 +901,10 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
     if (!cy) return
 
     searchActiveRef.current = highlightIds !== null
+    highlightIdsRef.current = highlightIds
 
     if (highlightIds === null) {
-      // Search pane closed — restore to pinned state or clear
+      // Filter cleared — restore to pinned state or clear
       if (pinnedIdRef.current) {
         highlightNode(cy, pinnedIdRef.current, true)
       } else {
@@ -886,33 +913,8 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
       return
     }
 
-    const idSet = new Set(highlightIds)
-
-    cy.nodes().forEach((n: any) => {
-      const nid = n.id()
-      if (idSet.has(nid)) {
-        n.style({
-          'opacity': 1,
-          'z-index': 100,
-          'border-width': '2px',
-          'label': govElements[nid]?.name ?? nid,
-          'font-size': '12px',
-          'min-zoomed-font-size': '12px',
-          'text-max-width': '110px',
-          'color': darkMode ? '#fff' : '#111',
-          'text-background-color': darkMode ? '#1e2533' : '#ffffff',
-          'text-background-opacity': 0.92,
-          'text-background-padding': '3px',
-          'text-background-shape': 'roundrectangle',
-        })
-      } else {
-        n.style({ 'opacity': 0.07, 'z-index': 0, 'label': '' })
-      }
-    })
-
-    // Hide all edges during search highlight — avoids visual noise
-    cy.edges().forEach((e: any) => e.style({ 'opacity': 0 }))
-  }, [highlightIds, darkMode, highlightNode])
+    applyHighlightFilter(cy, highlightIds)
+  }, [highlightIds, darkMode, highlightNode, applyHighlightFilter])
 
   // Previewed element highlight (mobile: tapped node before "Select")
   useEffect(() => {

@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { getElement, getConnectedElements, tagDefinitions } from '../data/elements'
+import { jurisdictionInfo } from '../data/jurisdictions'
 import { getElementColor } from '../utils/colors'
 import { powerProfiles } from '../data/powers'
 import { budgetProfiles } from '../data/budgets'
@@ -182,6 +183,15 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
         <div className="detail-section">
           <h3>Current Holder</h3>
           <p className="role-text">{element.currentHolder}</p>
+        </div>
+      )}
+
+      {element.jurisdictions && element.jurisdictions.length > 0 && (
+        <div className="detail-section">
+          <h3>Jurisdiction</h3>
+          <p className="role-text">
+            {element.jurisdictions.map(j => jurisdictionInfo[j]?.label ?? j).join(', ')}
+          </p>
         </div>
       )}
 
