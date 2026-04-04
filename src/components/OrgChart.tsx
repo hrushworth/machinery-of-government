@@ -7,10 +7,11 @@ import './OrgChart.css'
 interface OrgChartProps {
   onSelectElement: (id: string) => void
   selectedElementId: string | null
+  previewedElementId?: string | null
   darkMode?: boolean
 }
 
-export default function OrgChart({ onSelectElement, selectedElementId, darkMode = false }: OrgChartProps) {
+export default function OrgChart({ onSelectElement, selectedElementId, previewedElementId = null, darkMode = false }: OrgChartProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const focusIdRef = useRef<string>('cabinet')
@@ -855,6 +856,15 @@ export default function OrgChart({ onSelectElement, selectedElementId, darkMode 
               'z-index': '1',
             } as any,
           },
+          // Previewed node (mobile: tapped but not yet selected)
+          {
+            selector: 'node.oc-previewed',
+            style: {
+              'border-width': '3px',
+              'border-color': '#2980b9',
+              'z-index': 9,
+            } as any,
+          },
           // Focus node — full colour fill, white text, thick border
           {
             selector: 'node[isFocus = 1]',
@@ -1146,6 +1156,20 @@ export default function OrgChart({ onSelectElement, selectedElementId, darkMode 
       }, 850)
     }
   }, [selectedElementId, onSelectElement, refreshKey])
+
+  // Previewed element highlight (mobile: tapped node before "Select")
+  const prevPreviewedIdRef = useRef<string | null>(null)
+  useEffect(() => {
+    const cy = cyRef.current
+    if (!cy) return
+    if (prevPreviewedIdRef.current) {
+      cy.getElementById(prevPreviewedIdRef.current).removeClass('oc-previewed')
+    }
+    if (previewedElementId && previewedElementId !== selectedElementId) {
+      cy.getElementById(previewedElementId).addClass('oc-previewed')
+    }
+    prevPreviewedIdRef.current = previewedElementId
+  }, [previewedElementId, selectedElementId, refreshKey])
 
   // Node labels are drawn inside coloured shapes that don't change with dark mode,
   // so keep them dark (#333) in both modes for legibility.

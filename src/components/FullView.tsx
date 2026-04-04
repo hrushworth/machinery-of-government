@@ -8,8 +8,10 @@ interface FullViewProps {
   onSelectElement: (id: string) => void
   onDeselect: () => void
   selectedElementId: string | null
+  previewedElementId: string | null
   darkMode: boolean
   highlightIds: string[] | null  // when set (search pane open), only these nodes are highlighted
+  isMobile: boolean
 }
 
 // Build adjacency sets for all elements once at module level
@@ -406,7 +408,7 @@ function applyBestRotation(
   }
 }
 
-export default function FullView({ onSelectElement, onDeselect, selectedElementId, darkMode, highlightIds }: FullViewProps) {
+export default function FullView({ onSelectElement, onDeselect, selectedElementId, previewedElementId, darkMode, highlightIds, isMobile }: FullViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const pinnedIdRef = useRef<string | null>(null)
@@ -414,6 +416,8 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
   const tooltipRef = useRef<HTMLDivElement>(null)
   const tooltipActiveRef = useRef(false)
   const prevSelectedIdRef = useRef<string | null>(null)
+  const prevPreviewedIdRef = useRef<string | null>(null)
+  const isMobileRef = useRef(isMobile)
 
   // Animate all nodes in a ring by rotating them along their arc.
   // Uses requestAnimationFrame-based interpolation so nodes arc around the centre.
@@ -706,6 +710,16 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
           selector: 'node[category="body"][subtype="other"]',
           style: { 'shape': 'diamond', 'border-color': '#616a6b' },
         },
+        // Previewed node indicator (mobile: tapped but not yet selected)
+        {
+          selector: 'node.fv-previewed',
+          style: {
+            'border-width': '3px',
+            'border-color': '#2980b9',
+            'opacity': 1,
+            'z-index': 450,
+          } as any,
+        },
         // Selected node indicator
         {
           selector: 'node.fv-selected',
@@ -789,15 +803,19 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
       tooltipActiveRef.current = false
     })
 
-    // Click: select, pin, and rotate rings
+    // Tap: on mobile, just preview (chip shows name); on desktop, select + pin + rotate
     cyRef.current.on('tap', 'node', (event: any) => {
       const cy = cyRef.current
       if (!cy) return
       const hid = event.target.id()
-      pinnedIdRef.current = hid
-      highlightNode(cy, hid, true)
-      rotateToSelection(cy, hid)
-      onSelectElement(hid)
+      if (isMobileRef.current) {
+        onSelectElement(hid)
+      } else {
+        pinnedIdRef.current = hid
+        highlightNode(cy, hid, true)
+        rotateToSelection(cy, hid)
+        onSelectElement(hid)
+      }
     })
 
     // Click on background: unpin
@@ -828,6 +846,8 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
       })
       .update()
   }, [darkMode])
+
+  useEffect(() => { isMobileRef.current = isMobile }, [isMobile])
 
   // Search pane highlight: when highlightIds is set, dim everything else and show
   // those nodes at full opacity with their labels — no edges shown between them.
@@ -874,6 +894,21 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
     // Hide all edges during search highlight — avoids visual noise
     cy.edges().forEach((e: any) => e.style({ 'opacity': 0 }))
   }, [highlightIds, darkMode, highlightNode])
+
+  // Previewed element highlight (mobile: tapped node before "Select")
+  useEffect(() => {
+    const cy = cyRef.current
+    if (!cy) return
+    // Clear previous preview class
+    if (prevPreviewedIdRef.current) {
+      cy.getElementById(prevPreviewedIdRef.current).removeClass('fv-previewed')
+    }
+    // Apply to new previewed node (skip if it's the selected node — fv-selected handles that)
+    if (previewedElementId && previewedElementId !== selectedElementId) {
+      cy.getElementById(previewedElementId).addClass('fv-previewed')
+    }
+    prevPreviewedIdRef.current = previewedElementId
+  }, [previewedElementId, selectedElementId])
 
   // When selectedElementId changes, update selection indicator and pin/rotate
   useEffect(() => {

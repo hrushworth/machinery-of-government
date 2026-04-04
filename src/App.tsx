@@ -21,6 +21,7 @@ function App() {
   const [viewMode, setViewMode] = useState<'focus' | 'full'>('full')
   const [darkMode, setDarkMode] = useState(false)
   const [legendVisible, setLegendVisible] = useState(true)
+  const [previewedElementId, setPreviewedElementId] = useState<string | null>(null)
   const [searchHighlightIds, setSearchHighlightIds] = useState<string[] | null>(null)
 
   // Mobile detection — only touch devices, not narrow desktop windows
@@ -43,12 +44,11 @@ function App() {
   const isDragging = useRef(false)
 
   const selectElement = useCallback((id: string) => {
-    setSelectedElementId(id)
     if (isMobile) {
-      // On mobile: just select — chip shows the name, Details button opens the sheet
-      setElementPaneVisible(false)
-      setSheetState('closed')
+      // On mobile: just preview — chip shows the name, no chart update yet
+      setPreviewedElementId(id)
     } else {
+      setSelectedElementId(id)
       setElementPaneVisible(true)
     }
   }, [isMobile])
@@ -180,15 +180,18 @@ function App() {
             <OrgChart
               onSelectElement={selectElement}
               selectedElementId={selectedElementId}
+              previewedElementId={previewedElementId}
               darkMode={darkMode}
             />
           ) : (
             <FullView
               onSelectElement={selectElement}
-              onDeselect={() => { setSelectedElementId(null); setElementPaneVisible(false) }}
+              onDeselect={() => { setSelectedElementId(null); setElementPaneVisible(false); setPreviewedElementId(null) }}
               selectedElementId={selectedElementId}
+              previewedElementId={previewedElementId}
               darkMode={darkMode}
               highlightIds={searchOpen ? searchHighlightIds : null}
+              isMobile={isMobile}
             />
           )}
           <div className="chart-overlay-buttons">
@@ -379,23 +382,34 @@ function App() {
         </>
       )}
 
-      {/* Mobile selection chip — shown when element selected but sheet is closed */}
-      {isMobile && selectedElementId && sheetState === 'closed' && govElements[selectedElementId] && (() => {
-        const el = govElements[selectedElementId]
+      {/* Mobile selection chip — shown when an element is previewed/selected and sheet is closed */}
+      {isMobile && previewedElementId && sheetState === 'closed' && govElements[previewedElementId] && (() => {
+        const el = govElements[previewedElementId]
         const subtitle = el.role ?? el.subtype.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        const isSelected = previewedElementId === selectedElementId
         return (
           <div className={`mobile-selection-chip${darkMode ? ' mobile-selection-chip-dark' : ''}`}>
             <div className="mobile-selection-chip-text">
               <span className="mobile-selection-chip-name">{el.name}</span>
               <span className="mobile-selection-chip-sub">{subtitle}</span>
             </div>
-            <button
-              className="mobile-selection-chip-btn"
-              onClick={() => { setElementPaneVisible(true); setSheetState('partial') }}
-              aria-label="View details"
-            >
-              Details →
-            </button>
+            {isSelected ? (
+              <button
+                className="mobile-selection-chip-btn"
+                onClick={() => { setElementPaneVisible(true); setSheetState('partial') }}
+                aria-label="View details"
+              >
+                Details →
+              </button>
+            ) : (
+              <button
+                className="mobile-selection-chip-btn"
+                onClick={() => { setSelectedElementId(previewedElementId) }}
+                aria-label="Select element"
+              >
+                Select
+              </button>
+            )}
           </div>
         )
       })()}
