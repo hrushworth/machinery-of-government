@@ -84,6 +84,12 @@
   border-left: 2px solid #e0e0e0;
 }
 
+.info-controls-wrap dt {
+  white-space: normal;
+  max-width: 10rem;
+  word-break: break-word;
+}
+
 /* ── Classification table ── */
 .info-table {
   width: 100%;

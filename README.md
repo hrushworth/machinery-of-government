@@ -23,10 +23,7 @@ Contains public sector information licensed under the [Open Government Licence v
 
 ### Views
 
-**Focus view** (default)
-The selected element is placed at the centre with its parents, grandparents, children, and grandchildren arranged radially. Click any node to re-focus the chart. The ↺ button resets the layout.
-
-**Full view**
+**Full view** (default)
 Every element in the network is shown simultaneously, arranged in concentric rings by constitutional distance from the Prime Minister:
 - Ring 0 — Prime Minister
 - Ring 1 — Cabinet Ministers
@@ -35,21 +32,27 @@ Every element in the network is shown simultaneously, arranged in concentric rin
 - Ring 4 — Executive Agencies and Divisions/Directorates
 - Ring 5+ — All other bodies, placed by BFS distance from the nearest ring-1–4 node
 
-Node names are hidden by default. Hover any node to reveal its name and highlight its full ancestor chain (all parents, grandparents, etc.) plus direct children. Click to pin the highlight and open the element pane. Click on the background to clear the pin. The ↺ button re-centres on the PM.
+Hover any node to reveal its name in a cursor-following tooltip and highlight its full ancestor chain plus direct children. Click a node to select it — the selected element is highlighted with an amber border and its name is shown as a persistent label. Click on the background to clear the selection. The ↺ button re-centres on the PM and clears the selection.
 
 When the search pane is open in full view, matching elements are highlighted across the whole network and all edges are hidden, making it easy to see where a filtered set of organisations sits in the network.
 
+**Focus view**
+The selected element is placed at the centre with its parents, grandparents, children, and grandchildren arranged radially. Click any node to re-focus the chart. The ↺ button resets the layout.
+
 **Dark / light mode**
-Toggle between light and dark appearances via the header button (desktop) or the moon/sun icon in the mobile navigation bar.
+Toggle between light and dark appearances via the ☾/☀ button in the chart toolbar (desktop) or the moon/sun icon in the mobile navigation bar.
 
 ### Navigation & Visualization
-- **Interactive network graph** — click any node to focus it; connections arranged radially in focus view
+- **Interactive network graph** — click any node to select it; connections arranged radially in focus view
 - **Element pane** — detailed sidebar with tabbed sections for Info, Powers, Budget, and Staff
+- **Random element** — ⚄ button (top-right of chart) jumps to a randomly selected element from the entire database
+- **Legend** — ☰ Legend button toggles the key on desktop; shown by default, hidden on mobile
 - **Category pane** — click any category badge to see a description and full list of all elements of that type
 - **Tag pane** — click any tag pill to see all organisations sharing that tag
 - **Search pane** — full-text and tag-based search across all elements; in full view, results are highlighted live on the network
 - **Help pane** — in-app guide accessible via the Help button
 - **Categories pane** — browse all element types grouped by section
+- **Mobile selection chip** — on mobile, tapping a node shows a name/type bar at the bottom without immediately opening the full pane; tap Details → to open
 
 ### Element Detail Tabs
 
@@ -248,15 +251,18 @@ See the existing `budgets.ts` and `staffing.ts` type definitions. Use `getStaffP
 | Select an element | Click a node |
 | Pan | Click and drag |
 | Zoom | Scroll wheel / pinch |
-| Reset focus layout / re-centre full view | ↺ button (top-right of chart) |
-| Switch focus ↔ full view | ⊞ Full / ⊡ Focus button |
-| Toggle dark / light mode | ☾ Dark / ☀ Light button (header or mobile nav) |
+| Reset layout / re-centre on PM | ↺ button (top-right of chart) |
+| Jump to random element | ⚄ button (top-right of chart) |
+| Switch focus ↔ full view | ⊞ Full / ⊡ Focus button (chart toolbar) |
+| Toggle legend | ☰ Legend button (chart toolbar, desktop only) |
+| Toggle dark / light mode | ☾ / ☀ button (chart toolbar or mobile nav) |
 | Navigate to related element | Click a parent/child in the element pane |
 | Open category pane | Click the category badge in the element pane |
 | Open tag pane | Click a tag pill in the element pane |
 | Search | Search button in the header / mobile nav |
 | Browse categories | Categories button in the header / mobile nav |
-| Help | Help / ? button in the header / mobile nav |
+| Help | ? Help button in the header / mobile nav |
+| View element details (mobile) | Tap Details → in the selection chip, or tap Details in the nav bar |
 
 ---
 

@@ -21,14 +21,17 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
       <section className="info-section">
         <h3>Views</h3>
         <dl className="info-controls">
-          <dt>Focus view</dt>
-          <dd>The default view. Shows the selected element at the centre, with its parents, grandparents, children, and grandchildren arranged radially. Click any node to re-focus the chart on it.</dd>
-
           <dt>Full view</dt>
-          <dd>Shows every element in the network simultaneously, arranged in concentric rings by constitutional distance from the Prime Minister. Hover any node to highlight it and its full ancestor chain. Click to pin the highlight and open the element pane. Click <strong>⊞ Full</strong> in the chart toolbar to switch; <strong>⊡ Focus</strong> to return.</dd>
+          <dd>The default view. Shows every element in the network simultaneously, arranged in concentric rings by constitutional distance from the Prime Minister. Hover any node to see its name in a tooltip beside the cursor. Click to select an element — it is highlighted with an amber border and its name is shown as a label. Click <strong>⊡ Focus</strong> in the chart toolbar to switch to focus view.</dd>
+
+          <dt>Focus view</dt>
+          <dd>Shows the selected element at the centre, with its parents, grandparents, children, and grandchildren arranged radially. Click any node to re-focus the chart on it. Click <strong>⊞ Full</strong> to return to full view.</dd>
 
           <dt>Dark / Light mode</dt>
-          <dd>Toggle between light and dark appearances using the <strong>☾ Dark</strong> / <strong>☀ Light</strong> button in the header (or the moon icon on mobile).</dd>
+          <dd>Toggle between light and dark appearances using the <strong>☾</strong> / <strong>☀</strong> button in the chart toolbar (or the moon icon in the mobile navigation bar).</dd>
+
+          <dt>Legend</dt>
+          <dd>Click <strong>☰ Legend</strong> in the chart toolbar to show or hide the key. The legend is visible on desktop only; on mobile, use <strong>Categories</strong> in the navigation bar instead.</dd>
         </dl>
       </section>
 
@@ -36,7 +39,10 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
         <h3>How to navigate</h3>
         <dl className="info-controls">
           <dt>Select an element</dt>
-          <dd>Click any node on the chart. The element pane opens on the left with details, relationships, and tabs for Powers, Budget, and Staff.</dd>
+          <dd>Click any node on the chart. On desktop, the element pane opens with details, relationships, and tabs for Powers, Budget, and Staff. On mobile, the element's name and type appear in a bar at the bottom — tap <strong>Details →</strong> to open the full pane.</dd>
+
+          <dt>Random element</dt>
+          <dd>Click the <strong>⚄</strong> button (top-right of the chart) to jump to a randomly selected element from the entire database.</dd>
 
           <dt>Navigate relationships</dt>
           <dd>Click any parent or child entry in the element pane to jump to that element and re-centre the chart around it.</dd>
@@ -48,7 +54,7 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
           <dd>Scroll wheel, or pinch on a trackpad / touchscreen.</dd>
 
           <dt>Reset / re-centre</dt>
-          <dd>Click the <strong>↺</strong> button in the top-right corner of the chart to reset the layout (focus view) or re-centre on the PM (full view).</dd>
+          <dd>Click the <strong>↺</strong> button (top-right of the chart) to reset the layout and re-centre. In full view this also clears the current selection.</dd>
 
           <dt>Search</dt>
           <dd>Click <strong>Search</strong> in the header to open a search panel. Search by name, or filter by one or more tags. In full view, matching elements are highlighted across the whole network.</dd>
@@ -132,7 +138,7 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
           2024–25 final outturn dataset. Figures are in £ thousands and represent actual spend
           for the full financial year. Negative values represent income or receipts.
         </p>
-        <dl className="info-controls">
+        <dl className="info-controls info-controls-wrap">
           <dt>DEL (Departmental Expenditure Limit)</dt>
           <dd>Day-to-day spending within fixed limits set at Spending Reviews. Split into Admin DEL (running costs) and Programme DEL (frontline delivery).</dd>
 

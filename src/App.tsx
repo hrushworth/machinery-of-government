@@ -7,6 +7,7 @@ import TagInfo from './components/TagInfo'
 import SearchPane from './components/SearchPane'
 import InfoPane from './components/InfoPane'
 import CategoriesPane from './components/CategoriesPane'
+import { govElements } from './data/elements'
 import './App.css'
 
 function App() {
@@ -43,8 +44,13 @@ function App() {
 
   const selectElement = useCallback((id: string) => {
     setSelectedElementId(id)
-    setElementPaneVisible(true)
-    if (isMobile) setSheetState('partial')
+    if (isMobile) {
+      // On mobile: just select — chip shows the name, Details button opens the sheet
+      setElementPaneVisible(false)
+      setSheetState('closed')
+    } else {
+      setElementPaneVisible(true)
+    }
   }, [isMobile])
 
   const closeElementPane = useCallback(() => {
@@ -372,6 +378,27 @@ function App() {
           </div>
         </>
       )}
+
+      {/* Mobile selection chip — shown when element selected but sheet is closed */}
+      {isMobile && selectedElementId && sheetState === 'closed' && govElements[selectedElementId] && (() => {
+        const el = govElements[selectedElementId]
+        const subtitle = el.role ?? el.subtype.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+        return (
+          <div className={`mobile-selection-chip${darkMode ? ' mobile-selection-chip-dark' : ''}`}>
+            <div className="mobile-selection-chip-text">
+              <span className="mobile-selection-chip-name">{el.name}</span>
+              <span className="mobile-selection-chip-sub">{subtitle}</span>
+            </div>
+            <button
+              className="mobile-selection-chip-btn"
+              onClick={() => { setElementPaneVisible(true); setSheetState('partial') }}
+              aria-label="View details"
+            >
+              Details →
+            </button>
+          </div>
+        )
+      })()}
 
       {/* Mobile bottom nav bar */}
       {isMobile && (

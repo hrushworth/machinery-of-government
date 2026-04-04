@@ -822,7 +822,7 @@
   }
 
   .chart-container {
-    padding-bottom: 60px; /* clear bottom nav */
+    padding-bottom: 116px; /* clear bottom nav + selection chip */
   }
 
   /* Side panels (search, info, categories) become full-screen overlays */
@@ -907,6 +907,87 @@
     text-overflow: ellipsis;
     max-width: 100%;
   }
+}
+
+/* ── Mobile selection chip ───────────────────────────────────────────────── */
+.mobile-selection-chip {
+  display: none;
+}
+
+@media (max-width: 768px) and (pointer: coarse) {
+  .mobile-selection-chip {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    bottom: 57px;
+    left: 0;
+    right: 0;
+    z-index: 290;
+    background: rgba(255, 255, 255, 0.97);
+    border-top: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    gap: 10px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  }
+
+  .mobile-selection-chip-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .mobile-selection-chip-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-selection-chip-sub {
+    font-size: 0.72rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-selection-chip-btn {
+    flex-shrink: 0;
+    background: #2c3e50;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .mobile-selection-chip-btn:active {
+    background: #34495e;
+  }
+}
+
+.mobile-selection-chip-dark {
+  background: rgba(22, 27, 34, 0.97) !important;
+  border-top-color: #30363d !important;
+}
+
+.mobile-selection-chip-dark .mobile-selection-chip-name {
+  color: #e6edf3;
+}
+
+.mobile-selection-chip-dark .mobile-selection-chip-sub {
+  color: #8b949e;
+}
+
+.mobile-selection-chip-dark .mobile-selection-chip-btn {
+  background: #388bfd;
 }
 
 /* Dark mode for mobile nav */
