@@ -191,7 +191,7 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
       </section>
 
       <footer className="info-footer">
-        <p className="info-copyright">© MMXXV Harry C. Rushworth. All rights reserved.</p>
+        <p className="info-copyright">© MMXXVI Harry C. Rushworth. All rights reserved.</p>
         <p className="info-ogl">
           Contains public sector information licensed under the{' '}
           <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener noreferrer">

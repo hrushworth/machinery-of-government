@@ -4,7 +4,7 @@ An interactive web application for exploring the structure of the UK Government 
 
 ## Licence
 
-Copyright © MMXXV Harry C. Rushworth. All rights reserved.
+Copyright © MMXXVI Harry C. Rushworth. All rights reserved.
 
 This project is proprietary software. The source code, design, and data structures may not be copied, reproduced, modified, distributed, or used to create derivative works without the prior explicit written permission of the copyright holder. See the [LICENSE](LICENSE) file for full terms.
 
