@@ -718,6 +718,18 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
             'border-color': '#2980b9',
             'opacity': 1,
             'z-index': 450,
+            'font-size': '13px',
+            'font-weight': 'bold',
+            'min-zoomed-font-size': '8px',
+            'color': '#1a1a1a',
+            'text-background-color': 'white',
+            'text-background-opacity': 0.95,
+            'text-background-padding': '4px',
+            'text-background-shape': 'roundrectangle',
+            'text-max-width': '140px',
+            'text-wrap': 'wrap',
+            'text-valign': 'top',
+            'text-margin-y': '-6',
           } as any,
         },
         // Selected node indicator
@@ -899,13 +911,19 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
   useEffect(() => {
     const cy = cyRef.current
     if (!cy) return
-    // Clear previous preview class
+    // Clear previous preview class and label (unless it's the selected node)
     if (prevPreviewedIdRef.current) {
-      cy.getElementById(prevPreviewedIdRef.current).removeClass('fv-previewed')
+      const prev = cy.getElementById(prevPreviewedIdRef.current)
+      prev.removeClass('fv-previewed')
+      if (prevPreviewedIdRef.current !== selectedElementId) {
+        prev.data('label', '')
+      }
     }
     // Apply to new previewed node (skip if it's the selected node — fv-selected handles that)
     if (previewedElementId && previewedElementId !== selectedElementId) {
-      cy.getElementById(previewedElementId).addClass('fv-previewed')
+      const node = cy.getElementById(previewedElementId)
+      node.addClass('fv-previewed')
+      node.data('label', govElements[previewedElementId]?.name ?? previewedElementId)
     }
     prevPreviewedIdRef.current = previewedElementId
   }, [previewedElementId, selectedElementId])

@@ -948,6 +948,9 @@
   }
 
   .mobile-selection-chip-sub {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     font-size: 0.72rem;
     color: #666;
     white-space: nowrap;

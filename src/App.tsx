@@ -8,7 +8,61 @@ import SearchPane from './components/SearchPane'
 import InfoPane from './components/InfoPane'
 import CategoriesPane from './components/CategoriesPane'
 import { govElements } from './data/elements'
+import { getElementColor } from './utils/colors'
 import './App.css'
+
+// Tiny SVG shape matching the Cytoscape node shape for each subtype
+function SubtypeShape({ category, subtype }: { category: string; subtype: string }) {
+  const color = getElementColor(category, subtype)
+  const size = 14
+  const c = size / 2  // 7
+
+  let shape: React.ReactNode
+
+  if (category === 'official' && subtype === 'prime-minister') {
+    // Heptagon
+    const r = c - 1
+    const pts = Array.from({ length: 7 }, (_, i) => {
+      const a = (Math.PI * (-0.5 + (2 * i) / 7))
+      return `${(c + r * Math.cos(a)).toFixed(2)},${(c + r * Math.sin(a)).toFixed(2)}`
+    }).join(' ')
+    shape = <polygon points={pts} fill={color} />
+  } else if (category === 'official' && subtype === 'cabinet-minister') {
+    // Octagon
+    const r = c - 1
+    const pts = Array.from({ length: 8 }, (_, i) => {
+      const a = (Math.PI * (-0.5 + (2 * i) / 8))
+      return `${(c + r * Math.cos(a)).toFixed(2)},${(c + r * Math.sin(a)).toFixed(2)}`
+    }).join(' ')
+    shape = <polygon points={pts} fill={color} />
+  } else if (category === 'department' && (subtype === 'ministerial' || subtype === 'non-ministerial')) {
+    // Rectangle
+    shape = <rect x="1" y="2.5" width={size - 2} height={size - 5} fill={color} />
+  } else if (category === 'department' && (subtype === 'agency' || subtype === 'division-directorate')) {
+    // Rounded rectangle
+    shape = <rect x="1" y="2.5" width={size - 2} height={size - 5} rx="3" fill={color} />
+  } else if (category === 'body') {
+    // Diamond
+    shape = <polygon points={`${c},1 ${size - 1},${c} ${c},${size - 1} 1,${c}`} fill={color} />
+  } else if (category === 'group') {
+    // Pentagon
+    const r = c - 1
+    const pts = Array.from({ length: 5 }, (_, i) => {
+      const a = (Math.PI * (-0.5 + (2 * i) / 5))
+      return `${(c + r * Math.cos(a)).toFixed(2)},${(c + r * Math.sin(a)).toFixed(2)}`
+    }).join(' ')
+    shape = <polygon points={pts} fill={color} />
+  } else {
+    // Ellipse (default for officials)
+    shape = <ellipse cx={c} cy={c} rx={c - 1} ry={c - 1} fill={color} />
+  }
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ flexShrink: 0 }}>
+      {shape}
+    </svg>
+  )
+}
 
 function App() {
   const [selectedElementId, setSelectedElementId] = useState<string | null>('cabinet')
@@ -391,7 +445,10 @@ function App() {
           <div className={`mobile-selection-chip${darkMode ? ' mobile-selection-chip-dark' : ''}`}>
             <div className="mobile-selection-chip-text">
               <span className="mobile-selection-chip-name">{el.name}</span>
-              <span className="mobile-selection-chip-sub">{subtitle}</span>
+              <span className="mobile-selection-chip-sub">
+                <SubtypeShape category={el.category} subtype={el.subtype} />
+                {subtitle}
+              </span>
             </div>
             {isSelected ? (
               <button
