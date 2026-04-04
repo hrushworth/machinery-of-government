@@ -34,7 +34,7 @@ Every element in the network is shown simultaneously, arranged in concentric rin
 
 Hover any node to reveal its name in a cursor-following tooltip and highlight its full ancestor chain plus direct children. Click a node to select it — the selected element is highlighted with an amber border and its name is shown as a persistent label. Click on the background to clear the selection. The ↺ button re-centres on the PM and clears the selection.
 
-When the search pane is open in full view, matching elements are highlighted across the whole network and all edges are hidden, making it easy to see where a filtered set of organisations sits in the network.
+When the search or jurisdiction filter is active in full view, matching elements are highlighted across the whole network and connections between them are shown, making it easy to see where a filtered set of organisations sits in the network.
 
 **Focus view**
 The selected element is placed at the centre with its parents, grandparents, children, and grandchildren arranged radially. Click any node to re-focus the chart. The ↺ button resets the layout.
@@ -46,13 +46,14 @@ Toggle between light and dark appearances via the ☾/☀ button in the chart to
 - **Interactive network graph** — click any node to select it; connections arranged radially in focus view
 - **Element pane** — detailed sidebar with tabbed sections for Info, Powers, Budget, and Staff
 - **Random element** — ⚄ button (top-right of chart) jumps to a randomly selected element from the entire database
-- **Legend** — ☰ Legend button toggles the key on desktop; shown by default, hidden on mobile
+- **Legend** — ☰ Legend button toggles the key on desktop; shown by default, hidden on mobile. Groups section only shown in focus view
+- **Jurisdiction filter** — 🌍 Territory button filters the chart by geographic scope (UK, England, Wales, Scotland, Northern Ireland, Crown Dependencies, Overseas Territories); selecting a territory shows all elements whose remit covers it, including broader jurisdictions; reset with ↺
 - **Category pane** — click any category badge to see a description and full list of all elements of that type
 - **Tag pane** — click any tag pill to see all organisations sharing that tag
-- **Search pane** — full-text and tag-based search across all elements; in full view, results are highlighted live on the network
+- **Search pane** — full-text and tag-based search across all elements; in full view, results are highlighted live on the network with connections between matches shown
 - **Help pane** — in-app guide accessible via the Help button
 - **Categories pane** — browse all element types grouped by section
-- **Mobile selection chip** — on mobile, tapping a node shows a name/type bar at the bottom without immediately opening the full pane; tap Details → to open
+- **Mobile selection chip** — on mobile, tapping a node shows a name/type bar at the bottom; tap **Select** to update the chart, then **Details →** to open the full pane
 
 ### Element Detail Tabs
 
@@ -60,6 +61,7 @@ Each element's detail pane has up to four tabs:
 
 **Info**
 - Description, role title, current role holder
+- Jurisdiction (where set — e.g. England, England & Wales, UK)
 - Clickable tag pills (type and sector)
 - All parent and child relationships, grouped by relationship type and clickable to navigate
 - Link to GOV.UK page
@@ -96,6 +98,25 @@ Each element's detail pane has up to four tabs:
 ### Tag System
 
 Each element can carry **type tags** (e.g. Regulator, Museum / Gallery, Armed Forces) and **sector tags** (e.g. Health, Finance, Digital / Technology). Tags are colour-coded, clickable in the element pane, and filterable in the search pane. In full view, tag filters highlight the matching elements across the entire network.
+
+### Jurisdiction System
+
+Departments and bodies carry a `jurisdictions` field indicating the geographic scope of their remit. The hierarchy is:
+
+```
+UK
+├── GB (England, Scotland, Wales)
+│   ├── England & Wales
+│   │   ├── England
+│   │   └── Wales
+│   └── Scotland
+└── Northern Ireland
+
+Crown Dependencies  (Jersey, Guernsey, Isle of Man — separate)
+Overseas Territories  (British Overseas Territories — separate)
+```
+
+Filtering by a territory shows all elements whose remit covers it — e.g. filtering for England shows UK-wide, GB, England & Wales, and England-only bodies. Elements with no jurisdiction set default to UK-wide.
 
 ---
 
@@ -172,6 +193,7 @@ src/
 │   └── SearchPane.tsx / .css       # Search and filter pane
 ├── data/
 │   ├── elements.ts                 # All government element data and tag definitions
+│   ├── jurisdictions.ts            # Jurisdiction type, hierarchy, and filter logic
 │   ├── powers.ts                   # Powers, duties, and legislation data
 │   ├── budgets.ts                  # Budget types and OSCAR JSON import
 │   ├── budgets-oscar.json          # Pre-processed 2024–25 outturn data
@@ -205,6 +227,7 @@ scripts/
   parentIds: string[]          // elements this reports to / is part of
   secondaryParentIds?: string[] // additional oversight relationships (e.g. junior minister → dept)
   tags?: string[]              // tag IDs from tagDefinitions
+  jurisdictions?: Jurisdiction[] // geographic scope; omitted = UK-wide by default
 }
 ```
 
@@ -251,10 +274,11 @@ See the existing `budgets.ts` and `staffing.ts` type definitions. Use `getStaffP
 | Select an element | Click a node |
 | Pan | Click and drag |
 | Zoom | Scroll wheel / pinch |
-| Reset layout / re-centre on PM | ↺ button (top-right of chart) |
+| Reset layout / re-centre on PM | ↺ button (top-right of chart) — also clears selection and jurisdiction filter |
 | Jump to random element | ⚄ button (top-right of chart) |
 | Switch focus ↔ full view | ⊞ Full / ⊡ Focus button (chart toolbar) |
 | Toggle legend | ☰ Legend button (chart toolbar, desktop only) |
+| Filter by jurisdiction | 🌍 Territory button (chart toolbar) |
 | Toggle dark / light mode | ☾ / ☀ button (chart toolbar or mobile nav) |
 | Navigate to related element | Click a parent/child in the element pane |
 | Open category pane | Click the category badge in the element pane |
@@ -262,7 +286,9 @@ See the existing `budgets.ts` and `staffing.ts` type definitions. Use `getStaffP
 | Search | Search button in the header / mobile nav |
 | Browse categories | Categories button in the header / mobile nav |
 | Help | ? Help button in the header / mobile nav |
-| View element details (mobile) | Tap Details → in the selection chip, or tap Details in the nav bar |
+| Preview element (mobile) | Tap a node — name and type appear in chip at bottom |
+| Select element (mobile) | Tap **Select** in the chip to update the chart |
+| View element details (mobile) | Tap **Details →** in the chip, or tap Details in the nav bar |
 
 ---
 

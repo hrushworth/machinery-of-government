@@ -31,7 +31,10 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
           <dd>Toggle between light and dark appearances using the <strong>☾</strong> / <strong>☀</strong> button in the chart toolbar (or the moon icon in the mobile navigation bar).</dd>
 
           <dt>Legend</dt>
-          <dd>Click <strong>☰ Legend</strong> in the chart toolbar to show or hide the key. The legend is visible on desktop only; on mobile, use <strong>Categories</strong> in the navigation bar instead.</dd>
+          <dd>Click <strong>☰ Legend</strong> in the chart toolbar to show or hide the key. The legend is visible on desktop only; on mobile, use <strong>Categories</strong> in the navigation bar instead. In full view the Groups section is hidden, as group nodes only appear in focus view.</dd>
+
+          <dt>Jurisdiction filter</dt>
+          <dd>Click the <strong>🌍 Territory</strong> button in the chart toolbar to filter the chart by jurisdiction. Selecting a territory (e.g. England) highlights all elements whose remit covers that territory — including broader jurisdictions such as UK-wide and GB bodies. The filter applies across both views, and the <strong>↺</strong> reset button clears it. The selected jurisdiction is shown on each element's info tab.</dd>
         </dl>
       </section>
 
@@ -39,7 +42,7 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
         <h3>How to navigate</h3>
         <dl className="info-controls">
           <dt>Select an element</dt>
-          <dd>Click any node on the chart. On desktop, the element pane opens with details, relationships, and tabs for Powers, Budget, and Staff. On mobile, the element's name and type appear in a bar at the bottom — tap <strong>Details →</strong> to open the full pane.</dd>
+          <dd>Click any node on the chart. On desktop, the element pane opens with details, relationships, and tabs for Powers, Budget, and Staff. On mobile, the element's name and type appear in a bar at the bottom — tap <strong>Select</strong> to update the chart, then <strong>Details →</strong> to open the full pane.</dd>
 
           <dt>Random element</dt>
           <dd>Click the <strong>⚄</strong> button (top-right of the chart) to jump to a randomly selected element from the entire database.</dd>
@@ -54,10 +57,10 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
           <dd>Scroll wheel, or pinch on a trackpad / touchscreen.</dd>
 
           <dt>Reset / re-centre</dt>
-          <dd>Click the <strong>↺</strong> button (top-right of the chart) to reset the layout and re-centre. In full view this also clears the current selection.</dd>
+          <dd>Click the <strong>↺</strong> button (top-right of the chart) to reset the layout, re-centre on the PM, clear the current selection, and clear any active jurisdiction filter.</dd>
 
           <dt>Search</dt>
-          <dd>Click <strong>Search</strong> in the header to open a search panel. Search by name, or filter by one or more tags. In full view, matching elements are highlighted across the whole network.</dd>
+          <dd>Click <strong>Search</strong> in the header to open a search panel. Search by name, or filter by one or more tags. In full view, matching elements are highlighted across the whole network with connections between them shown.</dd>
 
           <dt>Browse by category</dt>
           <dd>Click the category badge (e.g. "Ministerial Department") on any element to see all elements of that type.</dd>
@@ -71,7 +74,7 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
         <h3>Element detail tabs</h3>
         <dl className="info-controls">
           <dt>Info</dt>
-          <dd>Description, role, current holder, tags, and all parent / child relationships.</dd>
+          <dd>Description, role, current holder, jurisdiction, tags, and all parent / child relationships.</dd>
 
           <dt>Powers</dt>
           <dd>Powers, duties, functions, and responsibilities — with the underpinning legislation, statutory instrument, prerogative, case law, or constitutional convention, and a link to the source text on legislation.gov.uk where available. Shown where data has been entered.
@@ -124,7 +127,7 @@ export default function InfoPane({ onClose }: InfoPaneProps) {
         <p className="info-note">
           Elements also carry <strong>type tags</strong> (e.g. Regulator, Tribunal, NHS Body) and
           <strong> sector tags</strong> (e.g. Health, Defence, Digital / Technology) for cross-cutting
-          search and filtering.
+          search and filtering. Departments and bodies also have a <strong>jurisdiction</strong> (e.g. UK, England, Wales, Scotland, Northern Ireland, Crown Dependencies, Overseas Territories) reflecting the geographic scope of their remit.
         </p>
       </section>
 
