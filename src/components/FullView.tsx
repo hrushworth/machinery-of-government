@@ -417,6 +417,7 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
   const tooltipActiveRef = useRef(false)
   const prevSelectedIdRef = useRef<string | null>(null)
   const prevPreviewedIdRef = useRef<string | null>(null)
+  const previewedElementIdRef = useRef<string | null>(null)
   const isMobileRef = useRef(isMobile)
 
   // Animate all nodes in a ring by rotating them along their arc.
@@ -480,6 +481,8 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
         c.animate({ center: { eles: pmNode }, zoom: 0.35 } as any, { duration: 300 })
       }
     }, 520)
+    pinnedIdRef.current = null
+    highlightNode(cy, null, false)
     onDeselect()
   }
 
@@ -541,6 +544,7 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
     // Direct children only (not grandchildren — keeps the view readable)
     ;(_allChildren.get(hoveredId) ?? new Set()).forEach(cid => { if (govElements[cid]) highlight.add(cid) })
 
+    const previewedId = previewedElementIdRef.current
     cy.nodes().forEach((n: any) => {
       const nid = n.id()
       if (highlight.has(nid)) {
@@ -550,6 +554,9 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
           'z-index': isHovered ? 9999 : 100,
           'border-width': isHovered ? '3px' : '2px',
         })
+      } else if (previewedId && nid === previewedId) {
+        // Previewed node: keep fully visible so fv-previewed class shows through
+        n.style({ 'opacity': 1, 'z-index': 450 })
       } else {
         n.style({ 'opacity': 0.12, 'z-index': 0 })
       }
@@ -926,6 +933,7 @@ export default function FullView({ onSelectElement, onDeselect, selectedElementI
       node.data('label', govElements[previewedElementId]?.name ?? previewedElementId)
     }
     prevPreviewedIdRef.current = previewedElementId
+    previewedElementIdRef.current = previewedElementId
   }, [previewedElementId, selectedElementId])
 
   // When selectedElementId changes, update selection indicator and pin/rotate
