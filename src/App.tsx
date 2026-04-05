@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import OrgChart from './components/OrgChart'
 import FullView from './components/FullView'
+import GravityView from './components/GravityView'
 import ElementDetails from './components/ElementDetails'
 import CategoryInfo from './components/CategoryInfo'
 import TagInfo from './components/TagInfo'
@@ -68,14 +69,14 @@ function SubtypeShape({ category, subtype }: { category: string; subtype: string
 }
 
 function App() {
-  const [selectedElementId, setSelectedElementId] = useState<string | null>('cabinet')
+  const [selectedElementId, setSelectedElementId] = useState<string | null>(null)
   const [elementPaneVisible, setElementPaneVisible] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<{ category: string; subtype: string } | null>(null)
   const [selectedTagId, setSelectedTagId] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [infoOpen, setInfoOpen] = useState(false)
   const [categoriesOpen, setCategoriesOpen] = useState(false)
-  const [viewMode, setViewMode] = useState<'focus' | 'full'>('full')
+  const [viewMode, setViewMode] = useState<'focus' | 'radial' | 'gravity'>('radial')
   const [darkMode, setDarkMode] = useState(false)
   const [legendVisible, setLegendVisible] = useState(true)
   const [previewedElementId, setPreviewedElementId] = useState<string | null>(null)
@@ -257,6 +258,18 @@ function App() {
               previewedElementId={previewedElementId}
               darkMode={darkMode}
             />
+          ) : viewMode === 'gravity' ? (
+            <GravityView
+              onSelectElement={selectElement}
+              onDeselect={deselectElement}
+              onReset={() => setJurisdictionFilter(null)}
+              selectedElementId={selectedElementId}
+              previewedElementId={previewedElementId}
+              darkMode={darkMode}
+              highlightIds={searchOpen ? searchHighlightIds : null}
+              jurisdictionIds={jurisdictionHighlightIds}
+              isMobile={isMobile}
+            />
           ) : (
             <FullView
               onSelectElement={selectElement}
@@ -272,12 +285,12 @@ function App() {
           )}
           <div className="chart-overlay-buttons">
             <button
-              className={`view-toggle-btn${viewMode === 'full' ? ' view-toggle-btn-active' : ''}`}
-              onClick={() => setViewMode(m => m === 'focus' ? 'full' : 'focus')}
-              title={viewMode === 'focus' ? 'Switch to full network view' : 'Switch to focus view'}
-              aria-label={viewMode === 'focus' ? 'Full view' : 'Focus view'}
+              className={`view-toggle-btn${viewMode !== 'focus' ? ' view-toggle-btn-active' : ''}`}
+              onClick={() => setViewMode(m => m === 'focus' ? 'radial' : m === 'radial' ? 'gravity' : 'focus')}
+              title={viewMode === 'focus' ? 'Switch to radial view' : viewMode === 'radial' ? 'Switch to gravity view' : 'Switch to focus view'}
+              aria-label={viewMode === 'focus' ? 'Radial view' : viewMode === 'radial' ? 'Gravity view' : 'Focus view'}
             >
-              {viewMode === 'focus' ? '⊞ Full' : '⊡ Focus'}
+              {viewMode === 'focus' ? '⊡ Focus' : viewMode === 'radial' ? '⊙ Radial' : '⊝ Gravity (Experimental)'}
             </button>
             {!isMobile && (
               <button
