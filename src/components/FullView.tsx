@@ -936,7 +936,16 @@ export default function FullView({ onSelectElement, onDeselect, onReset, selecte
     }
     prevPreviewedIdRef.current = previewedElementId
     previewedElementIdRef.current = previewedElementId
-  }, [previewedElementId, selectedElementId])
+
+    // Refresh highlight so the newly-previewed node is treated as fully visible
+    if (searchActiveRef.current && highlightIdsRef.current !== null) {
+      applyHighlightFilter(cy, highlightIdsRef.current)
+    } else if (pinnedIdRef.current) {
+      highlightNode(cy, pinnedIdRef.current, true)
+    } else {
+      highlightNode(cy, null, false)
+    }
+  }, [previewedElementId, selectedElementId, highlightNode, applyHighlightFilter])
 
   // When selectedElementId changes, update selection indicator and pin/rotate
   useEffect(() => {

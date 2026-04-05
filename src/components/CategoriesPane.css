@@ -36,7 +36,8 @@
   padding-left: 0.25rem;
 }
 
-.category-item {
+.category-item,
+.tag-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -49,7 +50,8 @@
   gap: 0.5rem;
 }
 
-.category-item:hover {
+.category-item:hover,
+.tag-item:hover {
   filter: brightness(0.94);
   transform: translateX(2px);
 }

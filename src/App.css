@@ -462,6 +462,35 @@
   border-color: var(--dm-link);
   background: var(--dm-bg-subtle);
 }
+.app-dark .search-filter-section {
+  border-bottom-color: var(--dm-border);
+}
+.app-dark .search-filter-header {
+  color: var(--dm-text-muted);
+}
+.app-dark .search-filter-header:hover,
+.app-dark .search-filter-header-active {
+  color: var(--dm-text);
+}
+.app-dark .filter-subtype-pill {
+  color: var(--pill-colour);
+  border-color: var(--pill-colour);
+  background: transparent;
+}
+.app-dark .filter-subtype-pill:hover {
+  background: color-mix(in srgb, var(--pill-colour) 18%, transparent);
+}
+.app-dark .filter-subtype-pill.active {
+  background: var(--pill-colour);
+  color: #fff;
+}
+.app-dark .tag-item {
+  background: var(--dm-bg-inset);
+  color: var(--dm-text);
+}
+.app-dark .tag-item:hover {
+  filter: brightness(1.15);
+}
 
 /* ── Budget tab ── */
 .app-dark .budget-summary {

@@ -114,6 +114,141 @@
   text-align: center;
 }
 
+/* ── Shape swatches (mirrors CategoriesPane) ────────────────────────────────── */
+.cat-shape-swatch {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cat-shape-circle        { border-radius: 50%; }
+.cat-shape-square        { border-radius: 1px; }
+.cat-shape-rounded-square { border-radius: 4px; }
+.cat-shape-heptagon      { clip-path: polygon(50% 0%, 85% 13%, 95% 50%, 75% 87%, 25% 87%, 5% 50%, 15% 13%); }
+.cat-shape-octagon       { clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%); }
+
+.cat-shape-diamond       { width: 14px; height: 14px; }
+.cat-shape-diamond-inner {
+  display: block; width: 9px; height: 9px;
+  transform: rotate(45deg); border-radius: 1px;
+}
+.cat-shape-parallelogram-inner {
+  display: block; width: 11px; height: 8px;
+  clip-path: polygon(0% 0%, 75% 0%, 100% 100%, 25% 100%);
+}
+
+/* ── Collapsible filter sections ────────────────────────────────────────────── */
+.search-filter-section {
+  border-bottom: 1px solid #e8ecf0;
+}
+
+.search-filter-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.55rem 0.25rem;
+  cursor: pointer;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  text-align: left;
+}
+
+.search-filter-header:hover {
+  color: #2c3e50;
+}
+
+.search-filter-header-active {
+  color: #2c3e50;
+}
+
+.filter-active-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #3498db;
+  color: #fff;
+  padding: 0.1rem 0.4rem;
+  border-radius: 10px;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+.filter-chevron {
+  margin-left: auto;
+  transition: transform 0.2s;
+  font-size: 0.85rem;
+}
+
+.filter-chevron.open {
+  transform: rotate(180deg);
+}
+
+.search-filter-content {
+  padding: 0.1rem 0 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filter-subtype-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.filter-subtype-group-heading {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #95a5a6;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-left: 0.1rem;
+}
+
+.filter-subtype-pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.filter-subtype-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 12px;
+  border: 1.5px solid var(--pill-colour);
+  background: transparent;
+  color: var(--pill-colour);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1.2;
+}
+
+.filter-subtype-pill:hover {
+  background: color-mix(in srgb, var(--pill-colour) 12%, transparent);
+}
+
+.filter-subtype-pill.active {
+  background: var(--pill-colour);
+  color: #fff;
+}
+
+.filter-subtype-pill.active:hover {
+  background: color-mix(in srgb, var(--pill-colour) 85%, #000);
+}
+
 /* ── Tag pills ─────────────────────────────────────────────────────────────── */
 .search-section-label {
   display: flex;

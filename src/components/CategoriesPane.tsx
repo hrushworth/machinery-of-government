@@ -1,9 +1,10 @@
-import { govElements } from '../data/elements'
+import { govElements, tagDefinitions } from '../data/elements'
 import { getElementColor } from '../utils/colors'
 import './CategoriesPane.css'
 
 interface CategoriesPaneProps {
   onOpenCategory: (category: string, subtype: string) => void
+  onOpenTag: (tagId: string) => void
   onClose: () => void
   isMobile?: boolean
 }
@@ -74,8 +75,11 @@ function ShapeSwatch({ shape, color }: { shape: string; color: string }) {
   return <span className={`cat-shape-swatch cat-shape-${shape}`} style={style} aria-hidden="true" />
 }
 
-export default function CategoriesPane({ onOpenCategory, onClose, isMobile }: CategoriesPaneProps) {
+export default function CategoriesPane({ onOpenCategory, onOpenTag, onClose, isMobile }: CategoriesPaneProps) {
   const allElements = Object.values(govElements)
+  const allTags = Object.values(tagDefinitions)
+  const typeTags = allTags.filter(t => t.tagCategory === 'type').sort((a, b) => a.label.localeCompare(b.label))
+  const sectorTags = allTags.filter(t => t.tagCategory === 'sector').sort((a, b) => a.label.localeCompare(b.label))
 
   const sections = ['official', 'department', 'body', 'group']
 
@@ -127,6 +131,50 @@ export default function CategoriesPane({ onOpenCategory, onClose, isMobile }: Ca
             </div>
           )
         })}
+
+        <div className="categories-section">
+          <h3 className="categories-section-heading">Type Tags</h3>
+          {typeTags.map(tag => {
+            const count = allElements.filter(el => el.tags?.includes(tag.id)).length
+            if (count === 0) return null
+            return (
+              <div
+                key={tag.id}
+                className="tag-item"
+                onClick={() => onOpenTag(tag.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => e.key === 'Enter' && onOpenTag(tag.id)}
+                style={{ borderLeftColor: tag.colour }}
+              >
+                <span className="category-item-label">{tag.label}</span>
+                <span className="category-item-count">{count}</span>
+              </div>
+            )
+          })}
+        </div>
+
+        <div className="categories-section">
+          <h3 className="categories-section-heading">Sector Tags</h3>
+          {sectorTags.map(tag => {
+            const count = allElements.filter(el => el.tags?.includes(tag.id)).length
+            if (count === 0) return null
+            return (
+              <div
+                key={tag.id}
+                className="tag-item"
+                onClick={() => onOpenTag(tag.id)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => e.key === 'Enter' && onOpenTag(tag.id)}
+                style={{ borderLeftColor: tag.colour }}
+              >
+                <span className="category-item-label">{tag.label}</span>
+                <span className="category-item-count">{count}</span>
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

@@ -425,6 +425,10 @@ function App() {
                 setSelectedCategory({ category, subtype })
                 setCategoriesOpen(false)
               }}
+              onOpenTag={(tagId) => {
+                setSelectedTagId(tagId)
+                setCategoriesOpen(false)
+              }}
               onClose={() => setCategoriesOpen(false)}
               isMobile={isMobile}
             />

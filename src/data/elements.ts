@@ -4223,6 +4223,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice to government on the pay of armed forces personnel.',
     infoUrl: 'https://www.gov.uk/government/organisations/armed-forces-pay-review-body',
     parentIds: ['mod'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body', 'sector-defence'],
   },
   'arsac': {
@@ -4366,6 +4367,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on the remuneration of doctors and dentists.',
     infoUrl: 'https://www.gov.uk/government/organisations/review-body-on-doctors-and-dentists-remuneration',
     parentIds: ['dhsc'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body', 'sector-health'],
   },
   'defra-sac': {
@@ -4410,7 +4412,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Makes rules governing family court procedure in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/family-procedure-rule-committee',
     parentIds: ['moj'],
-    tags: ['review-body', 'sector-justice', 'sector-legal'],
+    tags: ['sector-justice', 'sector-legal'],
   },
   'holac': {
     jurisdictions: ['uk'],
@@ -4543,6 +4545,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises government on the pay of NHS staff covered by the Agenda for Change contract.',
     infoUrl: 'https://www.gov.uk/government/organisations/nhs-pay-review-body',
     parentIds: ['dhsc'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body', 'sector-health'],
   },
   'nrac': {
@@ -4576,6 +4579,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises the Home Secretary on general police matters including regulations and conditions.',
     infoUrl: 'https://www.gov.uk/government/organisations/police-advisory-board-for-england-and-wales',
     parentIds: ['home-office'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body', 'sector-justice'],
   },
   'prrb': {
@@ -4587,6 +4591,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on pay and allowances for police officers in England and Wales.',
     infoUrl: 'https://www.gov.uk/government/organisations/police-remuneration-review-body',
     parentIds: ['home-office'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body', 'sector-justice'],
   },
   'psprb': {
@@ -4598,6 +4603,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on pay for prison governors and operational staff.',
     infoUrl: 'https://www.gov.uk/government/organisations/prison-service-pay-review-body',
     parentIds: ['moj'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body', 'sector-justice'],
   },
   'rcewa': {
@@ -4675,6 +4681,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Advises on pay for senior civil servants, judges, senior military officers, and MPs.',
     infoUrl: 'https://www.gov.uk/government/organisations/senior-salaries-review-body',
     parentIds: ['co'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body'],
   },
   'ssrc': {
@@ -4708,6 +4715,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides independent advice on the pay and conditions of school teachers in England.',
     infoUrl: 'https://www.gov.uk/government/organisations/school-teachers-review-body',
     parentIds: ['dfe'],
+    secondaryParentIds: ['office-pay-review-bodies'],
     tags: ['review-body', 'sector-education'],
   },
   'svap': {
