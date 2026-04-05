@@ -1,0 +1,5 @@
+name = "machinery-of-government"
+compatibility_date = "2025-04-05"
+
+[assets]
+directory = "./dist"
