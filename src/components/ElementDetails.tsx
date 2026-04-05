@@ -5,6 +5,7 @@ import { getElementColor } from '../utils/colors'
 import { powerProfiles } from '../data/powers'
 import { budgetProfiles } from '../data/budgets'
 import { getStaffProfile } from '../data/staffing'
+import { professionProfiles } from '../data/professions'
 import BudgetTab from './BudgetTab'
 import StaffTab from './StaffTab'
 import './ElementDetails.css'
@@ -52,6 +53,7 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
   const powerProfile = powerProfiles[elementId]
   const budgetProfile = budgetProfiles[elementId]
   const staffProfile = getStaffProfile(elementId)
+  const professionProfile = professionProfiles[elementId]
 
   if (!element) {
     return <div className="element-details">Element not found</div>
@@ -140,6 +142,34 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
   const renderInfo = () => (
     <>
       <p className="element-description">{element.description}</p>
+
+      {professionProfile && professionProfile.professions.length > 0 && (() => {
+        const sectionKey = 'regulated-professions'
+        const isCollapsed = collapsedSections.has(sectionKey)
+        return (
+          <div className={`detail-section professions-section${isMobile ? ' detail-section-collapsible' : ''}${isCollapsed ? ' collapsed' : ''}`}>
+            <h3 onClick={() => isMobile && setCollapsedSections(prev => {
+              const next = new Set(prev)
+              next.has(sectionKey) ? next.delete(sectionKey) : next.add(sectionKey)
+              return next
+            })}>Regulated professions</h3>
+            <p className="professions-intro">
+              {element.name} regulates the following profession{professionProfile.professions.length !== 1 ? 's' : ''}
+              {professionProfile.onBehalfOf ? ` on behalf of ${professionProfile.onBehalfOf}` : ''}:
+            </p>
+            <ul className="professions-list">
+              {professionProfile.professions.map((prof, i) => (
+                <li key={i} className="profession-item">
+                  <span className="profession-name">{prof.name}</span>
+                  {prof.jurisdictionNote && (
+                    <span className="profession-jurisdiction">{prof.jurisdictionNote}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      })()}
 
       {element.tags && element.tags.length > 0 && (() => {
         const typeTags = element.tags!.filter(t => tagDefinitions[t]?.tagCategory === 'type').map(t => tagDefinitions[t])

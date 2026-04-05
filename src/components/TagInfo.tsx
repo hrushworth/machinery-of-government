@@ -1,5 +1,6 @@
 import { govElements, tagDefinitions } from '../data/elements'
 import { getElementColor } from '../utils/colors'
+import { professionProfiles } from '../data/professions'
 import './CategoryInfo.css'
 import './TagInfo.css'
 
@@ -108,20 +109,30 @@ export default function TagInfo({ tagId, onClose, onSelectElement }: TagInfoProp
         <div className="category-section">
           <h3>{elementsWithTag.length} {elementsWithTag.length === 1 ? 'organisation' : 'organisations'}</h3>
           <ul className="category-elements-list">
-            {elementsWithTag.map(el => (
-              <li
-                key={el.id}
-                className="category-element-item"
-                onClick={() => onSelectElement(el.id)}
-                style={{ borderLeftColor: getElementColor(el.category, el.subtype) }}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && onSelectElement(el.id)}
-              >
-                <strong>{el.name}</strong>
-                <p>{el.description}</p>
-              </li>
-            ))}
+            {elementsWithTag.map(el => {
+              const profProfile = tagId === 'professional-regulator'
+                ? professionProfiles[el.id]
+                : undefined
+              return (
+                <li
+                  key={el.id}
+                  className="category-element-item"
+                  onClick={() => onSelectElement(el.id)}
+                  style={{ borderLeftColor: getElementColor(el.category, el.subtype) }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && onSelectElement(el.id)}
+                >
+                  <strong>{el.name}</strong>
+                  <p>{el.description}</p>
+                  {profProfile && profProfile.professions.length > 0 && (
+                    <p className="tag-item-professions">
+                      {profProfile.professions.map(p => p.name).join(' · ')}
+                    </p>
+                  )}
+                </li>
+              )
+            })}
           </ul>
         </div>
       )}

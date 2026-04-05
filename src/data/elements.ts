@@ -2078,7 +2078,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Protects animal and plant health, manages disease control',
     infoUrl: 'https://www.gov.uk/government/organisations/animal-and-plant-health-agency',
     parentIds: ['defra'],
-    tags: ['statutory-regulator', 'sector-food-farming', 'sector-environment'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-food-farming', 'sector-environment'],
   },
   'building-digital-uk': {
     jurisdictions: ['uk'],
@@ -2177,7 +2177,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates heavy vehicles and operates MOT testing and vehicle operator licensing',
     infoUrl: 'https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency',
     parentIds: ['dft'],
-    tags: ['statutory-regulator', 'sector-transport'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-transport'],
   },
   'esfa': {
     jurisdictions: ['england'],
@@ -2265,7 +2265,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Administers insolvency law and personal debt solutions',
     infoUrl: 'https://www.gov.uk/government/organisations/the-insolvency-service',
     parentIds: ['dbt'],
-    tags: ['statutory-regulator', 'sector-business', 'sector-finance'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-business', 'sector-finance'],
   },
   'ipo': {
     jurisdictions: ['uk'],
@@ -2309,7 +2309,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Operates search and rescue services and enforces maritime safety regulations',
     infoUrl: 'https://www.gov.uk/government/organisations/maritime-and-coastguard-agency',
     parentIds: ['dft'],
-    tags: ['statutory-regulator', 'sector-transport'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-transport'],
   },
   'met-office': {
     jurisdictions: ['uk'],
@@ -2452,7 +2452,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Maintains standards of conduct for the teaching profession',
     infoUrl: 'https://www.gov.uk/government/organisations/teaching-regulation-authority',
     parentIds: ['dfe'],
-    tags: ['statutory-regulator', 'sector-education'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-education'],
   },
   'uk-health-security': {
     jurisdictions: ['england'],
@@ -2966,7 +2966,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Promotes transparency and integrity in business through regulation of accounting and auditing.',
     infoUrl: 'https://www.gov.uk/government/organisations/financial-reporting-council',
     parentIds: ['dbt'],
-    tags: ['statutory-regulator', 'sector-finance', 'sector-business'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-finance', 'sector-business'],
   },
   'gambling-commission': {
     jurisdictions: ['gb'],
@@ -3120,7 +3120,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates workplace health and safety in Great Britain, protecting people against risks to health or safety arising out of work activities.',
     infoUrl: 'https://www.gov.uk/government/organisations/health-and-safety-executive',
     parentIds: ['dwp'],
-    tags: ['statutory-regulator', 'sector-environment', 'sector-nuclear'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-environment', 'sector-nuclear'],
   },
   'hsc-bso-ni': {
     jurisdictions: ['northern-ireland'],
@@ -3879,7 +3879,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates the private security industry through licensing and standards.',
     infoUrl: 'https://www.gov.uk/government/organisations/security-industry-authority',
     parentIds: ['home-office'],
-    tags: ['statutory-regulator', 'sector-security'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-security'],
   },
   'slc': {
     jurisdictions: ['gb'],
@@ -3912,7 +3912,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulates social workers in England to protect the public and uphold professional standards.',
     infoUrl: 'https://www.gov.uk/government/organisations/social-work-england',
     parentIds: ['dfe'],
-    tags: ['statutory-regulator', 'sector-health'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
   },
   'sport-england': {
     jurisdictions: ['england'],
@@ -3978,7 +3978,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Provides aids to navigation and looks after the welfare of merchant mariners.',
     infoUrl: 'https://www.gov.uk/government/organisations/trinity-house',
     parentIds: ['dft'],
-    tags: ['trading-fund', 'sector-transport'],
+    tags: ['professional-regulator', 'trading-fund', 'sector-transport'],
   },
   'uk-sport': {
     jurisdictions: ['uk'],
@@ -4960,7 +4960,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Regulate the licensing of lorries, buses and coaches and the people who drive them.',
     infoUrl: 'https://www.gov.uk/government/organisations/traffic-commissioners',
     parentIds: ['dft'],
-    tags: ['tribunal', 'statutory-regulator', 'sector-transport'],
+    tags: ['professional-regulator', 'tribunal', 'statutory-regulator', 'sector-transport'],
   },
   'vte': {
     jurisdictions: ['england'],
@@ -7216,7 +7216,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'The UK\'s aviation regulator, responsible for the safety of civil aviation, air traffic services, aerodrome licensing, and consumer protection for air passengers.',
     infoUrl: 'https://www.gov.uk/government/organisations/civil-aviation-authority',
     parentIds: ['dft'],
-    tags: ['statutory-regulator', 'sector-transport'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-transport'],
   },
   'crossrail-intl': {
     jurisdictions: ['england'],
@@ -7747,7 +7747,7 @@ export const govElements: Record<string, GovElement> = {
     description: 'Statutory regulator for architects in the UK; maintains the Architects Register, sets standards for education and conduct, and protects the title "architect".',
     infoUrl: 'https://www.gov.uk/government/organisations/architects-registration-board',
     parentIds: ['dluhc'],
-    tags: ['statutory-regulator', 'sector-housing', 'sector-construction'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-housing', 'sector-construction'],
   },
   'cambridge-growth-company': {
     jurisdictions: ['england'],
@@ -8661,6 +8661,402 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/national-audit-office',
     parentIds: ['cag'],
     tags: ['statutory-regulator', 'inspector', 'sector-finance'],
+  },
+
+  // ── PROFESSIONAL REGULATORS: Healthcare ───────────────────────────────────
+
+  'gmc': {
+    jurisdictions: ['uk'],
+    id: 'gmc',
+    name: 'General Medical Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates doctors in the UK, setting the standards for medical education and training, maintaining the medical register, and taking action where doctors fall short of those standards.',
+    infoUrl: 'https://www.gmc-uk.org',
+    parentIds: ['dhsc'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'hcpc': {
+    jurisdictions: ['uk'],
+    id: 'hcpc',
+    name: 'Health and Care Professions Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates fifteen health and care professions in the UK, maintaining registers of practitioners, setting standards for education, training, and conduct, and taking fitness-to-practise action.',
+    infoUrl: 'https://www.hcpc-uk.org',
+    parentIds: ['dhsc'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'gdc': {
+    jurisdictions: ['uk'],
+    id: 'gdc',
+    name: 'General Dental Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates dental professionals in the UK, maintaining a register of qualified dental practitioners and setting standards for dental education and conduct.',
+    infoUrl: 'https://www.gdc-uk.org',
+    parentIds: ['dhsc'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'goc': {
+    jurisdictions: ['uk'],
+    id: 'goc',
+    name: 'General Optical Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates optometrists and dispensing opticians in the UK, maintaining registers of practitioners and setting standards for optical education and conduct.',
+    infoUrl: 'https://www.optical.org',
+    parentIds: ['dhsc'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'gphc': {
+    jurisdictions: ['england', 'scotland', 'wales'],
+    id: 'gphc',
+    name: 'General Pharmaceutical Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates pharmacists and pharmacy technicians in England, Scotland, and Wales, maintaining registers and setting standards for pharmacy practice.',
+    infoUrl: 'https://www.pharmacyregulation.org',
+    parentIds: ['dhsc'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'psni-pharmacy': {
+    jurisdictions: ['northern-ireland'],
+    id: 'psni-pharmacy',
+    name: 'Pharmaceutical Society of Northern Ireland',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates pharmacists in Northern Ireland, maintaining a register of pharmaceutical chemists and setting standards for pharmacy practice.',
+    infoUrl: 'https://www.psni.org.uk',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'gcc': {
+    jurisdictions: ['uk'],
+    id: 'gcc',
+    name: 'General Chiropractic Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates chiropractors in the UK, maintaining a register of practitioners and setting standards for chiropractic education and conduct.',
+    infoUrl: 'https://www.gcc-uk.org',
+    parentIds: ['dhsc'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'gosc': {
+    jurisdictions: ['uk'],
+    id: 'gosc',
+    name: 'General Osteopathic Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates osteopaths in the UK, maintaining a register of practitioners and setting standards for osteopathic education and conduct.',
+    infoUrl: 'https://www.osteopathy.org.uk',
+    parentIds: ['dhsc'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  // ── PROFESSIONAL REGULATORS: Education ────────────────────────────────────
+
+  'gtcs': {
+    jurisdictions: ['scotland'],
+    id: 'gtcs',
+    name: 'General Teaching Council for Scotland',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates teachers in Scotland, maintaining the register of teachers and setting standards for entry to and continued membership of the teaching profession.',
+    infoUrl: 'https://www.gtcs.org.uk',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-education'],
+  },
+
+  'gtcni': {
+    jurisdictions: ['northern-ireland'],
+    id: 'gtcni',
+    name: 'General Teaching Council for Northern Ireland',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates teachers in Northern Ireland, maintaining the register of teachers and taking fitness-to-practise action.',
+    infoUrl: 'https://www.gtcni.org.uk',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-education'],
+  },
+
+  'ewc': {
+    jurisdictions: ['wales'],
+    id: 'ewc',
+    name: 'Education Workforce Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates education practitioners in Wales, including school and further education teachers, youth workers, and youth support workers.',
+    infoUrl: 'https://www.ewc.wales',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-education'],
+  },
+
+  // ── PROFESSIONAL REGULATORS: Legal ────────────────────────────────────────
+
+  'bsb': {
+    jurisdictions: ['england-wales'],
+    id: 'bsb',
+    name: 'Bar Standards Board',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates barristers and specialist legal services businesses in England and Wales, setting standards for barrister education, conduct, and practice.',
+    infoUrl: 'https://www.barstandardsboard.org.uk',
+    parentIds: ['lsb'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-legal'],
+  },
+
+  'sra': {
+    jurisdictions: ['england-wales'],
+    id: 'sra',
+    name: 'Solicitors Regulation Authority',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates solicitors and law firms in England and Wales, setting standards for solicitor education, conduct, and practice.',
+    infoUrl: 'https://www.sra.org.uk',
+    parentIds: ['lsb'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-legal'],
+  },
+
+  'clc': {
+    jurisdictions: ['england-wales'],
+    id: 'clc',
+    name: 'Council for Licensed Conveyancers',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates licensed conveyancers and licensed probate practitioners in England and Wales.',
+    infoUrl: 'https://www.clc-uk.org',
+    parentIds: ['lsb'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-legal'],
+  },
+
+  'cilex-regulation': {
+    jurisdictions: ['england-wales'],
+    id: 'cilex-regulation',
+    name: 'CILEx Regulation',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates Chartered Legal Executives and other CILEx practitioners in England and Wales, setting standards for legal executive education and conduct.',
+    infoUrl: 'https://cilexregulation.org.uk',
+    parentIds: ['lsb'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-legal'],
+  },
+
+  'clsb': {
+    jurisdictions: ['england-wales'],
+    id: 'clsb',
+    name: 'Costs Lawyer Standards Board',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates Costs Lawyers in England and Wales, setting standards for costs law practice and conduct.',
+    infoUrl: 'https://clsb.info',
+    parentIds: ['lsb'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-legal'],
+  },
+
+  'ipreg': {
+    jurisdictions: ['uk'],
+    id: 'ipreg',
+    name: 'Intellectual Property Regulation Board',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates patent attorneys and trade mark attorneys, setting standards for the practice of intellectual property law.',
+    infoUrl: 'https://ipreg.org.uk',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-legal'],
+  },
+
+  'faculty-of-advocates': {
+    jurisdictions: ['scotland'],
+    id: 'faculty-of-advocates',
+    name: 'Faculty of Advocates',
+    category: 'body',
+    subtype: 'royal-charter-body',
+    description: 'Scottish professional association and regulatory body for advocates — the specialist Scottish bar. Maintains the roll of advocates and oversees admission to the Scottish bar.',
+    infoUrl: 'https://www.advocates.org.uk',
+    parentIds: [],
+    tags: ['professional-regulator', 'sector-legal'],
+  },
+
+  'law-society-scotland': {
+    jurisdictions: ['scotland'],
+    id: 'law-society-scotland',
+    name: 'Law Society of Scotland',
+    category: 'body',
+    subtype: 'royal-charter-body',
+    description: 'Regulates Scottish solicitors and other legal practitioners, maintaining the roll of solicitors and setting standards for Scottish legal practice.',
+    infoUrl: 'https://www.lawscot.org.uk',
+    parentIds: [],
+    tags: ['professional-regulator', 'sector-legal'],
+  },
+
+  'law-society-ni': {
+    jurisdictions: ['northern-ireland'],
+    id: 'law-society-ni',
+    name: 'Law Society of Northern Ireland',
+    category: 'body',
+    subtype: 'royal-charter-body',
+    description: 'Regulates solicitors in Northern Ireland, maintaining the roll of solicitors and setting standards for legal practice.',
+    infoUrl: 'https://www.lawsoc-ni.org',
+    parentIds: [],
+    tags: ['professional-regulator', 'sector-legal'],
+  },
+
+  'bar-council-ni': {
+    jurisdictions: ['northern-ireland'],
+    id: 'bar-council-ni',
+    name: 'General Council of the Bar of Northern Ireland',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates barristers in Northern Ireland, maintaining the Bar of Northern Ireland and setting standards for barrister conduct and practice.',
+    infoUrl: 'https://www.barofni.com',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-legal'],
+  },
+
+  'icaew': {
+    jurisdictions: ['england-wales'],
+    id: 'icaew',
+    name: 'Institute of Chartered Accountants in England and Wales',
+    category: 'body',
+    subtype: 'royal-charter-body',
+    description: 'Professional membership body for chartered accountants, also authorised to regulate probate practitioners and administer the granting of oaths in England and Wales.',
+    infoUrl: 'https://www.icaew.com',
+    parentIds: [],
+    tags: ['professional-regulator', 'sector-finance'],
+  },
+
+  'icas': {
+    jurisdictions: ['scotland'],
+    id: 'icas',
+    name: 'Institute of Chartered Accountants of Scotland',
+    category: 'body',
+    subtype: 'royal-charter-body',
+    description: 'Professional membership body for chartered accountants in Scotland, also authorised to regulate probate practitioners.',
+    infoUrl: 'https://www.icas.com',
+    parentIds: [],
+    tags: ['professional-regulator', 'sector-finance'],
+  },
+
+  // ── PROFESSIONAL REGULATORS: Social Care ──────────────────────────────────
+
+  'social-care-wales': {
+    jurisdictions: ['wales'],
+    id: 'social-care-wales',
+    name: 'Social Care Wales',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates the social care workforce in Wales, maintaining registers of social care workers, setting standards for education and conduct, and taking fitness-to-practise action.',
+    infoUrl: 'https://www.socialcare.wales',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'sssc': {
+    jurisdictions: ['scotland'],
+    id: 'sssc',
+    name: 'Scottish Social Services Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates the social services workforce in Scotland, maintaining registers of workers, setting standards for education and conduct, and taking fitness-to-practise action.',
+    infoUrl: 'https://www.sssc.uk.com',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'niscc': {
+    jurisdictions: ['northern-ireland'],
+    id: 'niscc',
+    name: 'Northern Ireland Social Care Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates the social care workforce in Northern Ireland, maintaining registers of social care workers and setting standards for education and conduct.',
+    infoUrl: 'https://www.niscc.info',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  // ── PROFESSIONAL REGULATORS: Transport ────────────────────────────────────
+
+  'dva-ni': {
+    jurisdictions: ['northern-ireland'],
+    id: 'dva-ni',
+    name: 'Driver and Vehicle Agency',
+    category: 'department',
+    subtype: 'agency',
+    description: 'Registers and licenses drivers and vehicles in Northern Ireland, and regulates approved driving instructors and motorcycle instructors.',
+    infoUrl: 'https://www.nidirect.gov.uk/articles/driver-and-vehicle-agency',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-transport'],
+  },
+
+  // ── PROFESSIONAL REGULATORS: Other ────────────────────────────────────────
+
+  'hseni': {
+    jurisdictions: ['northern-ireland'],
+    id: 'hseni',
+    name: 'Health and Safety Executive for Northern Ireland',
+    category: 'body',
+    subtype: 'other',
+    description: 'Promotes and enforces health and safety at work in Northern Ireland, regulating a range of licensed professions including professional divers and gas engineers.',
+    infoUrl: 'https://www.hseni.gov.uk',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-health'],
+  },
+
+  'farriers-registration-council': {
+    jurisdictions: ['uk'],
+    id: 'farriers-registration-council',
+    name: 'Farriers Registration Council',
+    category: 'body',
+    subtype: 'other',
+    description: 'Regulates the farriery profession in the UK, maintaining the register of farriers and setting standards for farriery education and practice.',
+    infoUrl: 'https://www.farrier-reg.gov.uk',
+    parentIds: ['defra'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-food-farming'],
+  },
+
+  'rcvs': {
+    jurisdictions: ['uk'],
+    id: 'rcvs',
+    name: 'Royal College of Veterinary Surgeons',
+    category: 'body',
+    subtype: 'royal-charter-body',
+    description: 'Regulates veterinary surgeons and veterinary nurses in the UK, maintaining the register of practitioners and setting standards for veterinary education and conduct.',
+    infoUrl: 'https://www.rcvs.org.uk',
+    parentIds: ['defra'],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-food-farming'],
+  },
+
+  'food-standards-scotland': {
+    jurisdictions: ['scotland'],
+    id: 'food-standards-scotland',
+    name: 'Food Standards Scotland',
+    category: 'body',
+    subtype: 'other',
+    description: 'Independent government agency protecting consumers in Scotland through food safety regulation, including the regulation of food analysts, public analysts, and slaughterers.',
+    infoUrl: 'https://www.foodstandards.gov.scot',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-food-farming'],
+  },
+
+  'insolvency-service-ni': {
+    jurisdictions: ['northern-ireland'],
+    id: 'insolvency-service-ni',
+    name: 'Insolvency Service (Northern Ireland)',
+    category: 'body',
+    subtype: 'other',
+    description: 'Administers insolvency law and regulates insolvency practitioners in Northern Ireland.',
+    infoUrl: 'https://www.economy-ni.gov.uk/articles/insolvency-service',
+    parentIds: [],
+    tags: ['professional-regulator', 'statutory-regulator', 'sector-finance'],
   },
 }
 
