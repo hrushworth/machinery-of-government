@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { Jurisdiction } from '../data/jurisdictions'
-import { jurisdictionInfo } from '../data/jurisdictions'
+import { jurisdictionInfo, JURISDICTION_COVERS } from '../data/jurisdictions'
 import './JurisdictionFilter.css'
 
 interface JurisdictionFilterProps {
@@ -12,7 +12,7 @@ interface JurisdictionFilterProps {
 
 // Grouped display order
 const GROUPS: { label: string; items: Jurisdiction[] }[] = [
-  { label: 'National', items: ['uk', 'gb', 'england-wales', 'england', 'scotland', 'wales', 'northern-ireland'] },
+  { label: 'National', items: ['uk', 'gb', 'england-wales', 'england', 'wales', 'scotland', 'northern-ireland'] },
   { label: 'Territories', items: ['crown-dependencies', 'overseas-territories'] },
 ]
 
@@ -45,11 +45,22 @@ export default function JurisdictionFilter({ active, onChange, onClose, darkMode
           </button>
         )}
       </div>
+      <div className="jurisdiction-group">
+        <button
+          className={`jurisdiction-item${active === null ? ' jurisdiction-item-active' : ''}`}
+          onClick={() => { onChange(null); onClose() }}
+          title="Show all bodies regardless of jurisdiction"
+          aria-pressed={active === null}
+        >
+          Any / All UK
+        </button>
+      </div>
       {GROUPS.map(group => (
         <div key={group.label} className="jurisdiction-group">
           <div className="jurisdiction-group-label">{group.label}</div>
           {group.items.map(j => {
             const info = jurisdictionInfo[j]
+            const indent = (JURISDICTION_COVERS[j].length - 1) * 12
             return (
               <button
                 key={j}
@@ -57,8 +68,9 @@ export default function JurisdictionFilter({ active, onChange, onClose, darkMode
                 onClick={() => { onChange(active === j ? null : j); onClose() }}
                 title={info.description}
                 aria-pressed={active === j}
+                style={{ paddingLeft: `${8 + indent}px` }}
               >
-                {info.label}
+                {info.filterLabel ?? info.label}
               </button>
             )
           })}

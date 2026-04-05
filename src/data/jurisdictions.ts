@@ -11,13 +11,14 @@ export type Jurisdiction =
 
 export interface JurisdictionInfo {
   label: string
+  filterLabel?: string  // override label used in the jurisdiction filter panel
   shortLabel: string
   description: string
   flag?: string
 }
 
 export const jurisdictionInfo: Record<Jurisdiction, JurisdictionInfo> = {
-  'uk':                   { label: 'United Kingdom',        shortLabel: 'UK',          description: 'Applies across all four nations' },
+  'uk':                   { label: 'United Kingdom', filterLabel: 'Whole of UK', shortLabel: 'Whole of UK', description: 'Bodies whose remit covers all four nations' },
   'gb':                   { label: 'Great Britain',         shortLabel: 'GB',          description: 'England, Scotland and Wales (not NI)' },
   'england-wales':        { label: 'England & Wales',       shortLabel: 'Eng & Wales', description: 'England and Wales only' },
   'england':              { label: 'England',               shortLabel: 'England',     description: 'England only' },
