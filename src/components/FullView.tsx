@@ -11,7 +11,8 @@ interface FullViewProps {
   selectedElementId: string | null
   previewedElementId: string | null
   darkMode: boolean
-  highlightIds: string[] | null  // when set (search/jurisdiction filter active), these nodes are highlighted
+  highlightIds: string[] | null      // when set (search active), these nodes are highlighted/faded
+  jurisdictionIds: string[] | null   // when set, non-matching nodes are removed and layout restructured
   isMobile: boolean
 }
 
@@ -52,11 +53,13 @@ function assignTier(id: string): number {
   return -1 // needs BFS
 }
 
-function computeTiers(): Map<string, number> {
+function computeTiers(includedIds?: Set<string>): Map<string, number> {
+  const include = (id: string) => !includedIds || includedIds.has(id)
   const tiers = new Map<string, number>()
 
   // Pass 1: assign fixed tiers
   for (const id of Object.keys(govElements)) {
+    if (!include(id)) continue
     const t = assignTier(id)
     if (t >= 0) tiers.set(id, t)
   }
@@ -78,6 +81,7 @@ function computeTiers(): Map<string, number> {
       ...(_allParents.get(id) ?? []),
     ]
     for (const nid of neighbours) {
+      if (!include(nid)) continue
       const nel = govElements[nid]
       if (!nel || tiers.has(nid) || nel.category === 'group') continue
       // Civil servants and independents are placed in pass 3 (half-rings), not BFS
@@ -92,6 +96,7 @@ function computeTiers(): Map<string, number> {
   // youngest child's ring and the ring inside it. e.g. a perm sec whose department
   // is on ring 3 goes on ring 2.5 — its own dedicated ring between 2 and 3.
   for (const id of Object.keys(govElements)) {
+    if (!include(id)) continue
     const el = govElements[id]
     if (el.category !== 'official') continue
     if (el.subtype !== 'civil-servant' && el.subtype !== 'independent') continue
@@ -100,6 +105,7 @@ function computeTiers(): Map<string, number> {
     const children = _allChildren.get(id) ?? new Set()
     let minChildTier = Infinity
     for (const cid of children) {
+      if (!include(cid)) continue
       const ct = tiers.get(cid)
       if (ct != null && ct < minChildTier) minChildTier = ct
     }
@@ -112,6 +118,7 @@ function computeTiers(): Map<string, number> {
 
   // Anything still unassigned (completely disconnected) goes on a far ring
   for (const id of Object.keys(govElements)) {
+    if (!include(id)) continue
     if (!tiers.has(id)) tiers.set(id, 12)
   }
 
@@ -161,13 +168,13 @@ const ringRadius = (tier: number) => {
   return integerRadii(floor) + frac * (integerRadii(floor + 1) - integerRadii(floor))
 }
 
-function buildPositions(): {
+function buildPositions(tiers: Map<string, number>): {
   positions: Map<string, { x: number; y: number }>
   nodeAngles: Map<string, number>
   rings: Map<number, RingData>
 } {
   const byTier = new Map<number, string[]>()
-  for (const [id, t] of tierMap) {
+  for (const [id, t] of tiers) {
     if (!byTier.has(t)) byTier.set(t, [])
     byTier.get(t)!.push(id)
   }
@@ -234,7 +241,7 @@ function buildPositions(): {
   return { positions, nodeAngles, rings }
 }
 
-const { positions: nodePositions, nodeAngles: baseNodeAngles, rings: ringData } = buildPositions()
+const { positions: nodePositions, nodeAngles: baseNodeAngles, rings: ringData } = buildPositions(tierMap)
 
 // ── Ring rotation for selection ───────────────────────────────────────────────
 // Given a selected node, compute new positions for all nodes by rotating each
@@ -244,18 +251,23 @@ const { positions: nodePositions, nodeAngles: baseNodeAngles, rings: ringData } 
 
 const TARGET_ANGLE = Math.PI / 2  // selected node sits at the bottom
 
-function computeRotatedPositions(selectedId: string): {
+function computeRotatedPositions(
+  selectedId: string,
+  tiers: Map<string, number>,
+  nodeAngles: Map<string, number>,
+  rings: Map<number, RingData>,
+): {
   positions: Map<string, { x: number; y: number }>
   ringDeltas: Map<number, number>
 } | null {
-  const selectedTier = tierMap.get(selectedId)
+  const selectedTier = tiers.get(selectedId)
   if (selectedTier == null || selectedTier === 0) return null
 
-  const effectiveAngles = new Map<string, number>(baseNodeAngles)
+  const effectiveAngles = new Map<string, number>(nodeAngles)
   const rotationOffsets = new Map<number, number>()
 
   // Step 1: rotate the selected node's ring so it lands at TARGET_ANGLE
-  const selectedRing = ringData.get(selectedTier)
+  const selectedRing = rings.get(selectedTier)
   if (!selectedRing) return null
 
   const selectedIndex = selectedRing.orderedIds.indexOf(selectedId)
@@ -277,7 +289,7 @@ function computeRotatedPositions(selectedId: string): {
   // Inner rings (< selectedTier): rotate so the ancestor of the selected element points
   //   at TARGET_ANGLE — i.e. the same direction as the selected node.
   // Outer rings (> selectedTier): rotate toward their parents (which are already rotated).
-  const maxTier = Math.max(...ringData.keys())
+  const maxTier = Math.max(...rings.keys())
 
   // Build the ancestor chain of the selected element (one per tier)
   const ancestorAtTier = new Map<number, string>()
@@ -287,24 +299,24 @@ function computeRotatedPositions(selectedId: string): {
     if (parents.length === 0) break
     // Pick the parent with the lowest tier (most direct ancestor chain toward PM)
     let bestParent = parents[0]
-    let bestTier = tierMap.get(parents[0]) ?? 99
+    let bestTier = tiers.get(parents[0]) ?? 99
     for (const p of parents.slice(1)) {
-      const pt = tierMap.get(p) ?? 99
+      const pt = tiers.get(p) ?? 99
       if (pt < bestTier) { bestTier = pt; bestParent = p }
     }
-    if (bestTier >= (tierMap.get(current) ?? 99)) break // avoid cycles
+    if (bestTier >= (tiers.get(current) ?? 99)) break // avoid cycles
     ancestorAtTier.set(bestTier, bestParent)
     current = bestParent
   }
 
   for (let t = selectedTier - 1; t >= 1; t--) {
-    const ring = ringData.get(t)
+    const ring = rings.get(t)
     if (!ring) continue
     const ancestorId = ancestorAtTier.get(t)
     applyRotationTowardTarget(ring, ancestorId ?? null, TARGET_ANGLE, effectiveAngles, rotationOffsets)
   }
   for (let t = selectedTier + 1; t <= maxTier; t++) {
-    const ring = ringData.get(t)
+    const ring = rings.get(t)
     if (!ring) continue
     applyBestRotation(ring, effectiveAngles, rotationOffsets)
   }
@@ -312,7 +324,7 @@ function computeRotatedPositions(selectedId: string): {
   // Step 3: build final position map
   const positions = new Map<string, { x: number; y: number }>()
   positions.set('pm', { x: 0, y: 0 })
-  for (const [tier, ring] of ringData) {
+  for (const [tier, ring] of rings) {
     const offset = rotationOffsets.get(tier) ?? 0
     for (let i = 0; i < ring.orderedIds.length; i++) {
       const id = ring.orderedIds[i]
@@ -409,7 +421,7 @@ function applyBestRotation(
   }
 }
 
-export default function FullView({ onSelectElement, onDeselect, onReset, selectedElementId, previewedElementId, darkMode, highlightIds, isMobile }: FullViewProps) {
+export default function FullView({ onSelectElement, onDeselect, onReset, selectedElementId, previewedElementId, darkMode, highlightIds, jurisdictionIds, isMobile }: FullViewProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const pinnedIdRef = useRef<string | null>(null)
@@ -421,6 +433,12 @@ export default function FullView({ onSelectElement, onDeselect, onReset, selecte
   const prevPreviewedIdRef = useRef<string | null>(null)
   const previewedElementIdRef = useRef<string | null>(null)
   const isMobileRef = useRef(isMobile)
+  const removedElementsRef = useRef<cytoscape.CollectionReturnValue | null>(null)
+  const jurisdictionActiveRef = useRef(false)
+  // Current ring data — module-level by default, replaced with filtered data when jurisdiction is active
+  const currentTierMapRef = useRef<Map<string, number>>(tierMap)
+  const currentRingDataRef = useRef<Map<number, RingData>>(ringData)
+  const currentNodeAnglesRef = useRef<Map<string, number>>(baseNodeAngles)
 
   // Animate all nodes in a ring by rotating them along their arc.
   // Uses requestAnimationFrame-based interpolation so nodes arc around the centre.
@@ -499,7 +517,10 @@ export default function FullView({ onSelectElement, onDeselect, onReset, selecte
   const rotateToSelection = useCallback((cy: cytoscape.Core, selectedId: string) => {
     // Skip group nodes and anything not rendered in the graph
     if (!cy.getElementById(selectedId).length) return
-    const result = computeRotatedPositions(selectedId)
+    const tiers = currentTierMapRef.current
+    const rings = currentRingDataRef.current
+    const angles = currentNodeAnglesRef.current
+    const result = computeRotatedPositions(selectedId, tiers, angles, rings)
     if (!result) return
 
     const { ringDeltas } = result
@@ -507,7 +528,7 @@ export default function FullView({ onSelectElement, onDeselect, onReset, selecte
     // For each ring, animate its nodes along the arc by the ring's delta angle
     const moves: Array<{ id: string; fromAngle: number; toAngle: number; radius: number; node: cytoscape.NodeSingular }> = []
     for (const [tier, delta] of ringDeltas) {
-      const ring = ringData.get(tier)
+      const ring = rings.get(tier)
       if (!ring || Math.abs(delta) < 0.001) continue
       for (let i = 0; i < ring.orderedIds.length; i++) {
         const id = ring.orderedIds[i]
@@ -915,6 +936,72 @@ export default function FullView({ onSelectElement, onDeselect, onReset, selecte
 
     applyHighlightFilter(cy, highlightIds)
   }, [highlightIds, darkMode, highlightNode, applyHighlightFilter])
+
+  // Jurisdiction filter: deselect if the selected element is not in the filtered set.
+  // Kept separate so it doesn't cause the graph-restructure effect below to re-run.
+  useEffect(() => {
+    if (jurisdictionIds !== null && selectedElementId && !jurisdictionIds.includes(selectedElementId)) {
+      onDeselect()
+    }
+  }, [jurisdictionIds, selectedElementId, onDeselect])
+
+  // Jurisdiction filter: remove non-matching nodes entirely and recompute ring layout.
+  // Depends only on jurisdictionIds so that deselection above cannot cause a spurious re-run
+  // that would overwrite removedElementsRef with an empty collection.
+  useEffect(() => {
+    const cy = cyRef.current
+    if (!cy) return
+
+    // Restore any previously removed nodes before computing the new layout
+    if (removedElementsRef.current) {
+      cy.add(removedElementsRef.current)
+      removedElementsRef.current = null
+    }
+
+    if (jurisdictionIds === null) {
+      jurisdictionActiveRef.current = false
+      currentTierMapRef.current = tierMap
+      currentRingDataRef.current = ringData
+      currentNodeAnglesRef.current = baseNodeAngles
+      // Use the pre-built module-level positions directly
+      setTimeout(() => {
+        const c = cyRef.current
+        if (!c) return
+        c.nodes().forEach((n: any) => {
+          const pos = nodePositions.get(n.id())
+          if (pos) n.animate({ position: pos, duration: 350, easing: 'ease-in-out-quad' } as any)
+        })
+      }, 0)
+      return
+    }
+
+    jurisdictionActiveRef.current = true
+
+    // Remove non-matching nodes (connected edges are auto-removed by Cytoscape)
+    const idSet = new Set(jurisdictionIds)
+    const toRemove = cy.nodes().filter((n: any) => !idSet.has(n.id()))
+    removedElementsRef.current = toRemove.remove()
+
+    // Recompute ring layout for the remaining subset
+    const filteredTiers = computeTiers(idSet)
+    const { positions: filteredPositions, nodeAngles: filteredAngles, rings: filteredRings } = buildPositions(filteredTiers)
+
+    // Store filtered ring data so rotateToSelection uses the correct layout
+    currentTierMapRef.current = filteredTiers
+    currentRingDataRef.current = filteredRings
+    currentNodeAnglesRef.current = filteredAngles
+
+    setTimeout(() => {
+      const c = cyRef.current
+      if (!c) return
+      c.nodes().forEach((n: any) => {
+        const pos = filteredPositions.get(n.id())
+        if (pos) n.animate({ position: pos, duration: 350, easing: 'ease-in-out-quad' } as any)
+      })
+    }, 0)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jurisdictionIds])
 
   // Previewed element highlight (mobile: tapped node before "Select")
   useEffect(() => {

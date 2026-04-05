@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import OrgChart from './components/OrgChart'
 import FullView from './components/FullView'
 import ElementDetails from './components/ElementDetails'
@@ -83,11 +83,13 @@ function App() {
   const [jurisdictionFilter, setJurisdictionFilter] = useState<Jurisdiction | null>(null)
   const [jurisdictionPanelOpen, setJurisdictionPanelOpen] = useState(false)
 
-  const jurisdictionHighlightIds = jurisdictionFilter
-    ? Object.values(govElements)
-        .filter(el => elementMatchesJurisdiction(el.jurisdictions, jurisdictionFilter))
-        .map(el => el.id)
-    : null
+  const jurisdictionHighlightIds = useMemo(() =>
+    jurisdictionFilter
+      ? Object.values(govElements)
+          .filter(el => elementMatchesJurisdiction(el.jurisdictions, jurisdictionFilter))
+          .map(el => el.id)
+      : null
+  , [jurisdictionFilter])
 
   // Mobile detection — only touch devices, not narrow desktop windows
   const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 768px) and (pointer: coarse)').matches)
@@ -118,6 +120,12 @@ function App() {
       if (!isMobile) setElementPaneVisible(true)
     }
   }, [isMobile])
+
+  const deselectElement = useCallback(() => {
+    setSelectedElementId(null)
+    setElementPaneVisible(false)
+    setPreviewedElementId(null)
+  }, [])
 
   const closeElementPane = useCallback(() => {
     setElementPaneVisible(false)
@@ -252,12 +260,13 @@ function App() {
           ) : (
             <FullView
               onSelectElement={selectElement}
-              onDeselect={() => { setSelectedElementId(null); setElementPaneVisible(false); setPreviewedElementId(null) }}
+              onDeselect={deselectElement}
               onReset={() => setJurisdictionFilter(null)}
               selectedElementId={selectedElementId}
               previewedElementId={previewedElementId}
               darkMode={darkMode}
-              highlightIds={searchOpen ? searchHighlightIds : jurisdictionHighlightIds}
+              highlightIds={searchOpen ? searchHighlightIds : null}
+              jurisdictionIds={jurisdictionHighlightIds}
               isMobile={isMobile}
             />
           )}
