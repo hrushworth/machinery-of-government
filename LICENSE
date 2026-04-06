@@ -1,4 +1,4 @@
-Machinery of Government — Proprietary Licence
+Machinery of Government — Source Available Licence
 
 Copyright © MMXXVI Harry C. Rushworth. All rights reserved.
 
@@ -6,20 +6,35 @@ OWNERSHIP
 This software, its source code, design, data structures, and all associated
 documentation are the exclusive property of Harry C. Rushworth.
 
-RESTRICTIONS
-No part of this software may be:
-  - copied, reproduced, or duplicated in any form or by any means;
-  - modified, adapted, or translated;
-  - distributed, published, or made available to any third party;
-  - used to create derivative works;
-  - used for commercial purposes;
-without the prior explicit written permission of the copyright holder.
-
 PERMITTED USE
-Access to and use of the published web application at its hosted URL is
-permitted for personal, educational, and research purposes. This permission
-does not extend to the underlying source code, data structures, or any other
-component of the codebase.
+Subject to the conditions below, you are permitted to:
+
+  - view, copy, and fork this source code for personal study or reference;
+  - run the software locally for non-commercial purposes;
+  - share the software or adaptations of it for non-commercial purposes,
+    provided that clear and prominent attribution is given.
+
+ATTRIBUTION REQUIREMENT
+Any permitted use, sharing, or distribution must include:
+
+  - the name of the original author: Harry C. Rushworth;
+  - a link to the original repository or published application; and
+  - a statement that the work has been adapted (if applicable).
+
+RESTRICTIONS
+The following are not permitted without the prior explicit written permission
+of the copyright holder:
+
+  - any commercial use, including use in or as part of a product or service
+    that is sold, licensed, or otherwise monetised;
+  - removal or obscuring of the attribution notice above;
+  - sublicensing this software under different terms.
+
+LICENCE VERSIONING
+This licence applies to this version of the software only. The copyright
+holder reserves the right to release future versions under different licence
+terms. Prior versions remain subject to the terms under which they were
+released.
 
 THIRD-PARTY DATA
 This application incorporates data from the following public sources, used
@@ -37,13 +52,12 @@ in accordance with their respective licences:
   Open Government Licence v3.0.
   https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
 
-The Open Government Licence does not affect the proprietary status of the
-software itself, which is separately owned and protected by this licence.
+The Open Government Licence applies only to the incorporated public sector
+data and does not affect the licence terms for the software itself.
 
-ENFORCEMENT
-Unauthorised reproduction or use of this software will be pursued to the
-fullest extent of applicable law, including but not limited to the Copyright,
-Designs and Patents Act 1988 (UK).
+DISCLAIMER
+This software is provided "as is", without warranty of any kind. The author
+accepts no liability for any loss or damage arising from its use.
 
 CONTACT
 For licensing enquiries, please contact the copyright holder directly.
