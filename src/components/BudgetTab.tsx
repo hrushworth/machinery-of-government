@@ -21,9 +21,9 @@ const OTHER_THRESHOLD = 0.02
 
 function formatAmount(amountThousands: number): string {
   const abs = Math.abs(amountThousands)
-  if (abs >= 1_000_000) return `£${(abs / 1_000_000).toFixed(1)}bn`
-  if (abs >= 1_000)     return `£${(abs / 1_000).toFixed(1)}m`
-  return `£${abs.toLocaleString()}k`
+  if (abs >= 1_000_000) return `€${(abs / 1_000_000).toFixed(1)}bn`
+  if (abs >= 1_000)     return `€${(abs / 1_000).toFixed(1)}m`
+  return `€${abs.toLocaleString()}k`
 }
 
 function formatSigned(amountThousands: number): string {
@@ -111,45 +111,7 @@ function BreakdownTable({ rows, isIncome, colourMap }: {
   )
 }
 
-interface DelAmeBarProps {
-  delAdmin: number; delProg: number; deptAme: number; nonDeptAme: number
-}
-function DelAmeBar({ delAdmin, delProg, deptAme, nonDeptAme }: DelAmeBarProps) {
-  const segments = [
-    { label: 'DEL Admin',     value: Math.max(0, delAdmin),   colour: '#2980b9' },
-    { label: 'DEL Programme', value: Math.max(0, delProg),    colour: '#27ae60' },
-    { label: 'Dept AME',      value: Math.max(0, deptAme),    colour: '#e67e22' },
-    { label: 'Non-Dept AME',  value: Math.max(0, nonDeptAme), colour: '#8e44ad' },
-  ].filter(s => s.value > 0)
-
-  const total = segments.reduce((s, seg) => s + seg.value, 0)
-  if (total === 0) return null
-
-  return (
-    <div className="del-ame-section">
-      <div className="budget-section-label">DEL / AME Split</div>
-      <div className="del-ame-bar">
-        {segments.map(seg => (
-          <div
-            key={seg.label}
-            className="del-ame-segment"
-            style={{ width: `${(seg.value / total) * 100}%`, background: seg.colour }}
-            title={`${seg.label}: ${formatAmount(seg.value)}`}
-          />
-        ))}
-      </div>
-      <div className="del-ame-legend">
-        {segments.map(seg => (
-          <div key={seg.label} className="del-ame-legend-item">
-            <span className="del-ame-dot" style={{ background: seg.colour }} />
-            <span className="del-ame-legend-label">{seg.label}</span>
-            <span className="del-ame-legend-value">{formatAmount(seg.value)}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+// DEL/AME bar removed — not applicable to Estonian budget structure
 
 interface ChartBlockProps {
   expenditureLines: BudgetLine[]
@@ -237,7 +199,7 @@ export default function BudgetTab({ budgetProfile, onSelectElement }: BudgetTabP
 
       {/* ── Summary ── */}
       <div className="budget-summary">
-        <div className="budget-summary-year">{budget.financialYear} Outturn</div>
+        <div className="budget-summary-year">{budget.financialYear} Budget</div>
         <div className="budget-summary-figures">
           <div className="budget-figure budget-figure-net">
             <div className="budget-figure-label">Net Expenditure</div>
@@ -256,13 +218,7 @@ export default function BudgetTab({ budgetProfile, onSelectElement }: BudgetTabP
         </div>
       </div>
 
-      {/* ── DEL / AME bar ── */}
-      <DelAmeBar
-        delAdmin={budget.delAdmin ?? 0}
-        delProg={budget.delProg ?? 0}
-        deptAme={budget.deptAme ?? 0}
-        nonDeptAme={budget.nonDeptAme ?? 0}
-      />
+      {/* DEL/AME bar removed — not applicable to Estonian budget */}
 
       {/* ── Breakdown switcher ── */}
       {(hasProgrammes || hasBodies) && (
@@ -338,10 +294,7 @@ export default function BudgetTab({ budgetProfile, onSelectElement }: BudgetTabP
         <p className="budget-source">Source: {budget.sourceLabel}</p>
         {budget.notes && <p className="budget-notes">{budget.notes}</p>}
         <p className="budget-ogl">
-          Contains public sector information licensed under the{' '}
-          <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener noreferrer">
-            Open Government Licence v3.0
-          </a>
+          Source: Estonian Ministry of Finance (fin.ee)
         </p>
       </div>
 

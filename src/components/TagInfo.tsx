@@ -11,44 +11,20 @@ interface TagInfoProps {
 }
 
 const typeTagDescriptions: Record<string, string> = {
-  'statutory-regulator':
-    'Bodies exercising statutory regulatory functions conferred by Parliament — including standard-setting, licensing, compliance monitoring, and enforcement. Listed in the Cabinet Office register of UK regulators.',
-  'professional-regulator':
-    'Bodies that regulate specific professions in the public interest, maintaining registers of qualified practitioners, setting standards for education and conduct, and taking fitness-to-practise action where needed.',
-  'high-profile-group':
-    'Cross-cutting government units, high-profile operational groups, and functions that span multiple departments or sit at the centre of government.',
-  'research-council':
-    'Non-departmental public bodies that fund and coordinate scientific research, innovation, and knowledge exchange across academic and industrial disciplines.',
-  'museum-gallery':
-    'National museums, galleries, and heritage institutions that hold collections in trust for the nation and make them accessible to the public.',
-  'tribunal':
-    'Statutory bodies that adjudicate disputes and hear appeals in specific areas of law, providing an accessible alternative to the ordinary courts. Most are part of the Tribunals Service.',
-  'ombudsman':
-    'Independent bodies that investigate complaints about public services, maladministration, and injustice. Ombudsmen are typically a final resort after internal complaints procedures have been exhausted.',
-  'inspector':
-    'Inspectorates and inspection bodies that independently assess, audit, or report on the quality and performance of public services. Reports are usually published and laid before Parliament.',
-  'adviser':
-    'Independent advisory committees, scientific advisory bodies, pay review bodies, and expert panels that provide advice to ministers and departments. They operate at arm\'s length from policy-makers.',
-  'profession':
-    'Cross-government professional networks and functional communities that set standards, provide leadership, and coordinate capability across the Civil Service (e.g. the Government Finance Function, the Government Legal Profession).',
-  'police':
-    'Police forces, law enforcement agencies, and bodies responsible for policing functions and public order across the UK.',
-  'trading-fund':
-    'Government bodies that operate on a commercial basis within departments, funding their activities largely from fees charged to users rather than direct Exchequer grant.',
-  'nhs-body':
-    'NHS organisations including commissioners, special health authorities, NHS England arms, and NHS foundation trusts that form part of the National Health Service in England.',
-  'review-body':
-    'Independent pay review bodies that make annual recommendations to government on the remuneration of public sector workforces including the Armed Forces, NHS staff, teachers, and the judiciary.',
+  'regulator':
+    'Bodies exercising regulatory and supervisory functions — including financial supervision, data protection, consumer protection, and pharmaceutical regulation.',
+  'inspectorate':
+    'Inspectorates and inspection bodies that monitor compliance with legal requirements, such as the Language Inspectorate (Keeleinspektsioon) and Labour Inspectorate (Tööinspektsioon).',
+  'intelligence':
+    'Intelligence and security services responsible for foreign intelligence gathering and domestic counter-intelligence, including the Foreign Intelligence Service (Välisluureamet) and the Internal Security Service (Kaitsepolitseiamet, KAPO).',
   'prosecution':
-    'Prosecution services responsible for making charging decisions and presenting criminal cases on behalf of the Crown in England and Wales.',
-  'lottery':
-    'Distributor bodies that allocate National Lottery and heritage fund proceeds to arts, sports, heritage, and community causes.',
-  'development-corp':
-    'Development corporations and urban regeneration bodies with statutory powers to acquire land, build infrastructure, and promote economic development in defined areas.',
-  'national-park':
-    'National Park Authorities that conserve and enhance the natural beauty, wildlife, and cultural heritage of England\'s national parks, while promoting opportunities for public understanding and enjoyment.',
+    'The Prosecution Service (Prokuratuur), headed by the Prosecutor General, responsible for criminal prosecution in Estonia.',
   'armed-forces':
-    'The Armed Forces of the United Kingdom — the Royal Navy, British Army, and Royal Air Force — together with their associated commands, units, and supporting defence bodies.',
+    'The Estonian Defence Forces (Kaitsevägi) and related defence organisations, including the voluntary Estonian Defence League (Kaitseliit).',
+  'police':
+    'Law enforcement bodies, principally the Police and Border Guard Board (Politsei- ja Piirivalveamet, PPA), which handles policing, border security, and migration.',
+  'ombudsman':
+    'The Chancellor of Justice (Õiguskantsler) serves as Estonia\'s national ombudsman, reviewing the constitutionality of legislation and supervising fundamental rights.',
 }
 
 export default function TagInfo({ tagId, onClose, onSelectElement }: TagInfoProps) {

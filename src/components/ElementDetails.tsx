@@ -64,22 +64,27 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
       official: {
         'prime-minister': '👑 Prime Minister',
         'cabinet-minister': '🌟 Cabinet Minister',
-        'junior-minister': '👤 Junior Minister',
+        'head-of-state': '🏛️ Head of State',
+        'independent-official': '👤 Independent Official',
         'civil-servant': '👤 Civil Servant',
-        independent: '👤 Independent Official',
       },
       department: {
-        ministerial: '🏛️ Ministerial Department',
-        'non-ministerial': '🏛️ Non-Ministerial Department',
-        agency: '⚙️ Executive Agency',
-        'division-directorate': '⚙️ Division / Directorate',
+        ministerial: '🏛️ Ministry',
+        agency: '⚙️ Government Office / Chancellery',
+        portfolio: '📁 Portfolio',
       },
       body: {
-        'executive-ndpb': '📋 Executive NDPB',
-        'advisory-ndpb': '💡 Advisory NDPB',
-        'tribunal': '⚖️ Tribunal',
+        'constitutional-body': '⚖️ Constitutional Body',
+        'executive-agency': '📋 Executive Agency',
+        regulator: '🔍 Regulator',
+        'public-law-body': '🏢 Public Law Body',
+        'security-agency': '🛡️ Security Agency',
+        military: '⚔️ Military',
+        'state-enterprise': '🏭 State Enterprise',
         'public-corporation': '🏢 Public Corporation',
-        'royal-charter-body': '📜 Royal Charter Body',
+        'training-institution': '🎓 Training Institution',
+        'research-institute': '🔬 Research Institute',
+        inspectorate: '🔎 Inspectorate',
         other: '🔗 Other Body',
       },
       group: {
@@ -91,33 +96,36 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
   }
 
   const getBodyEmoji = (subtype: string) =>
-    subtype === 'executive-ndpb' ? '📋' :
-    subtype === 'advisory-ndpb' ? '💡' :
-    subtype === 'tribunal' ? '⚖️' :
+    subtype === 'constitutional-body' ? '⚖️' :
+    subtype === 'executive-agency' ? '📋' :
+    subtype === 'regulator' ? '🔍' :
+    subtype === 'public-law-body' ? '🏢' :
+    subtype === 'security-agency' ? '🛡️' :
+    subtype === 'military' ? '⚔️' :
+    subtype === 'state-enterprise' ? '🏭' :
     subtype === 'public-corporation' ? '🏢' :
-    subtype === 'royal-charter-body' ? '📜' : '🔗'
+    subtype === 'training-institution' ? '🎓' :
+    subtype === 'research-institute' ? '🔬' :
+    subtype === 'inspectorate' ? '🔎' : '🔗'
 
   // Helper function to determine relationship descriptions
   const getRelationshipLabel = (parent: any, child: any): { parentLabel: string; childLabel: string } => {
-    if (parent.category === 'official' && parent.subtype === 'cabinet-minister' &&
-        child.category === 'official' && child.subtype === 'junior-minister') {
-      return { parentLabel: 'oversees', childLabel: 'overseen by' }
-    }
     if (parent.category === 'official' && child.category === 'official') {
       return { parentLabel: 'appoints', childLabel: 'appointed by' }
     }
     if (parent.category === 'official' && child.category === 'department' && child.subtype === 'ministerial') {
       return { parentLabel: 'leads', childLabel: 'led by' }
     }
-    if (parent.category === 'official' && parent.subtype === 'civil-servant' &&
-        child.category === 'department' && child.subtype === 'non-ministerial') {
+    if (parent.category === 'official' && child.category === 'department' && child.subtype === 'agency') {
       return { parentLabel: 'leads', childLabel: 'led by' }
     }
-    if (parent.category === 'official' && parent.subtype === 'independent' &&
-        child.category === 'department' && child.subtype === 'non-ministerial') {
+    if (parent.category === 'official' && child.category === 'department' && child.subtype === 'portfolio') {
       return { parentLabel: 'leads', childLabel: 'led by' }
     }
-    if (parent.category === 'official' && child.category === 'department' && child.subtype === 'non-ministerial') {
+    if (parent.category === 'official' && child.category === 'body' && child.subtype === 'constitutional-body') {
+      return { parentLabel: 'heads', childLabel: 'headed by' }
+    }
+    if (false && parent.category === 'official' && child.category === 'department') {
       return { parentLabel: 'sponsors', childLabel: 'sponsored by' }
     }
     if (parent.category === 'department' && child.category === 'department' &&
@@ -479,10 +487,10 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
           <h2>{element.name}</h2>
           <span
             className="element-type category-button"
-            onClick={() => onOpenCategory(element.category, element.subtype === 'independent' ? 'other' : element.subtype)}
+            onClick={() => onOpenCategory(element.category, element.subtype)}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => e.key === 'Enter' && onOpenCategory(element.category, element.subtype === 'independent' ? 'other' : element.subtype)}
+            onKeyDown={(e) => e.key === 'Enter' && onOpenCategory(element.category, element.subtype)}
           >
             {getCategoryLabel(element.category, element.subtype)}
           </span>

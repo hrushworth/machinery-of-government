@@ -35,20 +35,21 @@ for (const el of Object.values(govElements)) {
 
 // ── Tier assignment ──────────────────────────────────────────────────────────
 // Ring 0 : PM
-// Ring 1 : Cabinet ministers
-// Ring 2 : Junior ministers
-// Ring 3 : Ministerial departments (+ non-ministerial departments)
-// Ring 4 : Executive agencies + division-directorates
-// Ring 5+ : Everything else, by BFS distance from any ring-1-to-4 node
+// Ring 1 : Cabinet ministers + constitutional officials (President, Speaker, Chief Justice, etc.)
+// Ring 2 : Ministries + Government Office + constitutional body offices + portfolios
+// Ring 3 : Executive agencies and bodies under ministries
+// Ring 4+ : Everything else, by BFS distance
 
 function assignTier(id: string): number {
   const el = govElements[id]
   if (!el) return 99
   if (id === 'pm') return 0
   if (el.category === 'official' && el.subtype === 'cabinet-minister') return 1
-  if (el.category === 'official' && el.subtype === 'junior-minister') return 2
-  if (el.category === 'department' && (el.subtype === 'ministerial' || el.subtype === 'non-ministerial')) return 3
-  if (el.category === 'department' && (el.subtype === 'agency' || el.subtype === 'division-directorate')) return 4
+  if (el.category === 'official' && (el.subtype === 'head-of-state' || el.subtype === 'independent-official')) return 1
+  if (el.category === 'department' && (el.subtype === 'ministerial' || el.subtype === 'portfolio')) return 2
+  if (el.category === 'department' && el.subtype === 'agency') return 2
+  if (el.category === 'body' && el.subtype === 'constitutional-body') return 2
+  if (el.category === 'body') return 3
   return -1 // needs BFS
 }
 
@@ -61,12 +62,10 @@ function computeTiers(): Map<string, number> {
     if (t >= 0) tiers.set(id, t)
   }
 
-  // Pass 2: BFS from all tier-1-to-4 nodes outward for the remainder,
-  // starting at distance 1 from the outermost fixed ring (ring 4)
-  // so ring 5 = directly connected to a ring-4 node, etc.
+  // Pass 2: BFS from all fixed-tier nodes outward for the remainder
   const queue: Array<{ id: string; tier: number }> = []
   for (const [id, t] of tiers) {
-    if (t >= 1 && t <= 4) {
+    if (t >= 1 && t <= 3) {
       queue.push({ id, tier: t })
     }
   }
@@ -80,21 +79,18 @@ function computeTiers(): Map<string, number> {
     for (const nid of neighbours) {
       const nel = govElements[nid]
       if (!nel || tiers.has(nid) || nel.category === 'group') continue
-      // Civil servants and independents are placed in pass 3 (half-rings), not BFS
-      if (nel.category === 'official' && (nel.subtype === 'civil-servant' || nel.subtype === 'independent')) continue
-      const newTier = Math.max(5, tier + 1)
+      if (nel.category === 'official' && nel.subtype === 'civil-servant') continue
+      const newTier = Math.max(4, tier + 1)
       tiers.set(nid, newTier)
       queue.push({ id: nid, tier: newTier })
     }
   }
 
-  // Pass 3: place civil servants and independents on a half-ring between their
-  // youngest child's ring and the ring inside it. e.g. a perm sec whose department
-  // is on ring 3 goes on ring 2.5 — its own dedicated ring between 2 and 3.
+  // Pass 3: place civil servants on a half-ring between their
+  // youngest child's ring and the ring inside it.
   for (const id of Object.keys(govElements)) {
     const el = govElements[id]
-    if (el.category !== 'official') continue
-    if (el.subtype !== 'civil-servant' && el.subtype !== 'independent') continue
+    if (el.category !== 'official' || el.subtype !== 'civil-servant') continue
     if (tiers.has(id)) continue
 
     const children = _allChildren.get(id) ?? new Set()
@@ -107,7 +103,6 @@ function computeTiers(): Map<string, number> {
     if (minChildTier < Infinity) {
       tiers.set(id, minChildTier - 0.5)
     }
-    // else: still unassigned — falls through to disconnected catch-all below
   }
 
   // Anything still unassigned (completely disconnected) goes on a far ring

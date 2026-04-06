@@ -173,7 +173,7 @@ export default function StaffTab({ staffProfile, onSelectElement }: StaffTabProp
     <div className="staff-tab">
       {/* Summary */}
       <div className="staff-summary">
-        <div className="staff-summary-year">Civil Service Statistics — {year}</div>
+        <div className="staff-summary-year">Public Service Statistics — {year}</div>
         <div className="staff-summary-total">
           <span className="staff-total-value">{activeGrades.total.toLocaleString()}</span>
           <span className="staff-total-label"> civil servants (headcount)</span>
@@ -310,23 +310,19 @@ export default function StaffTab({ staffProfile, onSelectElement }: StaffTabProp
       <div className="staff-footer">
         <a
           className="staff-source-link"
-          href="https://www.gov.uk/government/statistics/civil-service-statistics-2025"
+          href="https://www.fin.ee/riigihaldus-ja-avalik-teenistus-kinnisvara/riigihaldus/avaliku-sektori-statistika"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Civil Service Statistics 2025 ↗
+          Public Service Statistics (Ministry of Finance) ↗
         </a>
         <p className="staff-notes">
-          Headcount as at 31 March 2025. Figures rounded to nearest 5.
-          Cells with fewer than 5 staff are suppressed (shown as 0).
-          'Other' grade includes unclassified and unreported grades.
-          Profession data from Table 8; grade data from Table 20.
+          Approximate headcount figures from the Public Service Yearbook 2023
+          and 2025 salary survey. Figures are rounded estimates. Some agencies
+          (e.g. KAPO, Välisluureamet) have classified staffing levels shown as 0.
         </p>
         <p className="staff-ogl">
-          Contains public sector information licensed under the{' '}
-          <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener noreferrer">
-            Open Government Licence v3.0
-          </a>
+          Source: Estonian Ministry of Finance (fin.ee)
         </p>
       </div>
     </div>

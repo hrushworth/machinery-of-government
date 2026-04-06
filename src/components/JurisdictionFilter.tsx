@@ -10,16 +10,14 @@ interface JurisdictionFilterProps {
   darkMode?: boolean
 }
 
-// Grouped display order
+// Estonia is a unitary state — single jurisdiction
 const GROUPS: { label: string; items: Jurisdiction[] }[] = [
-  { label: 'National', items: ['uk', 'gb', 'england-wales', 'england', 'scotland', 'wales', 'northern-ireland'] },
-  { label: 'Territories', items: ['crown-dependencies', 'overseas-territories'] },
+  { label: 'National', items: ['estonia'] },
 ]
 
 export default function JurisdictionFilter({ active, onChange, onClose, darkMode }: JurisdictionFilterProps) {
   const panelRef = useRef<HTMLDivElement>(null)
 
-  // Close on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) {

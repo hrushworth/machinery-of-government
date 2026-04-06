@@ -111,7 +111,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
       if (nodeId === focusId) return
       const element = govElements[nodeId]
       if (!element) return
-      // Keep officials that are secondary parents of the focused dept (e.g. junior ministers)
+      // Keep officials that are secondary parents of the focused dept (e.g. civil servants)
       if (focusElement.category === 'department' && focusElement.subtype === 'ministerial' &&
           focusElement.secondaryParentIds?.includes(nodeId)) return
       const groupParent = element.parentIds.find(pid => {
@@ -132,17 +132,16 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
     // Subtype sort order — nodes on each arc are grouped so similar types cluster together.
     const subtypeOrder: Record<string, number> = {
       // Officials
-      'prime-minister': 0, 'cabinet-minister': 1, 'civil-servant': 2, 'independent': 3,
+      'prime-minister': 0, 'head-of-state': 1, 'cabinet-minister': 2, 'independent-official': 3, 'civil-servant': 4,
       // Departments
-      'ministerial': 10, 'non-ministerial': 11, 'agency': 12, 'division-directorate': 13,
+      'ministerial': 10, 'agency': 11, 'portfolio': 12,
       // Bodies
-      'executive-ndpb': 20, 'advisory-ndpb': 21, 'tribunal': 22,
-      'public-corporation': 23, 'royal-charter-body': 24, 'other': 25,
+      'constitutional-body': 20, 'executive-agency': 21, 'regulator': 22,
+      'public-law-body': 23, 'security-agency': 24, 'military': 25,
+      'state-enterprise': 26, 'public-corporation': 27, 'training-institution': 28,
+      'research-institute': 29, 'inspectorate': 30, 'other': 31,
       // Groups
-      'cabinet': 30, 'other-group': 31,
-      // Junior ministers placed last among officials so they sit at the edge
-      // of the ancestor arc, furthest from compound-child overlap
-      'junior-minister': 5,
+      'cabinet': 40,
     }
     const sortBySubtype = (a: string, b: string) => {
       const ea = govElements[a], eb = govElements[b]
@@ -150,20 +149,13 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
       return (subtypeOrder[ea.subtype] ?? 99) - (subtypeOrder[eb.subtype] ?? 99)
     }
 
-    // D1: true hierarchy ancestors (non-junior-minister) go to the top half;
-    // children AND junior ministers go to the bottom half.
-    // This keeps junior ministers well clear of compound children inside the dept box.
+    // D1: ancestors go to the top half; children go to the bottom half.
     const d1Ancestors: string[] = []
     const d1Children: string[] = []
 
     ancestorLevels.forEach((level, id) => {
       if (level !== 1 || !nodesToShow.has(id)) return
-      const el = govElements[id]
-      if (el && el.subtype === 'junior-minister') {
-        d1Children.push(id) // junior ministers share the bottom arc with children
-      } else {
-        d1Ancestors.push(id)
-      }
+      d1Ancestors.push(id)
     })
     childrenSet.forEach(id => { if (nodesToShow.has(id)) d1Children.push(id) })
 
@@ -188,7 +180,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
       })
     })
 
-    // Spread children (+ junior ministers) across the bottom half (0 to π)
+    // Spread children across the bottom half (0 to π)
     d1Children.forEach((id, i) => {
       const angle = d1Children.length > 1
         ? (Math.PI / (d1Children.length - 1)) * i
@@ -286,8 +278,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
     // Check if cabinet is in nodes to show for compound node support
     const cabinetInView = nodesToShow.has('cabinet')
 
-    // Find departments that have division-directorate or agency children in view
-    const departmentsWithDivisions = new Set<string>()
+    // Find departments that have agency children in view
     const departmentsWithAgencies = new Set<string>()
     nodesToShow.forEach(nodeId => {
       const element = govElements[nodeId]
@@ -295,9 +286,6 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
         getChildIds(element.id).forEach(childId => {
           if (nodesToShow.has(childId)) {
             const child = govElements[childId]
-            if (child && child.subtype === 'division-directorate') {
-              departmentsWithDivisions.add(element.id)
-            }
             if (child && child.subtype === 'agency') {
               departmentsWithAgencies.add(element.id)
             }
@@ -314,15 +302,7 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
       if (!element) return
       // Cabinet members are compound children of cabinet
       if (cabinetInView && nodeId !== 'cabinet') {
-        const attendsCabinet = element.subtype === 'junior-minister' && element.parentIds.includes('cabinet')
-        if (element.subtype === 'cabinet-minister' || element.id === 'pm' || attendsCabinet) {
-          compoundChildNodes.add(nodeId)
-        }
-      }
-      // Divisions/directorates are compound children of their parent department
-      if (element.subtype === 'division-directorate' && element.parentIds.length > 0) {
-        const parentDept = element.parentIds[0]
-        if (departmentsWithDivisions.has(parentDept)) {
+        if (element.subtype === 'cabinet-minister' || element.id === 'pm') {
           compoundChildNodes.add(nodeId)
         }
       }
@@ -342,11 +322,8 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
     compoundChildNodes.forEach(nodeId => {
       const element = govElements[nodeId]
       if (!element) return
-      if (cabinetInView && (element.subtype === 'cabinet-minister' || element.id === 'pm' ||
-          (element.subtype === 'junior-minister' && element.parentIds.includes('cabinet')))) {
+      if (cabinetInView && (element.subtype === 'cabinet-minister' || element.id === 'pm')) {
         compoundParentOf.set(nodeId, 'cabinet')
-      } else if (element.subtype === 'division-directorate' && element.parentIds.length > 0) {
-        compoundParentOf.set(nodeId, element.parentIds[0])
       } else if (element.subtype === 'agency' && element.parentIds.length > 0) {
         compoundParentOf.set(nodeId, element.parentIds[0])
       }
@@ -420,7 +397,6 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
       const isFocus = nodeId === focusId
       const isFocusCompound = isFocus && (
         (focusId === 'cabinet' && cabinetInView) ||
-        departmentsWithDivisions.has(focusId) ||
         departmentsWithAgencies.has(focusId)
       )
       const fillColor = (isFocus && !isFocusCompound) ? color : lightenColor(color)
@@ -437,18 +413,9 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
         isFocus: (isFocus && !isFocusCompound) ? 1 : 0,
       }
 
-      // If Cabinet is in view and this is a cabinet minister, PM, or cabinet-attending junior minister
-      const attendsCabinet = element.subtype === 'junior-minister' && element.parentIds.includes('cabinet')
-      if (cabinetInView && (element.subtype === 'cabinet-minister' || element.id === 'pm' || attendsCabinet)) {
+      // If Cabinet is in view and this is a cabinet minister or PM
+      if (cabinetInView && (element.subtype === 'cabinet-minister' || element.id === 'pm')) {
         nodeData.parent = 'cabinet'
-      }
-      
-      // If this is a division-directorate and its parent department is in view, make it a child of department compound node
-      if (element.subtype === 'division-directorate' && element.parentIds.length > 0) {
-        const parentDept = element.parentIds[0]
-        if (departmentsWithDivisions.has(parentDept)) {
-          nodeData.parent = parentDept
-        }
       }
 
       // If this is an agency and its parent department is in view, make it a child of department compound node
@@ -499,113 +466,62 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
       }
     }
 
-    // Add compound parent nodes for departments with divisions/directorates
+    // Add compound parent nodes for departments with agencies.
     // Note: The department node itself is already added in the main node loop.
-    // The compound structure is created by setting the division nodes' parent property to the department ID.
-    // departmentsWithDivisions set is used to hide the edges between them.
+    // The compound structure is created by setting the agency nodes' parent property to the department ID.
+    // departmentsWithAgencies set is used to hide the edges between them.
 
     // Helper function to determine relationship from parent to child
     const getRelationshipLabel = (parent: GovElement, child: GovElement): { forward: string; reverse: string } => {
-      // Prime Minister > appoints > Cabinet ministers and all other ministers
-      if (parent.subtype === 'prime-minister' && 
-          (child.subtype === 'cabinet-minister' || child.subtype === 'junior-minister')) {
+      // Prime Minister > appoints > Cabinet ministers
+      if (parent.subtype === 'prime-minister' && child.subtype === 'cabinet-minister') {
         return { forward: 'appoints', reverse: 'appointed by' }
       }
-      
-      // Cabinet Minister > oversees > junior ministers
-      if ((parent.subtype === 'cabinet-minister') &&
-          (child.subtype === 'junior-minister')) {
-        return { forward: 'oversees', reverse: 'overseen by' }
-      }
-      
-      // Cabinet Minister > manages > Cabinet (group membership)
-      if ((parent.subtype === 'cabinet-minister' || parent.subtype === 'prime-minister') && 
+
+      // Cabinet Minister or PM > member of > Cabinet (group membership)
+      if ((parent.subtype === 'cabinet-minister' || parent.subtype === 'prime-minister') &&
           child.category === 'group' && child.subtype === 'cabinet') {
         return { forward: 'member of', reverse: 'includes' }
       }
 
-      // Civil servant (perm sec) > runs > Ministerial Department
+      // Civil servant > runs > Ministry
       if (parent.category === 'official' && parent.subtype === 'civil-servant' &&
           child.category === 'department' && child.subtype === 'ministerial') {
         return { forward: 'runs', reverse: 'run by' }
       }
 
-      // Cabinet Minister > leads > Ministerial Department
-      if ((parent.subtype === 'cabinet-minister' || parent.subtype === 'junior-minister' || parent.subtype === 'prime-minister') &&
+      // Cabinet Minister > leads > Ministry
+      if ((parent.subtype === 'cabinet-minister' || parent.subtype === 'prime-minister') &&
           child.category === 'department' && child.subtype === 'ministerial') {
         return { forward: 'leads', reverse: 'led by' }
       }
-      
-      // Minister > sponsors > Non-ministerial Department
-      if ((parent.subtype === 'cabinet-minister' || parent.subtype === 'junior-minister' || parent.subtype === 'prime-minister') &&
-          child.category === 'department' && child.subtype === 'non-ministerial') {
-        return { forward: 'sponsors', reverse: 'sponsored by' }
+
+      // Minister > oversees > agency or portfolio
+      if ((parent.subtype === 'cabinet-minister' || parent.subtype === 'prime-minister') &&
+          child.category === 'department' && (child.subtype === 'agency' || child.subtype === 'portfolio')) {
+        return { forward: 'oversees', reverse: 'overseen by' }
       }
 
-      // Civil servant runs non-ministerial department
-      if (parent.category === 'official' && parent.subtype === 'civil-servant' &&
-          child.category === 'department' && child.subtype === 'non-ministerial') {
-        return { forward: 'runs', reverse: 'run by' }
+      // Official > heads > constitutional body
+      if (parent.category === 'official' && child.category === 'body' && child.subtype === 'constitutional-body') {
+        return { forward: 'heads', reverse: 'headed by' }
       }
 
-      // Other official chairs non-ministerial department
-      if (parent.category === 'official' && parent.subtype === 'independent' &&
-          child.category === 'department' && child.subtype === 'non-ministerial') {
-        return { forward: 'chairs', reverse: 'chaired by' }
+      // Independent official > leads > body
+      if (parent.category === 'official' && parent.subtype === 'independent-official' &&
+          child.category === 'body') {
+        return { forward: 'leads', reverse: 'led by' }
       }
 
-      // Non-ministerial department > has head > civil servant (reverse of runs)
-      if (parent.category === 'department' && parent.subtype === 'non-ministerial' &&
-          child.category === 'official' && child.subtype === 'civil-servant') {
-        return { forward: 'run by', reverse: 'runs' }
-      }
-
-      // Non-ministerial department > has chair > other official (reverse of chairs)
-      if (parent.category === 'department' && parent.subtype === 'non-ministerial' &&
-          child.category === 'official' && child.subtype === 'independent') {
-        return { forward: 'chaired by', reverse: 'chairs' }
-      }
-
-      // Ministerial Department > is parent of > Executive Agency
-      if (parent.category === 'department' && 
+      // Department > is parent of > Agency
+      if (parent.category === 'department' &&
           child.category === 'department' && child.subtype === 'agency') {
         return { forward: 'is parent of', reverse: 'is child of' }
       }
-      
-      // Ministerial Department > supports > Non-ministerial department
-      if (parent.subtype === 'ministerial' &&
-          child.category === 'department' && child.subtype === 'non-ministerial') {
-        return { forward: 'supports', reverse: 'supported by' }
-      }
-      
-      // Department > sponsors > NDPB / tribunal
-      if (parent.category === 'department' && child.category === 'body' &&
-          (child.subtype === 'executive-ndpb' || child.subtype === 'advisory-ndpb' || child.subtype === 'tribunal')) {
-        return { forward: 'sponsors', reverse: 'sponsored by' }
-      }
-      
-      // Civil servant runs non-ministerial department
-      if (parent.category === 'official' && parent.subtype === 'civil-servant' &&
-          child.category === 'department' && child.subtype === 'non-ministerial') {
-        return { forward: 'runs', reverse: 'run by' }
-      }
 
-      // Other official chairs non-ministerial department
-      if (parent.category === 'official' && parent.subtype === 'independent' &&
-          child.category === 'department' && child.subtype === 'non-ministerial') {
-        return { forward: 'chairs', reverse: 'chaired by' }
-      }
-
-      // Non-ministerial department > has head > civil servant (reverse of runs)
-      if (parent.category === 'department' && parent.subtype === 'non-ministerial' &&
-          child.category === 'official' && child.subtype === 'civil-servant') {
-        return { forward: 'run by', reverse: 'runs' }
-      }
-
-      // Non-ministerial department > has chair > other official (reverse of chairs)
-      if (parent.category === 'department' && parent.subtype === 'non-ministerial' &&
-          child.category === 'official' && child.subtype === 'independent') {
-        return { forward: 'chaired by', reverse: 'chairs' }
+      // Department > oversees > body/agency
+      if (parent.category === 'department' && child.category === 'body') {
+        return { forward: 'oversees', reverse: 'overseen by' }
       }
 
       // Group membership
@@ -627,15 +543,8 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
         if (targetElement) {
           // Skip edges for compound node membership (Cabinet and its members)
           // When Cabinet is in the view and this is a Cabinet member, the edge will be implicit in the compound structure
-          const targetAttendsCabinet = targetElement.subtype === 'junior-minister' && targetElement.parentIds.includes('cabinet')
-          if (cabinetInView && element.id === 'cabinet' && (targetElement.subtype === 'cabinet-minister' || targetElement.id === 'pm' || targetAttendsCabinet)) {
+          if (cabinetInView && element.id === 'cabinet' && (targetElement.subtype === 'cabinet-minister' || targetElement.id === 'pm')) {
             return // Skip adding the edge for compound node membership
-          }
-          
-          // Skip edges between departments and their divisions/directorates
-          // When a department has divisions, the edge will be implicit in the compound structure
-          if (departmentsWithDivisions.has(element.id) && targetElement.subtype === 'division-directorate') {
-            return // Skip adding the edge for department compound structure
           }
 
           // Skip edges between departments and their agencies
@@ -733,10 +642,10 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
             },
           },
           {
-            selector: 'node[category="official"][subtype="junior-minister"]',
+            selector: 'node[category="official"][subtype="head-of-state"]',
             style: {
-              'shape': 'ellipse',
-              'border-color': '#cd6155',
+              'shape': 'heptagon',
+              'border-color': '#4a235a',
             },
           },
           {
@@ -747,10 +656,10 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
             },
           },
           {
-            selector: 'node[category="official"][subtype="independent"]',
+            selector: 'node[category="official"][subtype="independent-official"]',
             style: {
               'shape': 'ellipse',
-              'border-color': '#229954',
+              'border-color': '#27ae60',
             },
           },
           // Department nodes
@@ -762,13 +671,6 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
             },
           },
           {
-            selector: 'node[category="department"][subtype="non-ministerial"]',
-            style: {
-              'shape': 'rectangle',
-              'border-color': '#2980b9',
-            },
-          },
-          {
             selector: 'node[category="department"][subtype="agency"]',
             style: {
               'shape': 'roundrectangle',
@@ -777,11 +679,10 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
             },
           },
           {
-            selector: 'node[category="department"][subtype="division-directorate"]',
+            selector: 'node[category="department"][subtype="portfolio"]',
             style: {
-              'shape': 'roundrectangle',
-              'corner-radius': '20px',
-              'border-color': '#e74c3c',
+              'shape': 'rectangle',
+              'border-color': '#d4ac0d',
             },
           },
           // Body nodes
@@ -793,38 +694,80 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
             },
           },
           {
-            selector: 'node[category="body"][subtype="executive-ndpb"]',
+            selector: 'node[category="body"][subtype="constitutional-body"]',
             style: {
               'shape': 'diamond',
-              'border-color': '#229954',
+              'border-color': '#1a5276',
             },
           },
           {
-            selector: 'node[category="body"][subtype="advisory-ndpb"]',
+            selector: 'node[category="body"][subtype="executive-agency"]',
             style: {
               'shape': 'diamond',
-              'border-color': '#f1c40f',
+              'border-color': '#27ae60',
             },
           },
           {
-            selector: 'node[category="body"][subtype="public-corporation"]',
+            selector: 'node[category="body"][subtype="regulator"]',
+            style: {
+              'shape': 'diamond',
+              'border-color': '#c0392b',
+            },
+          },
+          {
+            selector: 'node[category="body"][subtype="public-law-body"]',
+            style: {
+              'shape': 'diamond',
+              'border-color': '#2980b9',
+            },
+          },
+          {
+            selector: 'node[category="body"][subtype="security-agency"]',
+            style: {
+              'shape': 'diamond',
+              'border-color': '#2e4057',
+            },
+          },
+          {
+            selector: 'node[category="body"][subtype="military"]',
+            style: {
+              'shape': 'diamond',
+              'border-color': '#1b4f72',
+            },
+          },
+          {
+            selector: 'node[category="body"][subtype="state-enterprise"]',
             style: {
               'shape': 'rhomboid',
               'border-color': '#e67e22',
             },
           },
           {
-            selector: 'node[category="body"][subtype="royal-charter-body"]',
+            selector: 'node[category="body"][subtype="public-corporation"]',
             style: {
               'shape': 'rhomboid',
+              'border-color': '#d35400',
+            },
+          },
+          {
+            selector: 'node[category="body"][subtype="training-institution"]',
+            style: {
+              'shape': 'diamond',
               'border-color': '#8e44ad',
             },
           },
           {
-            selector: 'node[category="body"][subtype="tribunal"]',
+            selector: 'node[category="body"][subtype="research-institute"]',
             style: {
               'shape': 'diamond',
-              'border-color': '#d35400',
+              'border-color': '#2471a3',
+            },
+          },
+          {
+            selector: 'node[category="body"][subtype="inspectorate"]',
+            style: {
+              'shape': 'diamond',
+              'border-color': '#16a085',
             },
           },
           {

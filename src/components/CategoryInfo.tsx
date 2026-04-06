@@ -15,88 +15,113 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
       'prime-minister': {
         emoji: '👑',
         title: 'Prime Minister',
-        description: 'The head of government and chair of the Cabinet. The Prime Minister appoints all other government ministers and is responsible for setting the overall direction of government policy.',
+        description: 'Head of government (Peaminister). Nominated by the President, confirmed by the Riigikogu. Leads the cabinet and coordinates government policy.',
       },
       'cabinet-minister': {
         emoji: '🌟',
         title: 'Cabinet Minister',
-        description: 'Senior ministers appointed by the Prime Minister to lead government departments. Cabinet members form the collective decision-making body that directs government policy.',
+        description: 'Ministers appointed by the Prime Minister to lead government ministries. Together with the PM, they form the Government of the Republic (Vabariigi Valitsus).',
       },
-      'junior-minister': {
+      'head-of-state': {
+        emoji: '🏛️',
+        title: 'Head of State',
+        description: 'The President of the Republic (Vabariigi President). Largely ceremonial role in Estonia\'s parliamentary system. Represents Estonia internationally and is the supreme commander of national defence.',
+      },
+      'independent-official': {
         emoji: '👤',
-        title: 'Junior Minister',
-        description: 'Ministers appointed to support Cabinet members and Secretaries of State in their departments. They handle specific policy areas and represent government in Parliament.',
+        title: 'Independent Official',
+        description: 'Constitutional officeholders who exercise their functions independently of the government. Includes the Speaker of the Riigikogu, Chief Justice, Chancellor of Justice, Auditor General, and Governor of the Bank of Estonia.',
       },
       'civil-servant': {
         emoji: '👤',
         title: 'Civil Servant',
-        description: 'Professional, non-partisan public sector employees who provide impartial advice to government and implement policies. Led by Permanent Secretaries in departments.',
-      },
-      independent: {
-        emoji: '👤',
-        title: 'Independent Official',
-        description: 'Independent officeholders including statutory commissioners, chairs of public bodies, and oversight figures appointed by the Crown or Prime Minister. They exercise public functions independently of ministerial direction.',
+        description: 'Senior civil servants heading government offices or agencies, such as the Secretary of State (head of the Government Office).',
       },
     },
     department: {
       ministerial: {
         emoji: '🏛️',
-        title: 'Ministerial Department',
-        description: 'Government departments led by a Secretary of State who is a minister and member of the Cabinet. These departments implement government policy in their areas of responsibility.',
-      },
-      'non-ministerial': {
-        emoji: '🏛️',
-        title: 'Non-Ministerial Department',
-        description: 'Government departments run by a non-ministerial politician, such as the Land Registry or the Crown Prosecution Service. They operate with independence from ministerial direction.',
+        title: 'Ministry',
+        description: 'Government ministries (ministeeriumid) headed by a minister. Estonia has 11 ministries that implement government policy in their respective areas.',
       },
       agency: {
         emoji: '⚙️',
-        title: 'Executive Agency',
-        description: 'Operational delivery bodies that sit within ministerial departments but have delegated authority to run day-to-day services. Examples include HMRC and the UK Visas and Immigration service.',
+        title: 'Government Office / Chancellery',
+        description: 'Administrative offices and chancelleries that support constitutional institutions or the government. Includes the Government Office (Riigikantselei), Office of the President, and parliamentary chancellery.',
       },
-      'division-directorate': {
-        emoji: '⚙️',
-        title: 'Division/Directorate',
-        description: 'Divisions and directorates are major sub-divisions within government departments. They organise work into distinct operational areas managed by directors and director-generals. Key public-facing divisions are listed here.',
+      portfolio: {
+        emoji: '📁',
+        title: 'Portfolio (no own ministry)',
+        description: 'A ministerial portfolio managed through another ministry. The Minister of Infrastructure, for example, has no separate ministry and operates through the Ministry of Economic Affairs and Communications.',
       },
     },
     body: {
-      'executive-ndpb': {
-        emoji: '📋',
-        title: 'Executive NDPB',
-        description: 'Non-Departmental Public Bodies with executive functions — independent organisations at arm\'s length from government that carry out statutory or public functions, such as regulators, inspectorates, and delivery bodies.',
+      'constitutional-body': {
+        emoji: '⚖️',
+        title: 'Constitutional Body',
+        description: 'Independent institutions established by the Constitution of the Republic of Estonia. Includes the Riigikogu (Parliament), Supreme Court (Riigikohus), National Audit Office (Riigikontroll), and Bank of Estonia (Eesti Pank).',
       },
-      'advisory-ndpb': {
-        emoji: '💡',
-        title: 'Advisory NDPB',
-        description: 'Non-Departmental Public Bodies that provide independent advice and guidance to ministers and government departments. Examples include pay review bodies, scientific advisory committees, and the Law Commission.',
+      'executive-agency': {
+        emoji: '📋',
+        title: 'Executive Agency',
+        description: 'Government agencies (ametid) operating under ministries that implement policy and deliver public services. Examples include the Tax and Customs Board, Police and Border Guard Board, and Education and Youth Board.',
+      },
+      regulator: {
+        emoji: '🔍',
+        title: 'Regulator',
+        description: 'Regulatory bodies exercising supervisory and enforcement functions. Examples include the Financial Supervision Authority (Finantsinspektsioon), Data Protection Inspectorate, and the Consumer Protection and Technical Regulatory Authority.',
+      },
+      'public-law-body': {
+        emoji: '🏢',
+        title: 'Public Law Body',
+        description: 'Independent legal entities under public law that operate at arm\'s length from government. Includes the Estonian Health Insurance Fund (Tervisekassa) and Unemployment Insurance Fund (Töötukassa).',
+      },
+      'security-agency': {
+        emoji: '🛡️',
+        title: 'Security Agency',
+        description: 'Intelligence and security services. Includes the Estonian Internal Security Service (KAPO) and the Foreign Intelligence Service (Välisluureamet).',
+      },
+      military: {
+        emoji: '⚔️',
+        title: 'Military',
+        description: 'The Estonian Defence Forces (Kaitsevägi) — the armed forces of the Republic of Estonia, commanded by the Commander of the Defence Forces.',
+      },
+      'state-enterprise': {
+        emoji: '🏭',
+        title: 'State Enterprise',
+        description: 'State-owned enterprises that operate on a commercial basis. Example: the State Forest Management Centre (RMK), which manages state forests.',
       },
       'public-corporation': {
         emoji: '🏢',
         title: 'Public Corporation',
-        description: 'Government-owned or government-sponsored bodies incorporated as companies or statutory corporations that operate at arm\'s length from the state. Includes broadcasters (BBC, S4C), development banks, government-owned companies, and bodies providing commercial services on behalf of government.',
+        description: 'Government-related organisations incorporated as public corporations. Includes the Estonian Defence League (Kaitseliit), a voluntary national defence organisation.',
       },
-      'royal-charter-body': {
-        emoji: '📜',
-        title: 'Royal Charter Body',
-        description: 'Bodies incorporated by Royal Charter, conferring a degree of independence from government. These organisations often have historic or ceremonial functions and operate outside normal public body classifications.',
+      'training-institution': {
+        emoji: '🎓',
+        title: 'Training Institution',
+        description: 'Specialised higher education and training institutions under government ministries, such as the Estonian Academy of Security Sciences (Sisekaitseakadeemia).',
       },
-      tribunal: {
-        emoji: '⚖️',
-        title: 'Tribunal',
-        description: 'Statutory bodies that adjudicate disputes and hear appeals in specific areas of law, providing an alternative to the court system. Includes employment, competition, planning, and regulatory tribunals.',
+      'research-institute': {
+        emoji: '🔬',
+        title: 'Research Institute',
+        description: 'Government research institutes conducting research, analysis, and development in their respective fields. Example: the National Institute for Health Development (TAI).',
+      },
+      inspectorate: {
+        emoji: '🔎',
+        title: 'Inspectorate',
+        description: 'Inspection and compliance bodies that monitor adherence to legal requirements. Includes the Language Inspectorate and Labour Inspectorate.',
       },
       other: {
         emoji: '🔗',
         title: 'Other Body',
-        description: 'Other government-related organisations not falling into the main classifications, including statutory commissioners, cross-cutting units, and bodies with mixed functions.',
+        description: 'Other government-related organisations not falling into the main classifications.',
       },
     },
     group: {
       cabinet: {
         emoji: '⭐',
         title: 'Cabinet',
-        description: 'The collective decision-making body of senior government ministers, chaired by the Prime Minister. Cabinet members lead major departments and set the direction of government policy.',
+        description: 'The Government of the Republic (Vabariigi Valitsus) — the collegial executive body consisting of the Prime Minister and ministers. The 54th Government is a coalition of Reform Party and Eesti 200.',
       },
     },
   }
@@ -112,8 +137,8 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
       <div className="category-info">
         <div className="element-header">
           <h2>Information not available</h2>
-          <button 
-            className="close-button-header" 
+          <button
+            className="close-button-header"
             onClick={onClose}
             aria-label="Close category pane"
           >
@@ -130,8 +155,8 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
         <div className="header-content">
           <h2>{info.emoji} {info.title}</h2>
         </div>
-        <button 
-          className="close-button-header" 
+        <button
+          className="close-button-header"
           onClick={onClose}
           aria-label="Close category pane"
         >
@@ -148,7 +173,7 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
           <h3>All {info.title}s ({elementsOfType.length})</h3>
           <ul className="category-elements-list">
             {elementsOfType.sort((a, b) => a.name.localeCompare(b.name)).map(el => (
-              <li 
+              <li
                 key={el.id}
                 className="category-element-item"
                 onClick={() => onSelectElement(el.id)}
