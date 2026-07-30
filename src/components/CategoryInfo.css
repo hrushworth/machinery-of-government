@@ -92,11 +92,11 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--item-gap, 12px);
 }
 
 .category-element-item {
-  padding: 12px 16px;
+  padding: var(--item-padding-y, 12px) 16px;
   border-left: 4px solid;
   background: #f8f9fa;
   border-radius: 4px;
@@ -129,7 +129,13 @@
   line-height: 1.5;
 }
 
-@media (max-width: 768px) {
+.category-element-item .category-element-holder {
+  font-style: italic;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 768px) and (pointer: coarse) {
   .category-info .element-header {
     padding-bottom: 0.75rem;
     margin-bottom: 1rem;

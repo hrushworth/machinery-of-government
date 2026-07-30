@@ -31,6 +31,8 @@ export default function JurisdictionFilter({ active, onChange, onClose, darkMode
   }, [onClose])
 
   return (
+    <>
+    <div className="jurisdiction-panel-backdrop" onClick={onClose} aria-hidden="true" />
     <div
       ref={panelRef}
       className={`jurisdiction-panel${darkMode ? ' jurisdiction-panel-dark' : ''}`}
@@ -77,5 +79,6 @@ export default function JurisdictionFilter({ active, onChange, onClose, darkMode
         </div>
       ))}
     </div>
+    </>
   )
 }

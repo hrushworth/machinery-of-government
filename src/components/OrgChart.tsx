@@ -5,24 +5,27 @@ import { getElementColor } from '../utils/colors'
 import './OrgChart.css'
 
 interface OrgChartProps {
-  onSelectElement: (id: string) => void
+  onSelectElement: (id: string, direct?: boolean) => void
   selectedElementId: string | null
   previewedElementId?: string | null
   darkMode?: boolean
+  isMobile?: boolean
 }
 
-export default function OrgChart({ onSelectElement, selectedElementId, previewedElementId = null, darkMode = false }: OrgChartProps) {
+export default function OrgChart({ onSelectElement, selectedElementId, previewedElementId = null, darkMode = false, isMobile = false }: OrgChartProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const cyRef = useRef<cytoscape.Core | null>(null)
   const focusIdRef = useRef<string>('cabinet')
   const visibleNodesRef = useRef<Set<string>>(new Set())
   const [refreshKey, setRefreshKey] = useState(0)
+  const isMobileRef = useRef(isMobile)
+  useEffect(() => { isMobileRef.current = isMobile }, [isMobile])
 
   const handleRandom = () => {
     const all = Object.values(govElements)
     if (!all.length) return
     const pick = all[Math.floor(Math.random() * all.length)]
-    onSelectElement(pick.id)
+    onSelectElement(pick.id, true)
   }
 
   const handleRefresh = () => {
@@ -916,9 +919,14 @@ export default function OrgChart({ onSelectElement, selectedElementId, previewed
         layout: layoutOptions,
       })
 
-      // Add click handler
+      // Tap: on mobile, just preview (chip shows name); on desktop, select directly
       cyRef.current.on('tap', 'node', (event: any) => {
-        onSelectElement(event.target.id())
+        const hid = event.target.id()
+        if (isMobileRef.current) {
+          onSelectElement(hid)
+        } else {
+          onSelectElement(hid, true)
+        }
       })
 
       // BFS through govElements (bounded to visible nodes) returning node + edge ID arrays

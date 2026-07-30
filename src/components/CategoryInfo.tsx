@@ -158,6 +158,7 @@ export default function CategoryInfo({ category, subtype, onClose, onSelectEleme
                 onKeyDown={(e) => e.key === 'Enter' && onSelectElement(el.id)}
               >
                 <strong>{el.name}</strong>
+                {el.currentHolder && <p className="category-element-holder">{el.currentHolder}</p>}
                 <p>{el.description}</p>
               </li>
             ))}

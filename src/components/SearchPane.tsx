@@ -300,7 +300,10 @@ export default function SearchPane({ onSelectElement, onClose, onResultsChange }
                   onKeyDown={e => e.key === 'Enter' && onSelectElement(el.id)}
                   style={{ borderLeftColor: color }}
                 >
-                  <span className="search-result-name">{el.name}</span>
+                  <span className="search-result-text">
+                    <span className="search-result-name">{el.name}</span>
+                    {el.currentHolder && <span className="search-result-holder">{el.currentHolder}</span>}
+                  </span>
                 </div>
               )
             })}

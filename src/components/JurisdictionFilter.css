@@ -117,3 +117,41 @@
   background: rgba(26, 86, 219, 0.2);
   color: #79b8ff;
 }
+
+.jurisdiction-panel-backdrop {
+  display: none;
+}
+
+/* Mobile: dropdown becomes a centred full-width overlay instead of an
+   edge-anchored menu, matching the app's other mobile overlay patterns. */
+@media (max-width: 768px) and (pointer: coarse) {
+  .jurisdiction-panel-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 9000;
+  }
+
+  .jurisdiction-panel {
+    position: fixed;
+    top: auto;
+    bottom: 76px; /* clear bottom nav + selection chip */
+    left: 1rem;
+    right: 1rem;
+    max-height: 60vh;
+    overflow-y: auto;
+    z-index: 9001;
+    min-width: 0;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+
+  .jurisdiction-item {
+    padding: 10px 10px;
+    font-size: 0.85rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}

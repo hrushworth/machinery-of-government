@@ -1,3 +1,16 @@
+:root {
+  /* ── Shared list-item spacing tokens (element buttons across panes) ── */
+  --item-gap: 12px;
+  --item-padding-y: 0.75rem;
+}
+
+@media (max-width: 768px) and (pointer: coarse) {
+  :root {
+    --item-gap: 6px;
+    --item-padding-y: 0.4rem;
+  }
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -852,6 +865,13 @@
 
   .chart-container {
     padding-bottom: 116px; /* clear bottom nav + selection chip */
+  }
+
+  .chart-overlay-buttons {
+    left: 0.5rem;
+    right: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   /* Side panels (search, info, categories) become full-screen overlays */

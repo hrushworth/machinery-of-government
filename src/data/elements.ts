@@ -1646,6 +1646,17 @@ export const govElements: Record<string, GovElement> = {
     infoUrl: 'https://www.gov.uk/government/organisations/charity-commission/about/our-governance',
     parentIds: [],
   },
+  'certification-officer-holder': {
+    jurisdictions: ['gb'],
+    id: 'certification-officer-holder',
+    name: 'Certification Officer',
+    currentHolder: 'Stephen Hardy',
+    category: 'official',
+    subtype: 'independent',
+    description: 'Independent statutory officer who maintains a list of trade unions and employers\' associations and handles complaints.',
+    infoUrl: 'https://www.gov.uk/government/people/stephen-hardy',
+    parentIds: [],
+  },
   'cma-chair': {
     id: 'cma-chair',
     name: 'Chair, CMA',
@@ -3862,17 +3873,6 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['desnz'],
     tags: ['statutory-regulator', 'sector-energy'],
   },
-  'nwf': {
-    jurisdictions: ['uk'],
-    id: 'nwf',
-    name: 'National Wealth Fund',
-    category: 'body',
-    subtype: 'executive-ndpb',
-    description: 'Catalyses private investment in clean energy and growth sectors across the UK.',
-    infoUrl: 'https://www.gov.uk/government/organisations/national-wealth-fund',
-    parentIds: ['treasury'],
-    tags: ['sector-finance'],
-  },
   'oak-national-academy': {
     jurisdictions: ['england'],
     id: 'oak-national-academy',
@@ -4239,11 +4239,11 @@ export const govElements: Record<string, GovElement> = {
   'ukib': {
     jurisdictions: ['uk'],
     id: 'ukib',
-    name: 'UK Infrastructure Bank',
+    name: 'National Wealth Fund',
     category: 'body',
     subtype: 'executive-ndpb',
-    description: 'Finances major infrastructure projects to support regional and local economic growth.',
-    infoUrl: 'https://www.gov.uk/government/organisations/uk-infrastructure-bank',
+    description: 'Finances major infrastructure projects to support regional and local economic growth. Formerly known as the UK Infrastructure Bank.',
+    infoUrl: 'https://www.gov.uk/government/organisations/national-wealth-fund',
     parentIds: ['treasury'],
     tags: ['sector-finance', 'sector-business'],
   },
@@ -7192,6 +7192,7 @@ export const govElements: Record<string, GovElement> = {
     parentIds: ['dbt'],
     tags: ['sector-business'],
   },
+  // Support/administrative body for the Certification Officer (see 'certification-officer-holder' for statutory powers)
   'certification-officer': {
     jurisdictions: ['gb'],
     id: 'certification-officer',
@@ -7200,7 +7201,7 @@ export const govElements: Record<string, GovElement> = {
     subtype: 'other',
     description: 'Independent statutory officer who maintains a list of trade unions and employers\' associations and handles complaints.',
     infoUrl: 'https://www.gov.uk/government/organisations/certification-officer',
-    parentIds: ['dbt'],
+    parentIds: ['dbt', 'certification-officer-holder'],
     tags: ['sector-business'],
   },
   'groceries-adjudicator': {

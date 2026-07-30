@@ -280,3 +280,30 @@
 .budget-ogl a:hover {
   color: #7f8c8d;
 }
+
+.budget-chart-touch-hint {
+  display: none;
+}
+
+@media (max-width: 768px) and (pointer: coarse) {
+  .budget-breakdown-table {
+    font-size: 0.76rem;
+  }
+
+  .bbt-label {
+    word-break: break-word;
+  }
+
+  .bbt-amount {
+    padding-left: 0.4rem;
+  }
+
+  .budget-chart-touch-hint {
+    display: block;
+    text-align: center;
+    font-size: 0.7rem;
+    color: #95a5a6;
+    margin-top: -0.35rem;
+    margin-bottom: 0.35rem;
+  }
+}

@@ -5111,4 +5111,107 @@ export const powerProfiles: Record<string, PowerProfile> = {
     ],
   },
 
+  'certification-officer-holder': {
+    elementId: 'certification-officer-holder',
+    lastReviewed: '2026-07-30',
+    powers: [
+      {
+        id: 'co-maintain-list',
+        title: 'Maintenance of the List of Trade Unions and Employers’ Associations',
+        description: 'The Certification Officer maintains a public list of trade unions and employers’ associations, recording organisations that meet the statutory definition and have applied for listing.',
+        powerType: 'function',
+        inForceFrom: '1992',
+        sources: [
+          {
+            type: 'act',
+            title: 'Trade Union and Labour Relations (Consolidation) Act 1992',
+            section: 's.2',
+            year: 1992,
+            legislationUrl: 'https://www.legislation.gov.uk/ukpga/1992/52/section/2',
+          },
+        ],
+      },
+      {
+        id: 'co-annual-returns',
+        title: 'Receipt and Inspection of Annual Returns',
+        description: 'The Certification Officer receives annual returns from trade unions and employers’ associations, ensures they comply with statutory requirements, and keeps them available for public inspection.',
+        powerType: 'duty',
+        inForceFrom: '1992',
+        sources: [
+          {
+            type: 'act',
+            title: 'Trade Union and Labour Relations (Consolidation) Act 1992',
+            section: 'ss.32–32A',
+            year: 1992,
+            legislationUrl: 'https://www.legislation.gov.uk/ukpga/1992/52/section/32',
+          },
+        ],
+      },
+      {
+        id: 'co-determine-complaints',
+        title: 'Determination of Complaints on Elections, Ballots and Union Rules',
+        description: 'The Certification Officer determines complaints concerning trade union elections, certain other statutory ballots, and alleged breaches of a trade union’s own rules.',
+        powerType: 'power',
+        inForceFrom: '1992',
+        sources: [
+          {
+            type: 'act',
+            title: 'Trade Union and Labour Relations (Consolidation) Act 1992',
+            section: 'ss.55, 79–81, 108A–108B',
+            year: 1992,
+            legislationUrl: 'https://www.legislation.gov.uk/ukpga/1992/52/section/108A',
+          },
+        ],
+      },
+      {
+        id: 'co-oversee-mergers',
+        title: 'Oversight of Mergers Between Unions and Employers’ Associations',
+        description: 'The Certification Officer ensures observance of the statutory requirements governing mergers, transfers of engagements, and amalgamations between trade unions and between employers’ associations.',
+        powerType: 'function',
+        inForceFrom: '1992',
+        sources: [
+          {
+            type: 'act',
+            title: 'Trade Union and Labour Relations (Consolidation) Act 1992',
+            section: 'ss.97–106',
+            year: 1992,
+            legislationUrl: 'https://www.legislation.gov.uk/ukpga/1992/52/section/97',
+          },
+        ],
+      },
+      {
+        id: 'co-oversee-political-funds',
+        title: 'Oversight of Political Funds and Finances',
+        description: 'The Certification Officer oversees the political funds of trade unions and employers’ associations, including ballots on political fund resolutions, and oversees their general finances.',
+        powerType: 'function',
+        inForceFrom: '1992',
+        sources: [
+          {
+            type: 'act',
+            title: 'Trade Union and Labour Relations (Consolidation) Act 1992',
+            section: 'ss.32, 71–73',
+            year: 1992,
+            legislationUrl: 'https://www.legislation.gov.uk/ukpga/1992/52/section/71',
+          },
+        ],
+      },
+      {
+        id: 'co-certify-independence',
+        title: 'Certification of Trade Union Independence',
+        description: 'The Certification Officer determines and certifies whether a trade union is independent — free from employer control or interference — which affects the statutory rights available to the union and its members.',
+        powerType: 'power',
+        inForceFrom: '1992',
+        sources: [
+          {
+            type: 'act',
+            title: 'Trade Union and Labour Relations (Consolidation) Act 1992',
+            section: 'ss.6–9',
+            year: 1992,
+            legislationUrl: 'https://www.legislation.gov.uk/ukpga/1992/52/section/6',
+          },
+        ],
+      },
+    ],
+  },
+
 }

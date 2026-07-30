@@ -194,9 +194,15 @@
   color: #7f8c8d;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) and (pointer: coarse) {
   .staff-chart-section {
     overflow-x: auto;
+    /* Scroll-shadow hint: fades in at either edge once there's more to scroll */
+    background:
+      linear-gradient(to right, #f8f9fa, #f8f9fa) left / 12px 100% no-repeat local,
+      linear-gradient(to left, #f8f9fa, #f8f9fa) right / 12px 100% no-repeat local,
+      linear-gradient(to right, rgba(0,0,0,0.12), transparent) left / 12px 100% no-repeat scroll,
+      linear-gradient(to left, rgba(0,0,0,0.12), transparent) right / 12px 100% no-repeat scroll;
   }
 
   .staff-org-table {

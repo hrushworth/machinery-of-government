@@ -211,6 +211,7 @@ function ChartBlock({ expenditureLines, incomeLines, expenditureLabel, incomeLab
           <Tooltip content={<ChartTooltip />} />
         </PieChart>
       </ResponsiveContainer>
+      <div className="budget-chart-touch-hint">Tap a slice for its amount</div>
       <BreakdownTable rows={tableRows} isIncome={effectiveShowIncome} colourMap={colourMap} />
     </div>
   )
