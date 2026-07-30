@@ -111,6 +111,15 @@ function App() {
   const dragStartTranslate = useRef(0)
   const isDragging = useRef(false)
 
+  // Mobile: only one pane may be open at a time — closing the others when a new one opens
+  const closeOtherMobilePanes = useCallback(() => {
+    setSearchOpen(false)
+    setInfoOpen(false)
+    setCategoriesOpen(false)
+    setSelectedCategory(null)
+    setSelectedTagId(null)
+  }, [])
+
   const selectElement = useCallback((id: string, direct = false) => {
     if (isMobile && !direct) {
       // On mobile: just preview — chip shows the name, no chart update yet
@@ -118,9 +127,16 @@ function App() {
     } else {
       setSelectedElementId(id)
       setPreviewedElementId(id)
-      if (!isMobile) setElementPaneVisible(true)
+      if (!isMobile) {
+        setElementPaneVisible(true)
+      } else {
+        // On mobile, a direct selection (e.g. from search/categories) opens the pane full screen
+        closeOtherMobilePanes()
+        setElementPaneVisible(true)
+        setSheetState('full')
+      }
     }
-  }, [isMobile])
+  }, [isMobile, closeOtherMobilePanes])
 
   const deselectElement = useCallback(() => {
     setSelectedElementId(null)
@@ -190,7 +206,7 @@ function App() {
         <div className="header-buttons">
           <button
             className="header-button"
-            onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false) }}
+            onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false); if (isMobile) closeElementPane() }}
             aria-label="Toggle info panel"
             aria-pressed={infoOpen}
           >
@@ -198,7 +214,7 @@ function App() {
           </button>
           <button
             className="header-button"
-            onClick={() => { setCategoriesOpen(o => !o); setSearchOpen(false); setInfoOpen(false) }}
+            onClick={() => { setCategoriesOpen(o => !o); setSearchOpen(false); setInfoOpen(false); if (isMobile) closeElementPane() }}
             aria-label="Toggle categories"
             aria-pressed={categoriesOpen}
           >
@@ -206,7 +222,7 @@ function App() {
           </button>
           <button
             className="header-button"
-            onClick={() => { setSearchOpen(o => !o); setInfoOpen(false); setCategoriesOpen(false) }}
+            onClick={() => { setSearchOpen(o => !o); setInfoOpen(false); setCategoriesOpen(false); if (isMobile) closeElementPane() }}
             aria-label="Toggle search"
             aria-pressed={searchOpen}
           >
@@ -236,6 +252,7 @@ function App() {
             />
           </aside>
         )}
+
 
         {/* Desktop element pane — hidden on mobile (bottom sheet used instead) */}
         {!isMobile && selectedElementId && elementPaneVisible && (
@@ -521,7 +538,7 @@ function App() {
             {isSelected ? (
               <button
                 className="mobile-selection-chip-btn"
-                onClick={() => { setElementPaneVisible(true); setSheetState('partial') }}
+                onClick={() => { closeOtherMobilePanes(); setElementPaneVisible(true); setSheetState('full') }}
                 aria-label="View details"
               >
                 Details →
@@ -529,7 +546,7 @@ function App() {
             ) : (
               <button
                 className="mobile-selection-chip-btn"
-                onClick={() => { setSelectedElementId(previewedElementId) }}
+                onClick={() => { closeOtherMobilePanes(); setSelectedElementId(previewedElementId); setElementPaneVisible(true); setSheetState('full') }}
                 aria-label="Select element"
               >
                 Select
@@ -547,6 +564,7 @@ function App() {
               className={`mobile-nav-tab${elementPaneVisible && sheetState !== 'closed' ? ' mobile-nav-tab-active' : ''}`}
               onClick={() => {
                 if (sheetState === 'closed') {
+                  closeOtherMobilePanes()
                   setElementPaneVisible(true)
                   setSheetState('partial')
                 } else {
@@ -561,7 +579,7 @@ function App() {
           )}
           <button
             className={`mobile-nav-tab${searchOpen ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => { setSearchOpen(o => !o); setInfoOpen(false); setCategoriesOpen(false) }}
+            onClick={() => { setSearchOpen(o => !o); setInfoOpen(false); setCategoriesOpen(false); closeElementPane() }}
             aria-label="Search"
           >
             <span className="mobile-nav-icon">🔍</span>
@@ -569,7 +587,7 @@ function App() {
           </button>
           <button
             className={`mobile-nav-tab${categoriesOpen ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => { setCategoriesOpen(o => !o); setSearchOpen(false); setInfoOpen(false) }}
+            onClick={() => { setCategoriesOpen(o => !o); setSearchOpen(false); setInfoOpen(false); closeElementPane() }}
             aria-label="Categories"
           >
             <span className="mobile-nav-icon">🗂️</span>
@@ -577,7 +595,7 @@ function App() {
           </button>
           <button
             className={`mobile-nav-tab${infoOpen ? ' mobile-nav-tab-active' : ''}`}
-            onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false) }}
+            onClick={() => { setInfoOpen(o => !o); setSearchOpen(false); setCategoriesOpen(false); closeElementPane() }}
             aria-label="Help"
           >
             <span className="mobile-nav-icon">❓</span>
