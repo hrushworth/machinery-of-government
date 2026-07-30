@@ -90,6 +90,13 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
     return labels[category]?.[subtype] || 'Unknown'
   }
 
+  const formatSinceDate = (isoDate: string): string => {
+    const [year, month, day] = isoDate.split('-').map(Number)
+    const date = new Date(year, month - 1, day)
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return `Since ${String(date.getDate()).padStart(2, '0')} ${months[date.getMonth()]} ${date.getFullYear()}`
+  }
+
   const getBodyEmoji = (subtype: string) =>
     subtype === 'executive-ndpb' ? '📋' :
     subtype === 'advisory-ndpb' ? '💡' :
@@ -212,7 +219,12 @@ export default function ElementDetails({ elementId, onSelectElement, onClose, on
       {element.currentHolder && (
         <div className="detail-section">
           <h3>Current Holder</h3>
-          <p className="role-text">{element.currentHolder}</p>
+          <p className="role-text">
+            {element.currentHolder}
+            {element.currentHolderSince && (
+              <span className="role-text-since">{formatSinceDate(element.currentHolderSince)}</span>
+            )}
+          </p>
         </div>
       )}
 

@@ -81,6 +81,10 @@
 }
 
 .role-text {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
   color: #2c3e50;
   font-size: 0.95rem;
   font-weight: 500;
@@ -88,6 +92,15 @@
   background: #f8f9fa;
   border-left: 3px solid #3498db;
   border-radius: 4px;
+}
+
+.role-text-since {
+  flex-shrink: 0;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  text-align: right;
 }
 
 .detail-section {
